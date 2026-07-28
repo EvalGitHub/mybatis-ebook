@@ -2,8 +2,8 @@
   <h1>九、动态SQL</h1>
   <div class="chapter-content">
 <p>Mybatis框架的动态SQL技术是一种根据特定条件动态拼装SQL语句的功能，它存在的意义是为了解决
-拼接SQL语句字符串时的痛点问题。
-1、if
+拼接SQL语句字符串时的痛点问题。</p>
+<p>1、if
 更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
 <p>if标签可通过test属性的表达式进行判断，若表达式的结果为true，则标签中的内容会执行；反之标签中
 的内容不会执行</p>
@@ -55,8 +55,8 @@ select * from t_emp</p>
 a&gt;若where标签中的if条件都不满足，则where标签没有任何功能，即不会添加where关键字
 b&gt;若where标签中的if条件满足，则where标签会自动添加where关键字，并将条件最前方多余的
 and去掉
-注意：where标签不能去掉条件最后多余的and
-3、trim
+注意：where标签不能去掉条件最后多余的and</p>
+<p>3、trim
 &lt;select id="getEmpListByMoreTJ" resultType="Emp"&gt;
 select * from t_emp</p>
 <div class="codehilite"><pre><span></span><code><span class="nt">&lt;trim</span><span class="w"> </span><span class="na">prefix=</span><span class="s">&quot;where&quot;</span><span class="w"> </span><span class="na">suffixOverrides=</span><span class="s">&quot;and&quot;</span><span class="nt">&gt;</span>
@@ -85,8 +85,8 @@ select * from t_emp</p>
 prefix：在trim标签中的内容的前面添加某些内容
 prefixOverrides：在trim标签中的内容的前面去掉某些内容
 suffix：在trim标签中的内容的后面添加某些内容
-suffixOverrides：在trim标签中的内容的后面去掉某些内容
-4、choose、when、otherwise
+suffixOverrides：在trim标签中的内容的后面去掉某些内容</p>
+<p>4、choose、when、otherwise
 choose、when、otherwise相当于if...else if..else</p>
 <div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--List&lt;Emp&gt; getEmpListByChoose(Emp emp);--&gt;</span>
 <span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByChoose&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
@@ -156,8 +156,8 @@ collection：设置要循环的数组或集合
 item：表示集合或数组中的每一个数据
 separator：设置循环体之间的分隔符
 open：设置foreach标签中的内容的开始符
-close：设置foreach标签中的内容的结束符
-6、SQL片段
+close：设置foreach标签中的内容的结束符</p>
+<p>6、SQL片段
 sql片段，可以记录一段公共sql片段，在使用的地方通过include标签进行引入
 &lt;sql id="empColumns"&gt;
 eid,ename,age,sex,did

@@ -27,8 +27,8 @@ a&gt;可以通过为字段起别名的方式，保证和实体类中的属性名
 b&gt;可以在MyBatis的核心配置文件中设置一个全局配置信息mapUnderscoreToCamelCase，可
 以在查询表中数据时，自动将_类型的字段名转换为驼峰
 例如：字段名user_name，设置了mapUnderscoreToCamelCase，此时字段名就会转换为
-userName
-2、多对一映射处理
+userName</p>
+<p>2、多对一映射处理
 查询员工信息以及员工所对应的部门信息
 a&gt;级联方式处理映射关系
 更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
@@ -103,8 +103,8 @@ Dept getEmpDeptByStep(@Param("did") int did);</p>
 </code></pre></div>
 
 <p>select * from t_dept where did = #{did}
-&lt;/select&gt;
-3、一对多映射处理
+&lt;/select&gt;</p>
+<p>3、一对多映射处理
 a&gt;collection
 /*<em>
 * 根据部门id查新部门以及部门中的员工信息

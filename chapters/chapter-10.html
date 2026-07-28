@@ -8,8 +8,8 @@
 1) 不同的SqlSession对应不同的一级缓存
 2) 同一个SqlSession但是查询条件不同
 3) 同一个SqlSession两次查询期间执行了任何一次增删改操作
-4) 同一个SqlSession两次查询期间手动清空了缓存
-2、MyBatis的二级缓存
+4) 同一个SqlSession两次查询期间手动清空了缓存</p>
+<p>2、MyBatis的二级缓存
 二级缓存是SqlSessionFactory级别，通过同一个SqlSessionFactory创建的SqlSession查询的结果会被
 缓存；此后若再次执行相同的查询语句，结果就会从缓存中获取
 二级缓存开启的条件：
@@ -19,8 +19,8 @@ b&gt;在映射文件中设置标签&lt;cache /&gt;
 <p>c&gt;二级缓存必须在SqlSession关闭或提交之后有效
 d&gt;查询的数据所转换的实体类类型必须实现序列化的接口
 使二级缓存失效的情况：
-两次查询之间执行了任意的增删改，会使一级和二级缓存同时失效
-3、二级缓存的相关配置
+两次查询之间执行了任意的增删改，会使一级和二级缓存同时失效</p>
+<p>3、二级缓存的相关配置
 在mapper配置文件中添加的cache标签可以设置一些属性：
 eviction属性：缓存回收策略
 LRU（Least Recently Used） – 最近最少使用的：移除最长时间不被使用的对象。
@@ -36,13 +36,13 @@ readOnly属性：只读，true/false
 true：只读缓存；会给所有调用者返回缓存对象的相同实例。因此这些对象不能被修改。这提供了
 很重要的性能优势。
 false：读写缓存；会返回缓存对象的拷贝（通过序列化）。这会慢一些，但是安全，因此默认是
-false。
-4、MyBatis缓存查询的顺序
+false。</p>
+<p>4、MyBatis缓存查询的顺序
 先查询二级缓存，因为二级缓存中可能会有其他程序已经查出来的数据，可以拿来直接使用。
 如果二级缓存没有命中，再查询一级缓存
 如果一级缓存也没有命中，则查询数据库
-SqlSession关闭之后，一级缓存中的数据会写入二级缓存
-5、整合第三方缓存EHCache
+SqlSession关闭之后，一级缓存中的数据会写入二级缓存</p>
+<p>5、整合第三方缓存EHCache
 a&gt;添加依赖
 更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
 <div class="codehilite"><pre><span></span><code><span class="cm">&lt;!-- Mybatis EHCache整合包 --&gt;</span>

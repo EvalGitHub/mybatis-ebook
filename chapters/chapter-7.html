@@ -15,8 +15,8 @@ List&lt;User&gt; testMohu(@Param("mohu") String mohu);</p>
 </code></pre></div>
 
 <p>select * from t_user where username like "%"#{mohu}"%"
-&lt;/select&gt;
-2、批量删除
+&lt;/select&gt;</p>
+<p>2、批量删除
 /*<em>
 * 批量删除
 * @param ids
@@ -29,8 +29,8 @@ int deleteMore(@Param("ids") String ids);
 </code></pre></div>
 
 <p>delete from t_user where id in (${ids})
-&lt;/delete&gt;
-3、动态设置表名
+&lt;/delete&gt;</p>
+<p>3、动态设置表名
 /*<em>
 * 动态设置表名，查询所有的用户信息
 * @param tableName
@@ -42,13 +42,13 @@ List&lt;User&gt; getAllUser(@Param("tableName") String tableName);</p>
 </code></pre></div>
 
 <p>select * from ${tableName}
-&lt;/select&gt;
-4、添加功能获取自增的主键
+&lt;/select&gt;</p>
+<p>4、添加功能获取自增的主键
 t_clazz(clazz_id,clazz_name)
-t_student(student_id,student_name,clazz_id)
-1、添加班级信息
-2、获取新添加的班级的id
-3、为班级分配学生，即将某学的班级id修改为新添加的班级的id
+t_student(student_id,student_name,clazz_id)</p>
+<p>1、添加班级信息</p>
+<p>2、获取新添加的班级的id</p>
+<p>3、为班级分配学生，即将某学的班级id修改为新添加的班级的id
 /*<em>
 * 添加用户信息
 * @param user
