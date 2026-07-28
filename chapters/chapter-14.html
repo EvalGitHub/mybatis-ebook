@@ -1,0 +1,736 @@
+<section class="chapter" id="chapter-14" data-chapter="14">
+  <h1>源代码 - 查询与参数映射</h1>
+  <div class="chapter-content">
+<p><strong>项目：MyBatis_demo2</strong></p>
+<h3 id="pomxml">pom.xml</h3>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;project</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0&quot;</span>
+<span class="w">         </span><span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+<span class="w">         </span><span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>com.atguigu.mybatis<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>MyBatis_demo2<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;version&gt;</span>1.0-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;packaging&gt;</span>jar<span class="nt">&lt;/packaging&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;dependencies&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Mybatis核心 --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">            </span><span class="nt">&lt;groupId&gt;</span>org.mybatis<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;artifactId&gt;</span>mybatis<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;version&gt;</span>3.5.7<span class="nt">&lt;/version&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/dependency&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- junit测试 --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">            </span><span class="nt">&lt;groupId&gt;</span>junit<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;artifactId&gt;</span>junit<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;version&gt;</span>4.12<span class="nt">&lt;/version&gt;</span>
+<span class="w">            </span><span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/dependency&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- MySQL驱动 --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">            </span><span class="nt">&lt;groupId&gt;</span>mysql<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;artifactId&gt;</span>mysql-connector-java<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;version&gt;</span>5.1.3<span class="nt">&lt;/version&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/dependency&gt;</span>
+
+<span class="w">        </span><span class="cm">&lt;!-- log4j日志 --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">            </span><span class="nt">&lt;groupId&gt;</span>log4j<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;artifactId&gt;</span>log4j<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;version&gt;</span>1.2.17<span class="nt">&lt;/version&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependencies&gt;</span>
+
+
+<span class="nt">&lt;/project&gt;</span>
+</code></pre></div>
+
+<h3 id="srcmainjavacomatguigumybatismapperparametermapperjava">src/main/java/com/atguigu/mybatis/mapper/ParameterMapper.java</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.mapper</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.pojo.User</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.apache.ibatis.annotations.Param</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.List</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Map</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Date:2021/11/27</span>
+<span class="cm"> * Author:ybc</span>
+<span class="cm"> * Description:</span>
+<span class="cm"> */</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">ParameterMapper</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * 验证登录（使用@Param）</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="n">User</span><span class="w"> </span><span class="nf">checkLoginByParam</span><span class="p">(</span><span class="nd">@Param</span><span class="p">(</span><span class="s">&quot;username&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">username</span><span class="p">,</span><span class="w"> </span><span class="nd">@Param</span><span class="p">(</span><span class="s">&quot;password&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="p">);</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * 添加用户信息</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">insertUser</span><span class="p">(</span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="p">);</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * 验证登录（参数为map）</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="n">User</span><span class="w"> </span><span class="nf">checkLoginByMap</span><span class="p">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">map</span><span class="p">);</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * 验证登录</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="n">User</span><span class="w"> </span><span class="nf">checkLogin</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">username</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="p">);</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * 根据用户名查询用户信息</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="n">User</span><span class="w"> </span><span class="nf">getUserByUsername</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">username</span><span class="p">);</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * 查询所有的员工信息</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getAllUser</span><span class="p">();</span>
+
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="srcmainjavacomatguigumybatismappersqlmapperjava">src/main/java/com/atguigu/mybatis/mapper/SQLMapper.java</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.mapper</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.pojo.User</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.apache.ibatis.annotations.Param</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.List</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Date:2021/11/29</span>
+<span class="cm"> * Author:ybc</span>
+<span class="cm"> * Description:</span>
+<span class="cm"> */</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">SQLMapper</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * 根据用户名模糊查询用户信息</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getUserByLike</span><span class="p">(</span><span class="nd">@Param</span><span class="p">(</span><span class="s">&quot;username&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">username</span><span class="p">);</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * 批量删除</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">deleteMore</span><span class="p">(</span><span class="nd">@Param</span><span class="p">(</span><span class="s">&quot;ids&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">ids</span><span class="p">);</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * 查询指定表中的数据</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getUserByTableName</span><span class="p">(</span><span class="nd">@Param</span><span class="p">(</span><span class="s">&quot;tableName&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">tableName</span><span class="p">);</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * 添加用户信息</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">insertUser</span><span class="p">(</span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="p">);</span>
+
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="srcmainjavacomatguigumybatismapperselectmapperjava">src/main/java/com/atguigu/mybatis/mapper/SelectMapper.java</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.mapper</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.pojo.User</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.apache.ibatis.annotations.MapKey</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.apache.ibatis.annotations.Param</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.List</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Map</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Date:2021/11/27</span>
+<span class="cm"> * Author:ybc</span>
+<span class="cm"> * Description:</span>
+<span class="cm"> */</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">SelectMapper</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * 根据id查询用户信息</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getUserById</span><span class="p">(</span><span class="nd">@Param</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="n">id</span><span class="p">);</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * 查询所有的用户信息</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getAllUser</span><span class="p">();</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * 查询用户信息的总记录数</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="n">Integer</span><span class="w"> </span><span class="nf">getCount</span><span class="p">();</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * 根据id查询用户信息为一个map集合</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getUserByIdToMap</span><span class="p">(</span><span class="nd">@Param</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="n">id</span><span class="p">);</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * 查询所有用户信息为map集合</span>
+<span class="cm">     */</span>
+<span class="w">    </span><span class="c1">//List&lt;Map&lt;String, Object&gt;&gt; getAllUserToMap();</span>
+<span class="w">    </span><span class="nd">@MapKey</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getAllUserToMap</span><span class="p">();</span>
+
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="srcmainjavacomatguigumybatispojouserjava">src/main/java/com/atguigu/mybatis/pojo/User.java</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.pojo</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Date:2021/11/26</span>
+<span class="cm"> * Author:ybc</span>
+<span class="cm"> * Description:</span>
+<span class="cm"> */</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">User</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">username</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="n">age</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">sex</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">User</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">User</span><span class="p">(</span><span class="n">Integer</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">username</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="n">age</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">sex</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">username</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">password</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">age</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">sex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sex</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">email</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="nf">getId</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setId</span><span class="p">(</span><span class="n">Integer</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getUsername</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">username</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setUsername</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">username</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">username</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getPassword</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">password</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setPassword</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">password</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="nf">getAge</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">age</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setAge</span><span class="p">(</span><span class="n">Integer</span><span class="w"> </span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">age</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getSex</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">sex</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setSex</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">sex</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">sex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sex</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getEmail</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">email</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setEmail</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">email</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">toString</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;User{&quot;</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                </span><span class="s">&quot;id=&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                </span><span class="s">&quot;, username=&#39;&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="sc">&#39;\&#39;&#39;</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                </span><span class="s">&quot;, password=&#39;&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">password</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="sc">&#39;\&#39;&#39;</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                </span><span class="s">&quot;, age=&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                </span><span class="s">&quot;, sex=&#39;&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sex</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="sc">&#39;\&#39;&#39;</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                </span><span class="s">&quot;, email=&#39;&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">email</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="sc">&#39;\&#39;&#39;</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                </span><span class="sc">&#39;}&#39;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="srcmainjavacomatguigumybatisutilssqlsessionutilsjava">src/main/java/com/atguigu/mybatis/utils/SqlSessionUtils.java</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.utils</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.apache.ibatis.io.Resources</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.apache.ibatis.session.SqlSession</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.apache.ibatis.session.SqlSessionFactory</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.apache.ibatis.session.SqlSessionFactoryBuilder</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.io.IOException</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.io.InputStream</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Date:2021/11/27</span>
+<span class="cm"> * Author:ybc</span>
+<span class="cm"> * Description:</span>
+<span class="cm"> */</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SqlSessionUtils</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">SqlSession</span><span class="w"> </span><span class="nf">getSqlSession</span><span class="p">(){</span>
+<span class="w">        </span><span class="n">SqlSession</span><span class="w"> </span><span class="n">sqlSession</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">InputStream</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Resources</span><span class="p">.</span><span class="na">getResourceAsStream</span><span class="p">(</span><span class="s">&quot;mybatis-config.xml&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="n">SqlSessionFactory</span><span class="w"> </span><span class="n">sqlSessionFactory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SqlSessionFactoryBuilder</span><span class="p">().</span><span class="na">build</span><span class="p">(</span><span class="n">is</span><span class="p">);</span>
+<span class="w">            </span><span class="n">sqlSession</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqlSessionFactory</span><span class="p">.</span><span class="na">openSession</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">IOException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">sqlSession</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="srcmainresourcescomatguigumybatismapperparametermapperxml">src/main/resources/com/atguigu/mybatis/mapper/ParameterMapper.xml</h3>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="cp">&lt;!DOCTYPE mapper</span>
+<span class="cp">        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span>
+<span class="cp">        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;</span>
+<span class="nt">&lt;mapper</span><span class="w"> </span><span class="na">namespace=</span><span class="s">&quot;com.atguigu.mybatis.mapper.ParameterMapper&quot;</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--List&lt;User&gt; getAllUser();--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getAllUser&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;User&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span>select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_user
+<span class="w">    </span><span class="nt">&lt;/select&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--User getUserByUsername(String username);--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getUserByUsername&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;User&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!--select * from t_user where username = #{username}--&gt;</span>
+<span class="w">        </span>select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_user<span class="w"> </span>where<span class="w"> </span>username<span class="w"> </span>=<span class="w"> </span>&#39;${username}&#39;
+<span class="w">    </span><span class="nt">&lt;/select&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--User checkLogin(String username, String password);--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;checkLogin&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;User&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!--select * from t_user where username = #{arg0} and password = #{arg1}--&gt;</span>
+<span class="w">        </span>select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_user<span class="w"> </span>where<span class="w"> </span>username<span class="w"> </span>=<span class="w"> </span>&#39;${param1}&#39;<span class="w"> </span>and<span class="w"> </span>password<span class="w"> </span>=<span class="w"> </span>&#39;${param2}&#39;
+<span class="w">    </span><span class="nt">&lt;/select&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--User checkLoginByMap(Map&lt;String, Object&gt; map);--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;checkLoginByMap&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;User&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span>select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_user<span class="w"> </span>where<span class="w"> </span>username<span class="w"> </span>=<span class="w"> </span>#{username}<span class="w"> </span>and<span class="w"> </span>password<span class="w"> </span>=<span class="w"> </span>#{password}
+<span class="w">    </span><span class="nt">&lt;/select&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--int insertUser(User user);--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;insert</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;insertUser&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span>insert<span class="w"> </span>into<span class="w"> </span>t_user<span class="w"> </span>values(null,#{username},#{password},#{age},#{sex},#{email})
+<span class="w">    </span><span class="nt">&lt;/insert&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--User checkLoginByParam(@Param(&quot;username&quot;) String username, @Param(&quot;password&quot;) String password);--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;checkLoginByParam&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;User&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span>select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_user<span class="w"> </span>where<span class="w"> </span>username<span class="w"> </span>=<span class="w"> </span>#{username}<span class="w"> </span>and<span class="w"> </span>password<span class="w"> </span>=<span class="w"> </span>#{password}
+<span class="w">    </span><span class="nt">&lt;/select&gt;</span>
+
+<span class="nt">&lt;/mapper&gt;</span>
+</code></pre></div>
+
+<h3 id="srcmainresourcescomatguigumybatismappersqlmapperxml">src/main/resources/com/atguigu/mybatis/mapper/SQLMapper.xml</h3>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="cp">&lt;!DOCTYPE mapper</span>
+<span class="cp">        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span>
+<span class="cp">        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;</span>
+<span class="nt">&lt;mapper</span><span class="w"> </span><span class="na">namespace=</span><span class="s">&quot;com.atguigu.mybatis.mapper.SQLMapper&quot;</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--List&lt;User&gt; getUserByLike(@Param(&quot;username&quot;) String username);--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getUserByLike&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;User&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!--select * from t_user where username like &#39;%${username}%&#39;--&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!--select * from t_user where username like concat(&#39;%&#39;,#{username},&#39;%&#39;)--&gt;</span>
+<span class="w">        </span>select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_user<span class="w"> </span>where<span class="w"> </span>username<span class="w"> </span>like<span class="w"> </span>&quot;%&quot;#{username}&quot;%&quot;
+<span class="w">    </span><span class="nt">&lt;/select&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--int deleteMore(@Param(&quot;ids&quot;) String ids);--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;delete</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;deleteMore&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span>delete<span class="w"> </span>from<span class="w"> </span>t_user<span class="w"> </span>where<span class="w"> </span>id<span class="w"> </span>in<span class="w"> </span>(${ids})
+<span class="w">    </span><span class="nt">&lt;/delete&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--List&lt;User&gt; getUserByTableName(@Param(&quot;tableName&quot;) String tableName);--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getUserByTableName&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;User&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span>select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>${tableName}
+<span class="w">    </span><span class="nt">&lt;/select&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--</span>
+<span class="cm">        void insertUser(User user);</span>
+<span class="cm">        useGeneratedKeys:设置当前标签中的sql使用了自增的主键</span>
+<span class="cm">        keyProperty:将自增的主键的值赋值给传输到映射文件中参数的某个属性</span>
+<span class="cm">    --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;insert</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;insertUser&quot;</span><span class="w"> </span><span class="na">useGeneratedKeys=</span><span class="s">&quot;true&quot;</span><span class="w"> </span><span class="na">keyProperty=</span><span class="s">&quot;id&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span>insert<span class="w"> </span>into<span class="w"> </span>t_user<span class="w"> </span>values(null,#{username},#{password},#{age},#{sex},#{email})
+<span class="w">    </span><span class="nt">&lt;/insert&gt;</span>
+
+<span class="nt">&lt;/mapper&gt;</span>
+</code></pre></div>
+
+<h3 id="srcmainresourcescomatguigumybatismapperselectmapperxml">src/main/resources/com/atguigu/mybatis/mapper/SelectMapper.xml</h3>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="cp">&lt;!DOCTYPE mapper</span>
+<span class="cp">        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span>
+<span class="cp">        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;</span>
+<span class="nt">&lt;mapper</span><span class="w"> </span><span class="na">namespace=</span><span class="s">&quot;com.atguigu.mybatis.mapper.SelectMapper&quot;</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--User getUserById(@Param(&quot;id&quot;) Integer id);--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getUserById&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;User&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span>select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_user<span class="w"> </span>where<span class="w"> </span>id<span class="w"> </span>=<span class="w"> </span>#{id}
+<span class="w">    </span><span class="nt">&lt;/select&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--List&lt;User&gt; getAllUser();--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getAllUser&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;User&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span>select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_user
+<span class="w">    </span><span class="nt">&lt;/select&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--Integer getCount();--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getCount&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;_int&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span>select<span class="w"> </span>count(*)<span class="w"> </span>from<span class="w"> </span>t_user
+<span class="w">    </span><span class="nt">&lt;/select&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--Map&lt;String, Object&gt; getUserByIdToMap(@Param(&quot;id&quot;) Integer id);--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getUserByIdToMap&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;map&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span>select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_user<span class="w"> </span>where<span class="w"> </span>id<span class="w"> </span>=<span class="w"> </span>#{id}
+<span class="w">    </span><span class="nt">&lt;/select&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--Map&lt;String, Object&gt; getAllUserToMap();--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getAllUserToMap&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;map&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span>select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_user
+<span class="w">    </span><span class="nt">&lt;/select&gt;</span>
+
+<span class="nt">&lt;/mapper&gt;</span>
+</code></pre></div>
+
+<h3 id="srcmainresourcesjdbcproperties">src/main/resources/jdbc.properties</h3>
+<div class="codehilite"><pre><span></span><code><span class="na">jdbc.driver</span><span class="o">=</span><span class="s">com.mysql.jdbc.Driver</span>
+<span class="na">jdbc.url</span><span class="o">=</span><span class="s">jdbc:mysql://localhost:3306/mybatis</span>
+<span class="na">jdbc.username</span><span class="o">=</span><span class="s">root</span>
+<span class="na">jdbc.password</span><span class="o">=</span><span class="s">123456</span>
+</code></pre></div>
+
+<h3 id="srcmainresourceslog4jxml">src/main/resources/log4j.xml</h3>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="cp">&lt;!DOCTYPE log4j:configuration SYSTEM &quot;log4j.dtd&quot;&gt;</span>
+
+<span class="nt">&lt;log4j:configuration</span><span class="w"> </span><span class="na">xmlns:log4j=</span><span class="s">&quot;http://jakarta.apache.org/log4j/&quot;</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;appender</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;STDOUT&quot;</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;org.apache.log4j.ConsoleAppender&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;param</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;Encoding&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;UTF-8&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;layout</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;org.apache.log4j.PatternLayout&quot;</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;param</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;ConversionPattern&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;%-5p %d{MM-dd HH:mm:ss,SSS} %m  (%F:%L) \n&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/layout&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/appender&gt;</span>
+<span class="w">    </span><span class="nt">&lt;logger</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;java.sql&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;level</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;debug&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/logger&gt;</span>
+<span class="w">    </span><span class="nt">&lt;logger</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;org.apache.ibatis&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;level</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;info&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/logger&gt;</span>
+<span class="w">    </span><span class="nt">&lt;root&gt;</span>
+<span class="w">        </span><span class="nt">&lt;level</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;debug&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;appender-ref</span><span class="w"> </span><span class="na">ref=</span><span class="s">&quot;STDOUT&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/root&gt;</span>
+<span class="nt">&lt;/log4j:configuration&gt;</span>
+</code></pre></div>
+
+<h3 id="srcmainresourcesmybatis-configxml">src/main/resources/mybatis-config.xml</h3>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="cp">&lt;!DOCTYPE configuration</span>
+<span class="cp">        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span>
+<span class="cp">        &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;</span>
+<span class="nt">&lt;configuration&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;properties</span><span class="w"> </span><span class="na">resource=</span><span class="s">&quot;jdbc.properties&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;typeAliases&gt;</span>
+<span class="w">        </span><span class="nt">&lt;package</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;com.atguigu.mybatis.pojo&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/typeAliases&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;environments</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;development&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;environment</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;development&quot;</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;transactionManager</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;JDBC&quot;</span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;dataSource</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;POOLED&quot;</span><span class="nt">&gt;</span>
+<span class="w">                </span><span class="nt">&lt;property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;driver&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;${jdbc.driver}&quot;</span><span class="nt">/&gt;</span>
+<span class="w">                </span><span class="nt">&lt;property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;url&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;${jdbc.url}&quot;</span><span class="nt">/&gt;</span>
+<span class="w">                </span><span class="nt">&lt;property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;username&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;${jdbc.username}&quot;</span><span class="nt">/&gt;</span>
+<span class="w">                </span><span class="nt">&lt;property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;password&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;${jdbc.password}&quot;</span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/dataSource&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/environment&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/environments&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;mappers&gt;</span>
+<span class="w">        </span><span class="nt">&lt;package</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;com.atguigu.mybatis.mapper&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/mappers&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+</code></pre></div>
+
+<h3 id="srctestjavacomatguigumybatistestparametermappertestjava">src/test/java/com/atguigu/mybatis/test/ParameterMapperTest.java</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.test</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.mapper.ParameterMapper</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.pojo.User</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.utils.SqlSessionUtils</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.apache.ibatis.session.SqlSession</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.junit.Test</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.sql.Connection</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.sql.DriverManager</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.sql.PreparedStatement</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.HashMap</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.List</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Map</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Date:2021/11/27</span>
+<span class="cm"> * Author:ybc</span>
+<span class="cm"> * Description:</span>
+<span class="cm"> */</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ParameterMapperTest</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * MyBatis获取参数值的两种方式：${}和#{}</span>
+<span class="cm">     * ${}本质字符串拼接</span>
+<span class="cm">     * #{}本质占位符赋值</span>
+<span class="cm">     * MyBatis获取参数值的各种情况：</span>
+<span class="cm">     * 1、mapper接口方法的参数为单个的字面量类型</span>
+<span class="cm">     * 可以通过${}和#{}以任意的名称获取参数值，但是需要注意${}的单引号问题</span>
+<span class="cm">     * 2、mapper接口方法的参数为多个时</span>
+<span class="cm">     * 此时MyBatis会将这些参数放在一个map集合中，以两种方式进行存储</span>
+<span class="cm">     * a&gt;以arg0,arg1...为键，以参数为值</span>
+<span class="cm">     * b&gt;以param1,param2...为键，以参数为值</span>
+<span class="cm">     * 因此只需要通过#{}和${}以键的方式访问值即可，但是需要注意${}的单引号问题</span>
+<span class="cm">     * 3、若mapper接口方法的参数有多个时，可以手动将这些参数放在一个map中存储</span>
+<span class="cm">     * 只需要通过#{}和${}以键的方式访问值即可，但是需要注意${}的单引号问题</span>
+<span class="cm">     * 4、mapper接口方法的参数是实体类类型的参数</span>
+<span class="cm">     * 只需要通过#{}和${}以属性的方式访问属性值即可，但是需要注意${}的单引号问题</span>
+<span class="cm">     * 5、使用@Param注解命名参数</span>
+<span class="cm">     * 此时MyBatis会将这些参数放在一个map集合中，以两种方式进行存储</span>
+<span class="cm">     * a&gt;以@Param注解的值为键，以参数为值</span>
+<span class="cm">     * b&gt;以param1,param2...为键，以参数为值</span>
+<span class="cm">     * 因此只需要通过#{}和${}以键的方式访问值即可，但是需要注意${}的单引号问题</span>
+<span class="cm">     */</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testCheckLoginByParam</span><span class="p">(){</span>
+<span class="w">        </span><span class="n">SqlSession</span><span class="w"> </span><span class="n">sqlSession</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SqlSessionUtils</span><span class="p">.</span><span class="na">getSqlSession</span><span class="p">();</span>
+<span class="w">        </span><span class="n">ParameterMapper</span><span class="w"> </span><span class="n">mapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqlSession</span><span class="p">.</span><span class="na">getMapper</span><span class="p">(</span><span class="n">ParameterMapper</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapper</span><span class="p">.</span><span class="na">checkLoginByParam</span><span class="p">(</span><span class="s">&quot;admin&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;123456&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testInsertUser</span><span class="p">(){</span>
+<span class="w">        </span><span class="n">SqlSession</span><span class="w"> </span><span class="n">sqlSession</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SqlSessionUtils</span><span class="p">.</span><span class="na">getSqlSession</span><span class="p">();</span>
+<span class="w">        </span><span class="n">ParameterMapper</span><span class="w"> </span><span class="n">mapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqlSession</span><span class="p">.</span><span class="na">getMapper</span><span class="p">(</span><span class="n">ParameterMapper</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapper</span><span class="p">.</span><span class="na">insertUser</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">User</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;李四&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;123&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;男&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;123@qq.com&quot;</span><span class="p">));</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testCheckLoginByMap</span><span class="p">(){</span>
+<span class="w">        </span><span class="n">SqlSession</span><span class="w"> </span><span class="n">sqlSession</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SqlSessionUtils</span><span class="p">.</span><span class="na">getSqlSession</span><span class="p">();</span>
+<span class="w">        </span><span class="n">ParameterMapper</span><span class="w"> </span><span class="n">mapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqlSession</span><span class="p">.</span><span class="na">getMapper</span><span class="p">(</span><span class="n">ParameterMapper</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">        </span><span class="n">map</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">&quot;username&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;admin&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">map</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">&quot;password&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;123456&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapper</span><span class="p">.</span><span class="na">checkLoginByMap</span><span class="p">(</span><span class="n">map</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testCheckLogin</span><span class="p">(){</span>
+<span class="w">        </span><span class="n">SqlSession</span><span class="w"> </span><span class="n">sqlSession</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SqlSessionUtils</span><span class="p">.</span><span class="na">getSqlSession</span><span class="p">();</span>
+<span class="w">        </span><span class="n">ParameterMapper</span><span class="w"> </span><span class="n">mapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqlSession</span><span class="p">.</span><span class="na">getMapper</span><span class="p">(</span><span class="n">ParameterMapper</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapper</span><span class="p">.</span><span class="na">checkLogin</span><span class="p">(</span><span class="s">&quot;admin&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;123456&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testGetUserByUsername</span><span class="p">(){</span>
+<span class="w">        </span><span class="n">SqlSession</span><span class="w"> </span><span class="n">sqlSession</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SqlSessionUtils</span><span class="p">.</span><span class="na">getSqlSession</span><span class="p">();</span>
+<span class="w">        </span><span class="n">ParameterMapper</span><span class="w"> </span><span class="n">mapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqlSession</span><span class="p">.</span><span class="na">getMapper</span><span class="p">(</span><span class="n">ParameterMapper</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapper</span><span class="p">.</span><span class="na">getUserByUsername</span><span class="p">(</span><span class="s">&quot;admin&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testGetAllUser</span><span class="p">(){</span>
+<span class="w">        </span><span class="n">SqlSession</span><span class="w"> </span><span class="n">sqlSession</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SqlSessionUtils</span><span class="p">.</span><span class="na">getSqlSession</span><span class="p">();</span>
+<span class="w">        </span><span class="n">ParameterMapper</span><span class="w"> </span><span class="n">mapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqlSession</span><span class="p">.</span><span class="na">getMapper</span><span class="p">(</span><span class="n">ParameterMapper</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapper</span><span class="p">.</span><span class="na">getAllUser</span><span class="p">();</span>
+<span class="w">        </span><span class="n">list</span><span class="p">.</span><span class="na">forEach</span><span class="p">(</span><span class="n">user</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">user</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testJDBC</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;admin&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">Class</span><span class="p">.</span><span class="na">forName</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Connection</span><span class="w"> </span><span class="n">connection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DriverManager</span><span class="p">.</span><span class="na">getConnection</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">//PreparedStatement ps = connection.prepareStatement(&quot;select * from t_user where username = &#39;&quot; + username + &quot;&#39;&quot;);</span>
+<span class="w">        </span><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">ps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">connection</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="s">&quot;selelt * from t_user where username = ?&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">ps</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">username</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="srctestjavacomatguigumybatistestsqlmappertestjava">src/test/java/com/atguigu/mybatis/test/SQLMapperTest.java</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.test</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.mapper.SQLMapper</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.pojo.User</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.utils.SqlSessionUtils</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.apache.ibatis.session.SqlSession</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.junit.Test</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.sql.*</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.List</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Date:2021/11/29</span>
+<span class="cm"> * Author:ybc</span>
+<span class="cm"> * Description:</span>
+<span class="cm"> */</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SQLMapperTest</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testGetUserByLike</span><span class="p">(){</span>
+<span class="w">        </span><span class="n">SqlSession</span><span class="w"> </span><span class="n">sqlSession</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SqlSessionUtils</span><span class="p">.</span><span class="na">getSqlSession</span><span class="p">();</span>
+<span class="w">        </span><span class="n">SQLMapper</span><span class="w"> </span><span class="n">mapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqlSession</span><span class="p">.</span><span class="na">getMapper</span><span class="p">(</span><span class="n">SQLMapper</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapper</span><span class="p">.</span><span class="na">getUserByLike</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">list</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testDeleteMore</span><span class="p">(){</span>
+<span class="w">        </span><span class="n">SqlSession</span><span class="w"> </span><span class="n">sqlSession</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SqlSessionUtils</span><span class="p">.</span><span class="na">getSqlSession</span><span class="p">();</span>
+<span class="w">        </span><span class="n">SQLMapper</span><span class="w"> </span><span class="n">mapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqlSession</span><span class="p">.</span><span class="na">getMapper</span><span class="p">(</span><span class="n">SQLMapper</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapper</span><span class="p">.</span><span class="na">deleteMore</span><span class="p">(</span><span class="s">&quot;1,2,3&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testGetUserByTableName</span><span class="p">(){</span>
+<span class="w">        </span><span class="n">SqlSession</span><span class="w"> </span><span class="n">sqlSession</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SqlSessionUtils</span><span class="p">.</span><span class="na">getSqlSession</span><span class="p">();</span>
+<span class="w">        </span><span class="n">SQLMapper</span><span class="w"> </span><span class="n">mapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqlSession</span><span class="p">.</span><span class="na">getMapper</span><span class="p">(</span><span class="n">SQLMapper</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapper</span><span class="p">.</span><span class="na">getUserByTableName</span><span class="p">(</span><span class="s">&quot;t_user&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">list</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testInsertUser</span><span class="p">(){</span>
+<span class="w">        </span><span class="n">SqlSession</span><span class="w"> </span><span class="n">sqlSession</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SqlSessionUtils</span><span class="p">.</span><span class="na">getSqlSession</span><span class="p">();</span>
+<span class="w">        </span><span class="n">SQLMapper</span><span class="w"> </span><span class="n">mapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqlSession</span><span class="p">.</span><span class="na">getMapper</span><span class="p">(</span><span class="n">SQLMapper</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">User</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;王五&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;123&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;男&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;123@163.com&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">mapper</span><span class="p">.</span><span class="na">insertUser</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testJDBC</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Class</span><span class="p">.</span><span class="na">forName</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Connection</span><span class="w"> </span><span class="n">connection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DriverManager</span><span class="p">.</span><span class="na">getConnection</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">ps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">connection</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="s">&quot;insert&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Statement</span><span class="p">.</span><span class="na">RETURN_GENERATED_KEYS</span><span class="p">);</span>
+<span class="w">        </span><span class="n">ps</span><span class="p">.</span><span class="na">executeUpdate</span><span class="p">();</span>
+<span class="w">        </span><span class="n">ResultSet</span><span class="w"> </span><span class="n">resultSet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ps</span><span class="p">.</span><span class="na">getGeneratedKeys</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="srctestjavacomatguigumybatistestselectmappertestjava">src/test/java/com/atguigu/mybatis/test/SelectMapperTest.java</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.test</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.mapper.SelectMapper</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.utils.SqlSessionUtils</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.apache.ibatis.session.SqlSession</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.junit.Test</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Date:2021/11/27</span>
+<span class="cm"> * Author:ybc</span>
+<span class="cm"> * Description:</span>
+<span class="cm"> */</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SelectMapperTest</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * MyBatis的各种查询功能：</span>
+<span class="cm">     * 1、若查询出的数据只有一条</span>
+<span class="cm">     * a&gt;可以通过实体类对象接收</span>
+<span class="cm">     * b&gt;可以通过list集合接收</span>
+<span class="cm">     * c&gt;可以通过map集合接收</span>
+<span class="cm">     * 结果：{password=123456, sex=男, id=3, age=23, email=12345@qq.com, username=admin}</span>
+<span class="cm">     * 2、若查询出的数据有多条</span>
+<span class="cm">     * a&gt;可以通过实体类类型的list集合接收</span>
+<span class="cm">     * b&gt;可以通过map类型的list集合接收</span>
+<span class="cm">     * c&gt;可以在mapper接口的方法上添加@MapKey注解，此时就可以将每条数据转换的map集合作为值，以某个字段的值作为键，放在同一个map集合中</span>
+<span class="cm">     * 注意：一定不能通过实体类对象接收，此时会抛异常TooManyResultsException</span>
+<span class="cm">     *</span>
+<span class="cm">     * MyBatis中设置了默认的类型别名</span>
+<span class="cm">     * java.lang.Integer--&gt;int,integer</span>
+<span class="cm">     * int--&gt;_int,_integer</span>
+<span class="cm">     * Map--&gt;map</span>
+<span class="cm">     * String--&gt;string</span>
+<span class="cm">     */</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testGetAllUserToMap</span><span class="p">(){</span>
+<span class="w">        </span><span class="n">SqlSession</span><span class="w"> </span><span class="n">sqlSession</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SqlSessionUtils</span><span class="p">.</span><span class="na">getSqlSession</span><span class="p">();</span>
+<span class="w">        </span><span class="n">SelectMapper</span><span class="w"> </span><span class="n">mapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqlSession</span><span class="p">.</span><span class="na">getMapper</span><span class="p">(</span><span class="n">SelectMapper</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">mapper</span><span class="p">.</span><span class="na">getAllUserToMap</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testGetUserByIdToMap</span><span class="p">(){</span>
+<span class="w">        </span><span class="n">SqlSession</span><span class="w"> </span><span class="n">sqlSession</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SqlSessionUtils</span><span class="p">.</span><span class="na">getSqlSession</span><span class="p">();</span>
+<span class="w">        </span><span class="n">SelectMapper</span><span class="w"> </span><span class="n">mapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqlSession</span><span class="p">.</span><span class="na">getMapper</span><span class="p">(</span><span class="n">SelectMapper</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">mapper</span><span class="p">.</span><span class="na">getUserByIdToMap</span><span class="p">(</span><span class="mi">3</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testGetCount</span><span class="p">(){</span>
+<span class="w">        </span><span class="n">SqlSession</span><span class="w"> </span><span class="n">sqlSession</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SqlSessionUtils</span><span class="p">.</span><span class="na">getSqlSession</span><span class="p">();</span>
+<span class="w">        </span><span class="n">SelectMapper</span><span class="w"> </span><span class="n">mapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqlSession</span><span class="p">.</span><span class="na">getMapper</span><span class="p">(</span><span class="n">SelectMapper</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">mapper</span><span class="p">.</span><span class="na">getCount</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testGetAllUser</span><span class="p">(){</span>
+<span class="w">        </span><span class="n">SqlSession</span><span class="w"> </span><span class="n">sqlSession</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SqlSessionUtils</span><span class="p">.</span><span class="na">getSqlSession</span><span class="p">();</span>
+<span class="w">        </span><span class="n">SelectMapper</span><span class="w"> </span><span class="n">mapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqlSession</span><span class="p">.</span><span class="na">getMapper</span><span class="p">(</span><span class="n">SelectMapper</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">mapper</span><span class="p">.</span><span class="na">getAllUser</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">testGetUserById</span><span class="p">(){</span>
+<span class="w">        </span><span class="n">SqlSession</span><span class="w"> </span><span class="n">sqlSession</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SqlSessionUtils</span><span class="p">.</span><span class="na">getSqlSession</span><span class="p">();</span>
+<span class="w">        </span><span class="n">SelectMapper</span><span class="w"> </span><span class="n">mapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqlSession</span><span class="p">.</span><span class="na">getMapper</span><span class="p">(</span><span class="n">SelectMapper</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">mapper</span><span class="p">.</span><span class="na">getUserById</span><span class="p">(</span><span class="mi">3</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div>
+  </div>
+</section>
