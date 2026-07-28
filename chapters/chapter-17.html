@@ -2,7 +2,45 @@
   <h1>源代码 - MyBatis Generator 逆向工程</h1>
   <div class="chapter-content">
 <p><strong>项目：MyBatis_MBG</strong></p>
-<h3 id="pomxml">pom.xml</h3>
+<h4 id="_1">项目结构</h4>
+<div class="codehilite"><pre><span></span><code><span class="n">├── pom.xml</span>
+<span class="n">└── src/</span>
+<span class="n">    ├── main/</span>
+<span class="n">    │   ├── java/</span>
+<span class="n">    │   │   └── com/</span>
+<span class="n">    │   │       └── atguigu/</span>
+<span class="n">    │   │           └── mybatis/</span>
+<span class="n">    │   │               ├── mapper/</span>
+<span class="n">    │   │               │   ├── DeptMapper.java</span>
+<span class="n">    │   │               │   └── EmpMapper.java</span>
+<span class="n">    │   │               └── pojo/</span>
+<span class="n">    │   │                   ├── Dept.java</span>
+<span class="n">    │   │                   ├── DeptExample.java</span>
+<span class="n">    │   │                   ├── Emp.java</span>
+<span class="n">    │   │                   └── EmpExample.java</span>
+<span class="n">    │   └── resources/</span>
+<span class="n">    │       ├── generatorConfig.xml</span>
+<span class="n">    │       ├── jdbc.properties</span>
+<span class="n">    │       ├── log4j.xml</span>
+<span class="n">    │       ├── mybatis-config.xml</span>
+<span class="n">    │       └── com/</span>
+<span class="n">    │           └── atguigu/</span>
+<span class="n">    │               └── mybatis/</span>
+<span class="n">    │                   └── mapper/</span>
+<span class="n">    │                       ├── DeptMapper.xml</span>
+<span class="n">    │                       └── EmpMapper.xml</span>
+<span class="n">    └── test/</span>
+<span class="n">        └── java/</span>
+<span class="n">            └── com/</span>
+<span class="n">                └── atguigu/</span>
+<span class="n">                    └── mybatis/</span>
+<span class="n">                        └── test/</span>
+<span class="n">                            ├── MBGTest.java</span>
+<span class="n">                            └── PageHelperTest.java</span>
+</code></pre></div>
+
+<h4 id="_2">📁 （根目录）</h4>
+<p><strong>pom.xml</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
 <span class="nt">&lt;project</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0&quot;</span>
 <span class="w">         </span><span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
@@ -94,7 +132,8 @@
 <span class="nt">&lt;/project&gt;</span>
 </code></pre></div>
 
-<h3 id="srcmainjavacomatguigumybatismapperdeptmapperjava">src/main/java/com/atguigu/mybatis/mapper/DeptMapper.java</h3>
+<h4 id="srcmainjavacomatguigumybatismapper">📁 src/main/java/com/atguigu/mybatis/mapper</h4>
+<p><strong>DeptMapper.java</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.mapper</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.pojo.Dept</span><span class="p">;</span>
@@ -193,7 +232,7 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h3 id="srcmainjavacomatguigumybatismapperempmapperjava">src/main/java/com/atguigu/mybatis/mapper/EmpMapper.java</h3>
+<p><strong>EmpMapper.java</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.mapper</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.pojo.Emp</span><span class="p">;</span>
@@ -292,7 +331,8 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h3 id="srcmainjavacomatguigumybatispojodeptjava">src/main/java/com/atguigu/mybatis/pojo/Dept.java</h3>
+<h4 id="srcmainjavacomatguigumybatispojo">📁 src/main/java/com/atguigu/mybatis/pojo</h4>
+<p><strong>Dept.java</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.pojo</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Dept</span><span class="w"> </span><span class="p">{</span>
@@ -362,7 +402,7 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h3 id="srcmainjavacomatguigumybatispojodeptexamplejava">src/main/java/com/atguigu/mybatis/pojo/DeptExample.java</h3>
+<p><strong>DeptExample.java</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.pojo</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">java.util.ArrayList</span><span class="p">;</span>
@@ -797,7 +837,7 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h3 id="srcmainjavacomatguigumybatispojoempjava">src/main/java/com/atguigu/mybatis/pojo/Emp.java</h3>
+<p><strong>Emp.java</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.pojo</span><span class="p">;</span>
 
 <span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Emp</span><span class="w"> </span><span class="p">{</span>
@@ -1019,7 +1059,7 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h3 id="srcmainjavacomatguigumybatispojoempexamplejava">src/main/java/com/atguigu/mybatis/pojo/EmpExample.java</h3>
+<p><strong>EmpExample.java</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.pojo</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">java.util.ArrayList</span><span class="p">;</span>
@@ -1714,7 +1754,8 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h3 id="srcmainresourcescomatguigumybatismapperdeptmapperxml">src/main/resources/com/atguigu/mybatis/mapper/DeptMapper.xml</h3>
+<h4 id="srcmainresourcescomatguigumybatismapper">📁 src/main/resources/com/atguigu/mybatis/mapper</h4>
+<p><strong>DeptMapper.xml</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
 <span class="cp">&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot; &gt;</span>
 <span class="nt">&lt;mapper</span><span class="w"> </span><span class="na">namespace=</span><span class="s">&quot;com.atguigu.mybatis.mapper.DeptMapper&quot;</span><span class="w"> </span><span class="nt">&gt;</span>
@@ -1956,7 +1997,7 @@
 <span class="nt">&lt;/mapper&gt;</span>
 </code></pre></div>
 
-<h3 id="srcmainresourcescomatguigumybatismapperempmapperxml">src/main/resources/com/atguigu/mybatis/mapper/EmpMapper.xml</h3>
+<p><strong>EmpMapper.xml</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
 <span class="cp">&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot; &gt;</span>
 <span class="nt">&lt;mapper</span><span class="w"> </span><span class="na">namespace=</span><span class="s">&quot;com.atguigu.mybatis.mapper.EmpMapper&quot;</span><span class="w"> </span><span class="nt">&gt;</span>
@@ -2260,7 +2301,8 @@
 <span class="nt">&lt;/mapper&gt;</span>
 </code></pre></div>
 
-<h3 id="srcmainresourcesgeneratorconfigxml">src/main/resources/generatorConfig.xml</h3>
+<h4 id="srcmainresources">📁 src/main/resources</h4>
+<p><strong>generatorConfig.xml</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
 <span class="cp">&lt;!DOCTYPE generatorConfiguration</span>
 <span class="cp">        PUBLIC &quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&quot;</span>
@@ -2300,14 +2342,14 @@
 <span class="nt">&lt;/generatorConfiguration&gt;</span>
 </code></pre></div>
 
-<h3 id="srcmainresourcesjdbcproperties">src/main/resources/jdbc.properties</h3>
+<p><strong>jdbc.properties</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="na">jdbc.driver</span><span class="o">=</span><span class="s">com.mysql.jdbc.Driver</span>
 <span class="na">jdbc.url</span><span class="o">=</span><span class="s">jdbc:mysql://localhost:3306/mybatis</span>
 <span class="na">jdbc.username</span><span class="o">=</span><span class="s">root</span>
 <span class="na">jdbc.password</span><span class="o">=</span><span class="s">123456</span>
 </code></pre></div>
 
-<h3 id="srcmainresourceslog4jxml">src/main/resources/log4j.xml</h3>
+<p><strong>log4j.xml</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
 <span class="cp">&lt;!DOCTYPE log4j:configuration SYSTEM &quot;log4j.dtd&quot;&gt;</span>
 
@@ -2332,7 +2374,7 @@
 <span class="nt">&lt;/log4j:configuration&gt;</span>
 </code></pre></div>
 
-<h3 id="srcmainresourcesmybatis-configxml">src/main/resources/mybatis-config.xml</h3>
+<p><strong>mybatis-config.xml</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
 <span class="cp">&lt;!DOCTYPE configuration</span>
 <span class="cp">        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span>
@@ -2368,7 +2410,8 @@
 <span class="nt">&lt;/configuration&gt;</span>
 </code></pre></div>
 
-<h3 id="srctestjavacomatguigumybatistestmbgtestjava">src/test/java/com/atguigu/mybatis/test/MBGTest.java</h3>
+<h4 id="srctestjavacomatguigumybatistest">📁 src/test/java/com/atguigu/mybatis/test</h4>
+<p><strong>MBGTest.java</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.test</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.mapper.EmpMapper</span><span class="p">;</span>
@@ -2416,7 +2459,7 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h3 id="srctestjavacomatguigumybatistestpagehelpertestjava">src/test/java/com/atguigu/mybatis/test/PageHelperTest.java</h3>
+<p><strong>PageHelperTest.java</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.test</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.mapper.EmpMapper</span><span class="p">;</span>

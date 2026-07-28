@@ -2,7 +2,46 @@
   <h1>源代码 - 查询与参数映射</h1>
   <div class="chapter-content">
 <p><strong>项目：MyBatis_demo2</strong></p>
-<h3 id="pomxml">pom.xml</h3>
+<h4 id="_1">项目结构</h4>
+<div class="codehilite"><pre><span></span><code><span class="n">├── pom.xml</span>
+<span class="n">└── src/</span>
+<span class="n">    ├── main/</span>
+<span class="n">    │   ├── java/</span>
+<span class="n">    │   │   └── com/</span>
+<span class="n">    │   │       └── atguigu/</span>
+<span class="n">    │   │           └── mybatis/</span>
+<span class="n">    │   │               ├── mapper/</span>
+<span class="n">    │   │               │   ├── ParameterMapper.java</span>
+<span class="n">    │   │               │   ├── SQLMapper.java</span>
+<span class="n">    │   │               │   └── SelectMapper.java</span>
+<span class="n">    │   │               ├── pojo/</span>
+<span class="n">    │   │               │   └── User.java</span>
+<span class="n">    │   │               └── utils/</span>
+<span class="n">    │   │                   └── SqlSessionUtils.java</span>
+<span class="n">    │   └── resources/</span>
+<span class="n">    │       ├── jdbc.properties</span>
+<span class="n">    │       ├── log4j.xml</span>
+<span class="n">    │       ├── mybatis-config.xml</span>
+<span class="n">    │       └── com/</span>
+<span class="n">    │           └── atguigu/</span>
+<span class="n">    │               └── mybatis/</span>
+<span class="n">    │                   └── mapper/</span>
+<span class="n">    │                       ├── ParameterMapper.xml</span>
+<span class="n">    │                       ├── SQLMapper.xml</span>
+<span class="n">    │                       └── SelectMapper.xml</span>
+<span class="n">    └── test/</span>
+<span class="n">        └── java/</span>
+<span class="n">            └── com/</span>
+<span class="n">                └── atguigu/</span>
+<span class="n">                    └── mybatis/</span>
+<span class="n">                        └── test/</span>
+<span class="n">                            ├── ParameterMapperTest.java</span>
+<span class="n">                            ├── SQLMapperTest.java</span>
+<span class="n">                            └── SelectMapperTest.java</span>
+</code></pre></div>
+
+<h4 id="_2">📁 （根目录）</h4>
+<p><strong>pom.xml</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
 <span class="nt">&lt;project</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0&quot;</span>
 <span class="w">         </span><span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
@@ -49,7 +88,8 @@
 <span class="nt">&lt;/project&gt;</span>
 </code></pre></div>
 
-<h3 id="srcmainjavacomatguigumybatismapperparametermapperjava">src/main/java/com/atguigu/mybatis/mapper/ParameterMapper.java</h3>
+<h4 id="srcmainjavacomatguigumybatismapper">📁 src/main/java/com/atguigu/mybatis/mapper</h4>
+<p><strong>ParameterMapper.java</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.mapper</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.pojo.User</span><span class="p">;</span>
@@ -98,7 +138,7 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h3 id="srcmainjavacomatguigumybatismappersqlmapperjava">src/main/java/com/atguigu/mybatis/mapper/SQLMapper.java</h3>
+<p><strong>SQLMapper.java</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.mapper</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.pojo.User</span><span class="p">;</span>
@@ -136,7 +176,7 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h3 id="srcmainjavacomatguigumybatismapperselectmapperjava">src/main/java/com/atguigu/mybatis/mapper/SelectMapper.java</h3>
+<p><strong>SelectMapper.java</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.mapper</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.pojo.User</span><span class="p">;</span>
@@ -183,7 +223,8 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h3 id="srcmainjavacomatguigumybatispojouserjava">src/main/java/com/atguigu/mybatis/pojo/User.java</h3>
+<h4 id="srcmainjavacomatguigumybatispojo">📁 src/main/java/com/atguigu/mybatis/pojo</h4>
+<p><strong>User.java</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.pojo</span><span class="p">;</span>
 
 <span class="cm">/**</span>
@@ -279,7 +320,8 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h3 id="srcmainjavacomatguigumybatisutilssqlsessionutilsjava">src/main/java/com/atguigu/mybatis/utils/SqlSessionUtils.java</h3>
+<h4 id="srcmainjavacomatguigumybatisutils">📁 src/main/java/com/atguigu/mybatis/utils</h4>
+<p><strong>SqlSessionUtils.java</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.utils</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">org.apache.ibatis.io.Resources</span><span class="p">;</span>
@@ -312,7 +354,8 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h3 id="srcmainresourcescomatguigumybatismapperparametermapperxml">src/main/resources/com/atguigu/mybatis/mapper/ParameterMapper.xml</h3>
+<h4 id="srcmainresourcescomatguigumybatismapper">📁 src/main/resources/com/atguigu/mybatis/mapper</h4>
+<p><strong>ParameterMapper.xml</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
 <span class="cp">&lt;!DOCTYPE mapper</span>
 <span class="cp">        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span>
@@ -354,7 +397,7 @@
 <span class="nt">&lt;/mapper&gt;</span>
 </code></pre></div>
 
-<h3 id="srcmainresourcescomatguigumybatismappersqlmapperxml">src/main/resources/com/atguigu/mybatis/mapper/SQLMapper.xml</h3>
+<p><strong>SQLMapper.xml</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
 <span class="cp">&lt;!DOCTYPE mapper</span>
 <span class="cp">        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span>
@@ -390,7 +433,7 @@
 <span class="nt">&lt;/mapper&gt;</span>
 </code></pre></div>
 
-<h3 id="srcmainresourcescomatguigumybatismapperselectmapperxml">src/main/resources/com/atguigu/mybatis/mapper/SelectMapper.xml</h3>
+<p><strong>SelectMapper.xml</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
 <span class="cp">&lt;!DOCTYPE mapper</span>
 <span class="cp">        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span>
@@ -425,14 +468,15 @@
 <span class="nt">&lt;/mapper&gt;</span>
 </code></pre></div>
 
-<h3 id="srcmainresourcesjdbcproperties">src/main/resources/jdbc.properties</h3>
+<h4 id="srcmainresources">📁 src/main/resources</h4>
+<p><strong>jdbc.properties</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="na">jdbc.driver</span><span class="o">=</span><span class="s">com.mysql.jdbc.Driver</span>
 <span class="na">jdbc.url</span><span class="o">=</span><span class="s">jdbc:mysql://localhost:3306/mybatis</span>
 <span class="na">jdbc.username</span><span class="o">=</span><span class="s">root</span>
 <span class="na">jdbc.password</span><span class="o">=</span><span class="s">123456</span>
 </code></pre></div>
 
-<h3 id="srcmainresourceslog4jxml">src/main/resources/log4j.xml</h3>
+<p><strong>log4j.xml</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
 <span class="cp">&lt;!DOCTYPE log4j:configuration SYSTEM &quot;log4j.dtd&quot;&gt;</span>
 
@@ -457,7 +501,7 @@
 <span class="nt">&lt;/log4j:configuration&gt;</span>
 </code></pre></div>
 
-<h3 id="srcmainresourcesmybatis-configxml">src/main/resources/mybatis-config.xml</h3>
+<p><strong>mybatis-config.xml</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
 <span class="cp">&lt;!DOCTYPE configuration</span>
 <span class="cp">        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;</span>
@@ -488,7 +532,8 @@
 <span class="nt">&lt;/configuration&gt;</span>
 </code></pre></div>
 
-<h3 id="srctestjavacomatguigumybatistestparametermappertestjava">src/test/java/com/atguigu/mybatis/test/ParameterMapperTest.java</h3>
+<h4 id="srctestjavacomatguigumybatistest">📁 src/test/java/com/atguigu/mybatis/test</h4>
+<p><strong>ParameterMapperTest.java</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.test</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.mapper.ParameterMapper</span><span class="p">;</span>
@@ -597,7 +642,7 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h3 id="srctestjavacomatguigumybatistestsqlmappertestjava">src/test/java/com/atguigu/mybatis/test/SQLMapperTest.java</h3>
+<p><strong>SQLMapperTest.java</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.test</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.mapper.SQLMapper</span><span class="p">;</span>
@@ -660,7 +705,7 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h3 id="srctestjavacomatguigumybatistestselectmappertestjava">src/test/java/com/atguigu/mybatis/test/SelectMapperTest.java</h3>
+<p><strong>SelectMapperTest.java</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.test</span><span class="p">;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">com.atguigu.mybatis.mapper.SelectMapper</span><span class="p">;</span>
