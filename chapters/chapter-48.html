@@ -1,12 +1,9 @@
 <section class="chapter" id="chapter-48" data-chapter="48">
-  <h1>1、MyBatis的一级缓存</h1>
+  <h1>4、MyBatis缓存查询的顺序</h1>
   <div class="chapter-content">
-<p>一级缓存是SqlSession级别的，通过同一个SqlSession查询的数据会被缓存，下次查询相同的数据，就
-会从缓存中直接获取，不会从数据库重新访问
-使一级缓存失效的四种情况：
-1) 不同的SqlSession对应不同的一级缓存
-2) 同一个SqlSession但是查询条件不同
-3) 同一个SqlSession两次查询期间执行了任何一次增删改操作
-4) 同一个SqlSession两次查询期间手动清空了缓存</p>
+<p>先查询二级缓存，因为二级缓存中可能会有其他程序已经查出来的数据，可以拿来直接使用。
+如果二级缓存没有命中，再查询一级缓存
+如果一级缓存也没有命中，则查询数据库
+SqlSession关闭之后，一级缓存中的数据会写入二级缓存</p>
   </div>
 </section>

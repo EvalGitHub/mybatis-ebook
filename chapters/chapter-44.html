@@ -1,34 +1,10 @@
 <section class="chapter" id="chapter-44" data-chapter="44">
-  <h1>3、trim</h1>
+  <h1>6、SQL片段</h1>
   <div class="chapter-content">
-<p>&lt;select id="getEmpListByMoreTJ" resultType="Emp"&gt;
-select * from t_emp</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;trim</span><span class="w"> </span><span class="na">prefix=</span><span class="s">&quot;where&quot;</span><span class="w"> </span><span class="na">suffixOverrides=</span><span class="s">&quot;and&quot;</span><span class="nt">&gt;</span>
-<span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;ename != &#39;&#39; and ename != null&quot;</span><span class="nt">&gt;</span>
-</code></pre></div>
-
-<p>ename = #{ename} and</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/if&gt;</span>
-<span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;age != &#39;&#39; and age != null&quot;</span><span class="nt">&gt;</span>
-</code></pre></div>
-
-<p>age = #{age} and</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/if&gt;</span>
-<span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;sex != &#39;&#39; and sex != null&quot;</span><span class="nt">&gt;</span>
-</code></pre></div>
-
-<p>更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
-<p>sex = #{sex}</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/if&gt;</span>
-<span class="nt">&lt;/trim&gt;</span>
-<span class="nt">&lt;/select&gt;</span>
-</code></pre></div>
-
-<p>trim用于去掉或添加标签中的内容
-常用属性：
-prefix：在trim标签中的内容的前面添加某些内容
-prefixOverrides：在trim标签中的内容的前面去掉某些内容
-suffix：在trim标签中的内容的后面添加某些内容
-suffixOverrides：在trim标签中的内容的后面去掉某些内容</p>
+<p>sql片段，可以记录一段公共sql片段，在使用的地方通过include标签进行引入
+&lt;sql id="empColumns"&gt;
+eid,ename,age,sex,did
+&lt;/sql&gt;
+select &lt;include refid="empColumns"&gt;&lt;/include&gt; from t_emp</p>
   </div>
 </section>

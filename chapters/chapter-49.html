@@ -1,15 +1,103 @@
 <section class="chapter" id="chapter-49" data-chapter="49">
-  <h1>2、MyBatis的二级缓存</h1>
+  <h1>5、整合第三方缓存EHCache</h1>
   <div class="chapter-content">
-<p>二级缓存是SqlSessionFactory级别，通过同一个SqlSessionFactory创建的SqlSession查询的结果会被
-缓存；此后若再次执行相同的查询语句，结果就会从缓存中获取
-二级缓存开启的条件：
-a&gt;在核心配置文件中，设置全局配置属性cacheEnabled="true"，默认为true，不需要设置
-b&gt;在映射文件中设置标签&lt;cache /&gt;
+<p>a&gt;添加依赖
 更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
-<p>c&gt;二级缓存必须在SqlSession关闭或提交之后有效
-d&gt;查询的数据所转换的实体类类型必须实现序列化的接口
-使二级缓存失效的情况：
-两次查询之间执行了任意的增删改，会使一级和二级缓存同时失效</p>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!-- Mybatis EHCache整合包 --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+<span class="nt">&lt;groupId&gt;</span>org.mybatis.caches<span class="nt">&lt;/groupId&gt;</span>
+<span class="nt">&lt;artifactId&gt;</span>mybatis-ehcache<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;version&gt;</span>1.2.1<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="cm">&lt;!-- slf4j日志门面的一个具体实现 --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+<span class="nt">&lt;groupId&gt;</span>ch.qos.logback<span class="nt">&lt;/groupId&gt;</span>
+<span class="nt">&lt;artifactId&gt;</span>logback-classic<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;version&gt;</span>1.2.3<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+
+<p>b&gt;各jar包功能
+jar包名称 作用
+mybatis-ehcache Mybatis和EHCache的整合包
+ehcache EHCache核心包
+slf4j-api SLF4J日志门面包
+logback-classic 支持SLF4J门面接口的一个具体实现
+c&gt;创建EHCache的配置文件ehcache.xml</p>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;</span>
+<span class="nt">&lt;ehcache</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><span class="w"> </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">&quot;../config/ehcache.xsd&quot;</span><span class="nt">&gt;</span>
+<span class="cm">&lt;!-- 磁盘保存路径 --&gt;</span>
+<span class="nt">&lt;diskStore</span><span class="w"> </span><span class="na">path=</span><span class="s">&quot;D:\atguigu\ehcache&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;defaultCache</span><span class="w"> </span><span class="na">maxElementsInMemory=</span><span class="s">&quot;1000&quot;</span><span class="w"> </span><span class="na">maxElementsOnDisk=</span><span class="s">&quot;10000000&quot;</span><span class="w"> </span><span class="na">eternal=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">overflowToDisk=</span><span class="s">&quot;true&quot;</span><span class="w"> </span><span class="na">timeToIdleSeconds=</span><span class="s">&quot;120&quot;</span><span class="w"> </span><span class="na">timeToLiveSeconds=</span><span class="s">&quot;120&quot;</span><span class="w"> </span><span class="na">diskExpiryThreadIntervalSeconds=</span><span class="s">&quot;120&quot;</span><span class="w"> </span><span class="na">memoryStoreEvictionPolicy=</span><span class="s">&quot;LRU&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/defaultCache&gt;</span>
+<span class="nt">&lt;/ehcache&gt;</span>
+</code></pre></div>
+
+<p>d&gt;设置二级缓存的类型
+&lt;cache type="org.mybatis.caches.ehcache.EhcacheCache"/&gt;
+e&gt;加入logback日志
+存在SLF4J时，作为简易日志的log4j将失效，此时我们需要借助SLF4J的具体实现logback来打印日志。
+创建logback的配置文件logback.xml
+更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;configuration</span><span class="w"> </span><span class="na">debug=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
+<span class="cm">&lt;!-- 指定日志输出的位置 --&gt;</span>
+<span class="nt">&lt;appender</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;STDOUT&quot;</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;ch.qos.logback.core.ConsoleAppender&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;encoder&gt;</span>
+<span class="cm">&lt;!-- 日志输出的格式 --&gt;</span>
+<span class="cm">&lt;!-- 按照顺序分别是：时间、日志级别、线程名称、打印日志的类、日志主体内容、换行 - -&gt;</span>
+<span class="cm">&lt;pattern&gt;[%d{HH:mm:ss.SSS}] [%-5level] [%thread] [%logger] [%msg]%n&lt;/pattern&gt;</span>
+<span class="cm">&lt;/encoder&gt;</span>
+<span class="cm">&lt;/appender&gt;</span>
+<span class="cm">&lt;!-- 设置全局日志级别。日志级别按顺序分别是：DEBUG、INFO、WARN、ERROR --&gt;</span>
+<span class="cm">&lt;!-- 指定任何一个日志级别都只打印当前级别和后面级别的日志。 --&gt;</span>
+<span class="nt">&lt;root</span><span class="w"> </span><span class="na">level=</span><span class="s">&quot;DEBUG&quot;</span><span class="nt">&gt;</span>
+<span class="cm">&lt;!-- 指定打印日志的appender，这里通过“STDOUT”引用了前面配置的appender --&gt;</span>
+<span class="nt">&lt;appender-ref</span><span class="w"> </span><span class="na">ref=</span><span class="s">&quot;STDOUT&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/root&gt;</span>
+<span class="cm">&lt;!-- 根据特殊需求指定局部日志级别 --&gt;</span>
+<span class="nt">&lt;logger</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;com.atguigu.crowd.mapper&quot;</span><span class="w"> </span><span class="na">level=</span><span class="s">&quot;DEBUG&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+</code></pre></div>
+
+<p>f&gt;EHCache配置文件说明
+更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+<p>是
+否
+属性名 作用
+必
+须
+maxElementsInMemory 是 在内存中缓存的element的最大数目
+在磁盘上缓存的element的最大数目，若是0表示无
+maxElementsOnDisk 是
+穷大
+设定缓存的elements是否永远不过期。 如果为
+true，则缓存的数据始终有效， 如果为false那么还
+eternal 是
+要根据timeToIdleSeconds、timeToLiveSeconds
+判断
+设定当内存缓存溢出的时候是否将过期的element
+overflowToDisk 是
+缓存到磁盘上
+当缓存在EhCache中的数据前后两次访问的时间超
+timeToIdleSeconds 否 过timeToIdleSeconds的属性取值时， 这些数据便
+会删除，默认值是0,也就是可闲置时间无穷大
+缓存element的有效生命期，默认是0.,也就是
+timeToLiveSeconds 否
+element存活时间无穷大
+DiskStore(磁盘缓存)的缓存区大小。默认是
+diskSpoolBufferSizeMB 否
+30MB。每个Cache都应该有自己的一个缓冲区
+在VM重启的时候是否启用磁盘保存EhCache中的数
+diskPersistent 否
+据，默认是false。
+磁盘缓存的清理线程运行间隔，默认是120秒。每
+diskExpiryThreadIntervalSeconds 否 个120s， 相应的线程会进行一次EhCache中数据的
+清理工作
+当内存缓存达到最大，有新的element加入的时
+候， 移除缓存中element的策略。 默认是LRU（最
+memoryStoreEvictionPolicy 否
+近最少使用），可选的有LFU（最不常使用）和
+FIFO（先进先出）</p>
   </div>
 </section>

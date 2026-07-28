@@ -1,6 +1,80 @@
 <section class="chapter" id="chapter-37" data-chapter="37">
-  <h1>2、获取新添加的班级的id</h1>
+  <h1>2、多对一映射处理</h1>
   <div class="chapter-content">
+<p>查询员工信息以及员工所对应的部门信息
+a&gt;级联方式处理映射关系
+更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;resultMap</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;empDeptMap&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;id</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;eid&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;eid&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;ename&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;ename&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;age&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;age&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;sex&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;sex&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;did&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;dept.did&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;dname&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;dept.dname&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;/resultMap&gt;</span>
+<span class="cm">&lt;!--Emp getEmpAndDeptByEid(@Param(&quot;eid&quot;) int eid);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpAndDeptByEid&quot;</span><span class="w"> </span><span class="na">resultMap=</span><span class="s">&quot;empDeptMap&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
 
+<p>select emp.<em>,dept.</em> from t_emp emp left join t_dept dept on emp.did =
+dept.did where emp.eid = #{eid}
+&lt;/select&gt;
+b&gt;使用association处理映射关系</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;resultMap</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;empDeptMap&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;id</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;eid&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;eid&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;ename&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;ename&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;age&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;age&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;sex&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;sex&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;association</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;dept&quot;</span><span class="w"> </span><span class="na">javaType=</span><span class="s">&quot;Dept&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;id</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;did&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;did&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;dname&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;dname&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;/association&gt;</span>
+<span class="nt">&lt;/resultMap&gt;</span>
+<span class="cm">&lt;!--Emp getEmpAndDeptByEid(@Param(&quot;eid&quot;) int eid);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpAndDeptByEid&quot;</span><span class="w"> </span><span class="na">resultMap=</span><span class="s">&quot;empDeptMap&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>select emp.<em>,dept.</em> from t_emp emp left join t_dept dept on emp.did =
+dept.did where emp.eid = #{eid}
+&lt;/select&gt;
+c&gt;分步查询
+1）查询员工信息
+/*<em>
+* 通过分步查询查询员工信息
+* @param eid
+* @return
+</em>/
+Emp getEmpByStep(@Param("eid") int eid);</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;resultMap</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;empDeptStepMap&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;id</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;eid&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;eid&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;ename&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;ename&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;age&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;age&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;sex&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;sex&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="cm">&lt;!-- select：设置分步查询，查询某个属性的值的sql的标识（namespace.sqlId） column：将sql以及查询结果中的某个字段设置为分步查询的条件 --&gt;</span>
+</code></pre></div>
+
+<p>更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;association</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;dept&quot;</span><span class="w"> </span><span class="na">select=</span><span class="s">&quot;com.atguigu.MyBatis.mapper.DeptMapper.getEmpDeptByStep&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;did&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/association&gt;</span>
+<span class="nt">&lt;/resultMap&gt;</span>
+<span class="cm">&lt;!--Emp getEmpByStep(@Param(&quot;eid&quot;) int eid);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpByStep&quot;</span><span class="w"> </span><span class="na">resultMap=</span><span class="s">&quot;empDeptStepMap&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>select * from t_emp where eid = #{eid}
+&lt;/select&gt;
+2）根据员工所对应的部门id查询部门信息
+/*<em>
+* 分步查询的第二步：根据员工所对应的did查询部门信息
+* @param did
+* @return
+</em>/
+Dept getEmpDeptByStep(@Param("did") int did);</p>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--Dept getEmpDeptByStep(@Param(&quot;did&quot;) int did);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpDeptByStep&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;Dept&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>select * from t_dept where did = #{did}
+&lt;/select&gt;</p>
   </div>
 </section>
