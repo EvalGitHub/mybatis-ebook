@@ -1,0 +1,26 @@
+<section class="chapter" id="chapter-86" data-chapter="86">
+  <h1>3、trim</h1>
+  <div class="chapter-content">
+<p><select id="getEmpListByMoreTJ" resultType="Emp">
+select * from t_emp
+<trim prefix="where" suffixOverrides="and">
+<if test="ename != '' and ename != null">
+ename = #{ename} and
+</if>
+<if test="age != '' and age != null">
+age = #{age} and
+</if>
+<if test="sex != '' and sex != null">
+更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+<p>sex = #{sex}
+</if>
+</trim>
+</select>
+trim用于去掉或添加标签中的内容
+常用属性：
+prefix：在trim标签中的内容的前面添加某些内容
+prefixOverrides：在trim标签中的内容的前面去掉某些内容
+suffix：在trim标签中的内容的后面添加某些内容
+suffixOverrides：在trim标签中的内容的后面去掉某些内容</p>
+  </div>
+</section>

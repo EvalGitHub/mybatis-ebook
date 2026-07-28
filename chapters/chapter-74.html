@@ -1,0 +1,17 @@
+<section class="chapter" id="chapter-74" data-chapter="74">
+  <h1>1、模糊查询</h1>
+  <div class="chapter-content">
+<p>/*<em>
+* 测试模糊查询
+* @param mohu
+* @return
+</em>/
+List<User> testMohu(@Param("mohu") String mohu);</p>
+<!--List<User> testMohu(@Param("mohu") String mohu);-->
+<p><select id="testMohu" resultType="User"></p>
+<!--select * from t_user where username like '%${mohu}%'-->
+<!--select * from t_user where username like concat('%',#{mohu},'%')-->
+<p>select * from t_user where username like "%"#{mohu}"%"
+</select></p>
+  </div>
+</section>

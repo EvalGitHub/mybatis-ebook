@@ -1,0 +1,26 @@
+<section class="chapter" id="chapter-87" data-chapter="87">
+  <h1>4、choose、when、otherwise</h1>
+  <div class="chapter-content">
+<p>choose、when、otherwise相当于if...else if..else</p>
+<!--List<Emp> getEmpListByChoose(Emp emp);-->
+<p><select id="getEmpListByChoose" resultType="Emp">
+select <include refid="empColumns"></include> from t_emp
+<where>
+<choose>
+<when test="ename != '' and ename != null">
+ename = #{ename}
+</when>
+<when test="age != '' and age != null">
+age = #{age}
+</when>
+<when test="sex != '' and sex != null">
+sex = #{sex}
+</when>
+<when test="email != '' and email != null">
+email = #{email}
+</when>
+</choose>
+</where>
+</select></p>
+  </div>
+</section>

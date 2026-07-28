@@ -1,0 +1,17 @@
+<section class="chapter" id="chapter-54" data-chapter="54">
+  <h1>2、MyBatis中可以面向接口操作数据，要保证两个一致：</h1>
+  <div class="chapter-content">
+<p>a&gt;mapper接口的全类名和映射文件的命名空间（namespace）保持一致
+b&gt;mapper接口中方法的方法名和映射文件中编写SQL的标签的id属性保持一致</p>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<p><mapper namespace="com.atguigu.mybatis.mapper.UserMapper"></p>
+<!--int insertUser();-->
+<p><insert id="insertUser">
+insert into t_user values(null,'张三','123',23,'女')
+</insert>
+</mapper></p>
+  </div>
+</section>

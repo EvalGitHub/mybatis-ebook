@@ -1,0 +1,42 @@
+<section class="chapter" id="chapter-81" data-chapter="81">
+  <h1>1、resultMap处理字段和属性的映射关系</h1>
+  <div class="chapter-content">
+<p>若字段名和实体类中的属性名不一致，则可以通过resultMap设置自定义映射
+更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+<!--
+resultMap：设置自定义映射
+属性：
+id：表示自定义映射的唯一标识
+type：查询的数据要映射的实体类的类型
+子标签：
+id：设置主键的映射关系
+result：设置普通字段的映射关系
+association：设置多对一的映射关系
+collection：设置一对多的映射关系
+属性：
+property：设置映射关系中实体类中的属性名
+column：设置映射关系中表中的字段名
+-->
+<p><resultMap id="userMap" type="User">
+<id property="id" column="id"></id>
+<result property="userName" column="user_name"></result>
+<result property="password" column="password"></result>
+<result property="age" column="age"></result>
+<result property="sex" column="sex"></result>
+</resultMap></p>
+<!--List<User> testMohu(@Param("mohu") String mohu);-->
+<p><select id="testMohu" resultMap="userMap"></p>
+<!--select * from t_user where username like '%${mohu}%'-->
+<p>select id,user_name,password,age,sex from t_user where user_name like
+concat('%',#{mohu},'%')
+</select>
+若字段名和实体类中的属性名不一致，但是字段名符合数据库的规则（使用_），实体类中的属性
+名符合Java的规则（使用驼峰）
+此时也可通过以下两种方式处理字段名和实体类中的属性的映射关系
+a&gt;可以通过为字段起别名的方式，保证和实体类中的属性名保持一致
+b&gt;可以在MyBatis的核心配置文件中设置一个全局配置信息mapUnderscoreToCamelCase，可
+以在查询表中数据时，自动将_类型的字段名转换为驼峰
+例如：字段名user_name，设置了mapUnderscoreToCamelCase，此时字段名就会转换为
+userName</p>
+  </div>
+</section>

@@ -1,0 +1,20 @@
+<section class="chapter" id="chapter-47" data-chapter="47">
+  <h1>4、和其它持久化层技术对比</h1>
+  <div class="chapter-content">
+<p>JDBC
+SQL 夹杂在Java代码中耦合度高，导致硬编码内伤
+维护不易且实际开发需求中 SQL 有变化，频繁修改的情况多见
+代码冗长，开发效率低
+Hibernate 和 JPA
+操作简便，开发效率高
+程序中的长难复杂 SQL 需要绕过框架
+内部自动生产的 SQL，不容易做特殊优化
+基于全映射的全自动框架，大量字段的 POJO 进行部分映射时比较困难。
+反射操作太多，导致数据库性能下降
+更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+<p>MyBatis
+轻量级，性能出色
+SQL 和 Java 编码分开，功能边界清晰。Java代码专注业务、SQL语句专注数据
+开发效率稍逊于HIbernate，但是完全能够接受</p>
+  </div>
+</section>
