@@ -104,69 +104,29 @@
 
     /* TOC */
     .toc {
-      padding: 16px 0;
-    }
-
-    .toc-section {
-      margin-bottom: 4px;
-    }
-
-    .toc-section-header {
-      display: flex;
-      align-items: center;
-      padding: 10px 16px;
-      cursor: pointer;
-      font-weight: 500;
-      font-size: 14px;
-    }
-
-    .toc-section-header:hover {
-      background: var(--primary-light);
-    }
-
-    .toc-arrow {
-      margin-right: 8px;
-      transition: transform 0.2s;
-      font-size: 12px;
-    }
-
-    .toc-section.expanded .toc-arrow {
-      transform: rotate(90deg);
-    }
-
-    .toc-section-title {
-      flex: 1;
-    }
-
-    .toc-children {
+      padding: 8px 0;
       list-style: none;
-      display: none;
-      padding-left: 24px;
     }
 
-    .toc-section.expanded .toc-children {
+    .toc li {
+      margin: 1px 0;
+    }
+
+    .toc a {
       display: block;
-    }
-
-    .toc-children li {
-      margin: 2px 0;
-    }
-
-    .toc-children a {
-      display: block;
-      padding: 6px 12px;
+      padding: 10px 16px;
       color: var(--text-light);
       text-decoration: none;
-      font-size: 13px;
+      font-size: 14px;
       border-radius: 4px;
     }
 
-    .toc-children a:hover {
+    .toc a:hover {
       background: var(--primary-light);
       color: var(--primary);
     }
 
-    .toc-children a.active {
+    .toc a.active {
       background: var(--primary-light);
       color: var(--primary);
       font-weight: 500;
@@ -440,155 +400,18 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     </div>
 
     <ul class="toc" id="tocList">
-      <li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="0">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">一、MyBatis简介</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-1" data-chapter="1">1、MyBatis历史</a></li>
-    <li><a href="#chapter-2" data-chapter="2">2、MyBatis特性</a></li>
-    <li><a href="#chapter-3" data-chapter="3">3、MyBatis下载</a></li>
-    <li><a href="#chapter-4" data-chapter="4">4、和其它持久化层技术对比</a></li>
-  </ul>
-</li>
-<li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="1">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">二、搭建MyBatis</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-5" data-chapter="5">1、开发环境</a></li>
-    <li><a href="#chapter-6" data-chapter="6">2、创建maven工程</a></li>
-    <li><a href="#chapter-7" data-chapter="7">3、创建MyBatis的核心配置文件</a></li>
-    <li><a href="#chapter-8" data-chapter="8">4、创建mapper接口</a></li>
-    <li><a href="#chapter-9" data-chapter="9">5、创建MyBatis的映射文件</a></li>
-    <li><a href="#chapter-10" data-chapter="10">1、映射文件的命名规则：</a></li>
-    <li><a href="#chapter-11" data-chapter="11">2、MyBatis中可以面向接口操作数据，要保证两个一致：</a></li>
-    <li><a href="#chapter-12" data-chapter="12">6、通过junit测试功能</a></li>
-    <li><a href="#chapter-13" data-chapter="13">7、加入log4j日志功能</a></li>
-  </ul>
-</li>
-<li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="2">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">三、核心配置文件详解</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-14" data-chapter="14">三、核心配置文件详解</a></li>
-  </ul>
-</li>
-<li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="3">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">四、MyBatis的增删改查</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-15" data-chapter="15">1、添加</a></li>
-    <li><a href="#chapter-16" data-chapter="16">2、删除</a></li>
-    <li><a href="#chapter-17" data-chapter="17">3、修改</a></li>
-    <li><a href="#chapter-18" data-chapter="18">4、查询一个实体类对象</a></li>
-    <li><a href="#chapter-19" data-chapter="19">5、查询集合</a></li>
-    <li><a href="#chapter-20" data-chapter="20">1、查询的标签select必须设置属性resultType或resultMap，用于设置实体类和数据库表的映射</a></li>
-    <li><a href="#chapter-21" data-chapter="21">2、当查询的数据为多条时，不能使用实体类作为返回值，只能使用集合，否则会抛出异常</a></li>
-  </ul>
-</li>
-<li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="4">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">五、MyBatis获取参数值的两种方式（重点）</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-22" data-chapter="22">1、单个字面量类型的参数</a></li>
-    <li><a href="#chapter-23" data-chapter="23">2、多个字面量类型的参数</a></li>
-    <li><a href="#chapter-24" data-chapter="24">3、map集合类型的参数</a></li>
-    <li><a href="#chapter-25" data-chapter="25">4、实体类类型的参数</a></li>
-    <li><a href="#chapter-26" data-chapter="26">5、使用@Param标识参数</a></li>
-  </ul>
-</li>
-<li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="5">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">六、MyBatis的各种查询功能</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-27" data-chapter="27">1、查询一个实体类对象</a></li>
-    <li><a href="#chapter-28" data-chapter="28">2、查询一个list集合</a></li>
-    <li><a href="#chapter-29" data-chapter="29">3、查询单个数据</a></li>
-    <li><a href="#chapter-30" data-chapter="30">4、查询一条数据为map集合</a></li>
-    <li><a href="#chapter-31" data-chapter="31">5、查询多条数据为map集合</a></li>
-  </ul>
-</li>
-<li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="6">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">七、特殊SQL的执行</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-32" data-chapter="32">1、模糊查询</a></li>
-    <li><a href="#chapter-33" data-chapter="33">2、批量删除</a></li>
-    <li><a href="#chapter-34" data-chapter="34">3、动态设置表名</a></li>
-    <li><a href="#chapter-35" data-chapter="35">4、添加功能获取自增的主键</a></li>
-  </ul>
-</li>
-<li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="7">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">八、自定义映射resultMap</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-36" data-chapter="36">1、resultMap处理字段和属性的映射关系</a></li>
-    <li><a href="#chapter-37" data-chapter="37">2、多对一映射处理</a></li>
-    <li><a href="#chapter-38" data-chapter="38">3、一对多映射处理</a></li>
-  </ul>
-</li>
-<li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="8">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">九、动态SQL</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-39" data-chapter="39">1、if</a></li>
-    <li><a href="#chapter-40" data-chapter="40">2、where</a></li>
-    <li><a href="#chapter-41" data-chapter="41">3、trim</a></li>
-    <li><a href="#chapter-42" data-chapter="42">4、choose、when、otherwise</a></li>
-    <li><a href="#chapter-43" data-chapter="43">5、foreach</a></li>
-    <li><a href="#chapter-44" data-chapter="44">6、SQL片段</a></li>
-  </ul>
-</li>
-<li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="9">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">十、MyBatis的缓存</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-45" data-chapter="45">1、MyBatis的一级缓存</a></li>
-    <li><a href="#chapter-46" data-chapter="46">2、MyBatis的二级缓存</a></li>
-    <li><a href="#chapter-47" data-chapter="47">3、二级缓存的相关配置</a></li>
-    <li><a href="#chapter-48" data-chapter="48">4、MyBatis缓存查询的顺序</a></li>
-    <li><a href="#chapter-49" data-chapter="49">5、整合第三方缓存EHCache</a></li>
-  </ul>
-</li>
-<li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="10">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">十一、MyBatis的逆向工程</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-50" data-chapter="50">1、创建逆向工程的步骤</a></li>
-    <li><a href="#chapter-51" data-chapter="51">2、QBC查询</a></li>
-  </ul>
-</li>
-<li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="11">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">十二、分页插件</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-52" data-chapter="52">1、分页插件使用步骤</a></li>
-    <li><a href="#chapter-53" data-chapter="53">2、分页插件的使用</a></li>
-  </ul>
-</li>
+      <li><a href="#chapter-1" data-chapter="1">一、MyBatis简介</a></li>
+<li><a href="#chapter-2" data-chapter="2">二、搭建MyBatis</a></li>
+<li><a href="#chapter-3" data-chapter="3">三、核心配置文件详解</a></li>
+<li><a href="#chapter-4" data-chapter="4">四、MyBatis的增删改查</a></li>
+<li><a href="#chapter-5" data-chapter="5">五、MyBatis获取参数值的两种方式（重点）</a></li>
+<li><a href="#chapter-6" data-chapter="6">六、MyBatis的各种查询功能</a></li>
+<li><a href="#chapter-7" data-chapter="7">七、特殊SQL的执行</a></li>
+<li><a href="#chapter-8" data-chapter="8">八、自定义映射resultMap</a></li>
+<li><a href="#chapter-9" data-chapter="9">九、动态SQL</a></li>
+<li><a href="#chapter-10" data-chapter="10">十、MyBatis的缓存</a></li>
+<li><a href="#chapter-11" data-chapter="11">十一、MyBatis的逆向工程</a></li>
+<li><a href="#chapter-12" data-chapter="12">十二、分页插件</a></li>
     </ul>
 
     <ul class="search-results" id="searchResults" style="display:none;">
@@ -604,15 +427,11 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     let searchMode = 'toc';
     let searchDebounceTimer = null;
     let searchIndex = null;
-    const tocLinks = document.querySelectorAll('.toc-children a');
+    const tocLinks = document.querySelectorAll('.toc a');
     const contentEl = document.getElementById('content');
     const searchResultsList = document.getElementById('searchResultsList');
     const searchResultsEl = document.getElementById('searchResults');
     const tocListEl = document.getElementById('tocList');
-
-    function toggleSection(header) {
-      header.parentElement.classList.toggle('expanded');
-    }
 
     function switchSearchMode(mode) {
       searchMode = mode;
@@ -628,15 +447,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 
     function filterTOC(query) {
       const q = query.toLowerCase();
-      document.querySelectorAll('.toc-section').forEach(section => {
-        let hasVisible = false;
-        section.querySelectorAll('.toc-children li').forEach(li => {
-          const match = li.textContent.toLowerCase().includes(q);
-          li.style.display = match ? 'block' : 'none';
-          if (match) hasVisible = true;
-        });
-        section.style.display = hasVisible || !q ? 'block' : 'none';
-        if (hasVisible) section.classList.add('expanded');
+      document.querySelectorAll('.toc li').forEach(li => {
+        li.style.display = li.textContent.toLowerCase().includes(q) ? 'block' : 'none';
       });
     }
 
@@ -740,11 +552,6 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
       tocLinks.forEach(link => {
         link.classList.toggle('active', link.dataset.chapter === String(num));
       });
-      const activeLink = document.querySelector('.toc-children a.active');
-      if (activeLink) {
-        const parentSection = activeLink.closest('.toc-section');
-        if (parentSection) parentSection.classList.add('expanded');
-      }
     }
 
     function chapterUrl(num) {
@@ -754,7 +561,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     function getInitialChapterNum() {
       const match = location.hash.match(/^#chapter-(\d+)$/);
       if (match) return parseInt(match[1], 10);
-      const first = document.querySelector('.toc-children a');
+      const first = document.querySelector('.toc a');
       return first ? parseInt(first.dataset.chapter, 10) : null;
     }
 
@@ -790,10 +597,6 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
       const num = getInitialChapterNum();
       if (num) loadChapter(num);
     });
-
-    // Expand first section by default
-    const firstSection = document.querySelector('.toc-section');
-    if (firstSection) firstSection.classList.add('expanded');
 
     // Load initial chapter
     const initialNum = getInitialChapterNum();

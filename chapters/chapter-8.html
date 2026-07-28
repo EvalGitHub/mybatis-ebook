@@ -1,13 +1,175 @@
 <section class="chapter" id="chapter-8" data-chapter="8">
-  <h1>4、创建mapper接口</h1>
+  <h1>八、自定义映射resultMap</h1>
   <div class="chapter-content">
-<p>MyBatis中的mapper接口相当于以前的dao。但是区别在于，mapper仅仅是接口，我们不需要
-提供实现类。
-public interface UserMapper {
+<p>1、resultMap处理字段和属性的映射关系
+若字段名和实体类中的属性名不一致，则可以通过resultMap设置自定义映射
+更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!-- resultMap：设置自定义映射 属性： id：表示自定义映射的唯一标识 type：查询的数据要映射的实体类的类型 子标签： id：设置主键的映射关系 result：设置普通字段的映射关系 association：设置多对一的映射关系 collection：设置一对多的映射关系 属性： property：设置映射关系中实体类中的属性名 column：设置映射关系中表中的字段名 --&gt;</span>
+<span class="nt">&lt;resultMap</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;userMap&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;User&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;id</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;id&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;id&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;userName&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;user_name&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;password&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;password&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;age&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;age&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;sex&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;sex&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;/resultMap&gt;</span>
+<span class="cm">&lt;!--List&lt;User&gt; testMohu(@Param(&quot;mohu&quot;) String mohu);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;testMohu&quot;</span><span class="w"> </span><span class="na">resultMap=</span><span class="s">&quot;userMap&quot;</span><span class="nt">&gt;</span>
+<span class="cm">&lt;!--select * from t_user where username like &#39;%${mohu}%&#39;--&gt;</span>
+</code></pre></div>
+
+<p>select id,user_name,password,age,sex from t_user where user_name like
+concat('%',#{mohu},'%')
+&lt;/select&gt;
+若字段名和实体类中的属性名不一致，但是字段名符合数据库的规则（使用_），实体类中的属性
+名符合Java的规则（使用驼峰）
+此时也可通过以下两种方式处理字段名和实体类中的属性的映射关系
+a&gt;可以通过为字段起别名的方式，保证和实体类中的属性名保持一致
+b&gt;可以在MyBatis的核心配置文件中设置一个全局配置信息mapUnderscoreToCamelCase，可
+以在查询表中数据时，自动将_类型的字段名转换为驼峰
+例如：字段名user_name，设置了mapUnderscoreToCamelCase，此时字段名就会转换为
+userName
+2、多对一映射处理
+查询员工信息以及员工所对应的部门信息
+a&gt;级联方式处理映射关系
+更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;resultMap</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;empDeptMap&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;id</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;eid&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;eid&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;ename&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;ename&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;age&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;age&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;sex&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;sex&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;did&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;dept.did&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;dname&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;dept.dname&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;/resultMap&gt;</span>
+<span class="cm">&lt;!--Emp getEmpAndDeptByEid(@Param(&quot;eid&quot;) int eid);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpAndDeptByEid&quot;</span><span class="w"> </span><span class="na">resultMap=</span><span class="s">&quot;empDeptMap&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>select emp.<em>,dept.</em> from t_emp emp left join t_dept dept on emp.did =
+dept.did where emp.eid = #{eid}
+&lt;/select&gt;
+b&gt;使用association处理映射关系</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;resultMap</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;empDeptMap&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;id</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;eid&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;eid&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;ename&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;ename&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;age&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;age&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;sex&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;sex&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;association</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;dept&quot;</span><span class="w"> </span><span class="na">javaType=</span><span class="s">&quot;Dept&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;id</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;did&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;did&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;dname&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;dname&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;/association&gt;</span>
+<span class="nt">&lt;/resultMap&gt;</span>
+<span class="cm">&lt;!--Emp getEmpAndDeptByEid(@Param(&quot;eid&quot;) int eid);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpAndDeptByEid&quot;</span><span class="w"> </span><span class="na">resultMap=</span><span class="s">&quot;empDeptMap&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>select emp.<em>,dept.</em> from t_emp emp left join t_dept dept on emp.did =
+dept.did where emp.eid = #{eid}
+&lt;/select&gt;
+c&gt;分步查询
+1）查询员工信息
 /*<em>
-* 添加用户信息
+* 通过分步查询查询员工信息
+* @param eid
+* @return
 </em>/
-int insertUser();
-}</p>
+Emp getEmpByStep(@Param("eid") int eid);</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;resultMap</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;empDeptStepMap&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;id</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;eid&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;eid&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;ename&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;ename&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;age&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;age&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;sex&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;sex&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="cm">&lt;!-- select：设置分步查询，查询某个属性的值的sql的标识（namespace.sqlId） column：将sql以及查询结果中的某个字段设置为分步查询的条件 --&gt;</span>
+</code></pre></div>
+
+<p>更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;association</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;dept&quot;</span><span class="w"> </span><span class="na">select=</span><span class="s">&quot;com.atguigu.MyBatis.mapper.DeptMapper.getEmpDeptByStep&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;did&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/association&gt;</span>
+<span class="nt">&lt;/resultMap&gt;</span>
+<span class="cm">&lt;!--Emp getEmpByStep(@Param(&quot;eid&quot;) int eid);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpByStep&quot;</span><span class="w"> </span><span class="na">resultMap=</span><span class="s">&quot;empDeptStepMap&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>select * from t_emp where eid = #{eid}
+&lt;/select&gt;
+2）根据员工所对应的部门id查询部门信息
+/*<em>
+* 分步查询的第二步：根据员工所对应的did查询部门信息
+* @param did
+* @return
+</em>/
+Dept getEmpDeptByStep(@Param("did") int did);</p>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--Dept getEmpDeptByStep(@Param(&quot;did&quot;) int did);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpDeptByStep&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;Dept&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>select * from t_dept where did = #{did}
+&lt;/select&gt;
+3、一对多映射处理
+a&gt;collection
+/*<em>
+* 根据部门id查新部门以及部门中的员工信息
+* @param did
+* @return
+</em>/
+Dept getDeptEmpByDid(@Param("did") int did);</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;resultMap</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;deptEmpMap&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;Dept&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;id</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;did&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;did&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;dname&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;dname&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="cm">&lt;!-- ofType：设置collection标签所处理的集合属性中存储数据的类型 --&gt;</span>
+<span class="nt">&lt;collection</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;emps&quot;</span><span class="w"> </span><span class="na">ofType=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;id</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;eid&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;eid&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;ename&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;ename&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;age&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;age&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;sex&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;sex&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;/collection&gt;</span>
+<span class="nt">&lt;/resultMap&gt;</span>
+<span class="cm">&lt;!--Dept getDeptEmpByDid(@Param(&quot;did&quot;) int did);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getDeptEmpByDid&quot;</span><span class="w"> </span><span class="na">resultMap=</span><span class="s">&quot;deptEmpMap&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>select dept.<em>,emp.</em> from t_dept dept left join t_emp emp on dept.did =
+emp.did where dept.did = #{did}
+&lt;/select&gt;
+b&gt;分步查询
+更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+<p>1）查询部门信息
+/*<em>
+* 分步查询部门和部门中的员工
+* @param did
+* @return
+</em>/
+Dept getDeptByStep(@Param("did") int did);</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;resultMap</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;deptEmpStep&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;Dept&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;id</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;did&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;did&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
+<span class="nt">&lt;result</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;dname&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;dname&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
+<span class="nt">&lt;collection</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;emps&quot;</span><span class="w"> </span><span class="na">fetchType=</span><span class="s">&quot;eager&quot;</span><span class="w"> </span><span class="na">select=</span><span class="s">&quot;com.atguigu.MyBatis.mapper.EmpMapper.getEmpListByDid&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;did&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/collection&gt;</span>
+<span class="nt">&lt;/resultMap&gt;</span>
+<span class="cm">&lt;!--Dept getDeptByStep(@Param(&quot;did&quot;) int did);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getDeptByStep&quot;</span><span class="w"> </span><span class="na">resultMap=</span><span class="s">&quot;deptEmpStep&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>select * from t_dept where did = #{did}
+&lt;/select&gt;
+2）根据部门id查询部门中的所有员工
+/*<em>
+* 根据部门id查询员工信息
+* @param did
+* @return
+</em>/
+List&lt;Emp&gt; getEmpListByDid(@Param("did") int did);</p>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--List&lt;Emp&gt; getEmpListByDid(@Param(&quot;did&quot;) int did);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByDid&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>select * from t_emp where did = #{did}
+&lt;/select&gt;
+分步查询的优点：可以实现延迟加载，但是必须在核心配置文件中设置全局配置信息：
+lazyLoadingEnabled：延迟加载的全局开关。当开启时，所有关联对象都会延迟加载
+aggressiveLazyLoading：当开启时，任何方法的调用都会加载该对象的所有属性。 否则，每个
+属性会按需加载
+此时就可以实现按需加载，获取的数据是什么，就只会执行相应的sql。此时可通过association和
+collection中的fetchType属性设置当前的分步查询是否使用延迟加载，fetchType="lazy(延迟加
+载)|eager(立即加载)"</p>
   </div>
 </section>

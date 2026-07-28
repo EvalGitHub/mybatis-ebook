@@ -1,7 +1,54 @@
 <section class="chapter" id="chapter-3" data-chapter="3">
-  <h1>3、MyBatis下载</h1>
+  <h1>三、核心配置文件详解</h1>
   <div class="chapter-content">
-<p>MyBatis下载地址：https://github.com/mybatis/mybatis-3
-更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+<p>核心配置文件中的标签必须按照固定的顺序：
+properties?,settings?,typeAliases?,typeHandlers?,objectFactory?,objectWrapperFactory?,reflectorF
+actory?,plugins?,environments?,databaseIdProvider?,mappers?</p>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="cp">&lt;!DOCTYPE configuration PUBLIC &quot;-//MyBatis.org//DTD Config 3.0//EN&quot; &quot;http://MyBatis.org/dtd/MyBatis-3-config.dtd&quot;&gt;</span>
+<span class="nt">&lt;configuration&gt;</span>
+<span class="cm">&lt;!--引入properties文件，此时就可以${属性名}的方式访问属性值--&gt;</span>
+<span class="nt">&lt;properties</span><span class="w"> </span><span class="na">resource=</span><span class="s">&quot;jdbc.properties&quot;</span><span class="nt">&gt;&lt;/properties&gt;</span>
+<span class="nt">&lt;settings&gt;</span>
+<span class="cm">&lt;!--将表中字段的下划线自动转换为驼峰--&gt;</span>
+<span class="nt">&lt;setting</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;mapUnderscoreToCamelCase&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+<span class="cm">&lt;!--开启延迟加载--&gt;</span>
+<span class="nt">&lt;setting</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;lazyLoadingEnabled&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/settings&gt;</span>
+<span class="nt">&lt;typeAliases&gt;</span>
+<span class="cm">&lt;!-- typeAlias：设置某个具体的类型的别名 属性： type：需要设置别名的类型的全类名 alias：设置此类型的别名，若不设置此属性，该类型拥有默认的别名，即类名且不区分大小 写 若设置此属性，此时该类型的别名只能使用alias所设置的值 --&gt;</span>
+<span class="cm">&lt;!--&lt;typeAlias type=&quot;com.atguigu.mybatis.bean.User&quot;&gt;&lt;/typeAlias&gt;--&gt;</span>
+<span class="cm">&lt;!--&lt;typeAlias type=&quot;com.atguigu.mybatis.bean.User&quot; alias=&quot;abc&quot;&gt;</span>
+<span class="cm">&lt;/typeAlias&gt;--&gt;</span>
+<span class="cm">&lt;!--以包为单位，设置改包下所有的类型都拥有默认的别名，即类名且不区分大小写--&gt;</span>
+<span class="nt">&lt;package</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;com.atguigu.mybatis.bean&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/typeAliases&gt;</span>
+<span class="cm">&lt;!-- environments：设置多个连接数据库的环境 属性： default：设置默认使用的环境的id --&gt;</span>
+<span class="nt">&lt;environments</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;mysql_test&quot;</span><span class="nt">&gt;</span>
+<span class="cm">&lt;!-- environment：设置具体的连接数据库的环境信息 属性： id：设置环境的唯一标识，可通过environments标签中的default设置某一个环境的id， 表示默认使用的环境 --&gt;</span>
+<span class="nt">&lt;environment</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;mysql_test&quot;</span><span class="nt">&gt;</span>
+<span class="cm">&lt;!-- transactionManager：设置事务管理方式 属性： 更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)  type：设置事务管理方式，type=&quot;JDBC|MANAGED&quot; type=&quot;JDBC&quot;：设置当前环境的事务管理都必须手动处理 type=&quot;MANAGED&quot;：设置事务被管理，例如spring中的AOP --&gt;</span>
+<span class="nt">&lt;transactionManager</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;JDBC&quot;</span><span class="nt">/&gt;</span>
+<span class="cm">&lt;!-- dataSource：设置数据源 属性： type：设置数据源的类型，type=&quot;POOLED|UNPOOLED|JNDI&quot; type=&quot;POOLED&quot;：使用数据库连接池，即会将创建的连接进行缓存，下次使用可以从 缓存中直接获取，不需要重新创建 type=&quot;UNPOOLED&quot;：不使用数据库连接池，即每次使用连接都需要重新创建 type=&quot;JNDI&quot;：调用上下文中的数据源 --&gt;</span>
+<span class="nt">&lt;dataSource</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;POOLED&quot;</span><span class="nt">&gt;</span>
+<span class="cm">&lt;!--设置驱动类的全类名--&gt;</span>
+<span class="nt">&lt;property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;driver&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;${jdbc.driver}&quot;</span><span class="nt">/&gt;</span>
+<span class="cm">&lt;!--设置连接数据库的连接地址--&gt;</span>
+<span class="nt">&lt;property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;url&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;${jdbc.url}&quot;</span><span class="nt">/&gt;</span>
+<span class="cm">&lt;!--设置连接数据库的用户名--&gt;</span>
+<span class="nt">&lt;property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;username&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;${jdbc.username}&quot;</span><span class="nt">/&gt;</span>
+<span class="cm">&lt;!--设置连接数据库的密码--&gt;</span>
+<span class="nt">&lt;property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;password&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;${jdbc.password}&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/dataSource&gt;</span>
+<span class="nt">&lt;/environment&gt;</span>
+<span class="nt">&lt;/environments&gt;</span>
+<span class="cm">&lt;!--引入映射文件--&gt;</span>
+<span class="nt">&lt;mappers&gt;</span>
+<span class="nt">&lt;mapper</span><span class="w"> </span><span class="na">resource=</span><span class="s">&quot;UserMapper.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="cm">&lt;!-- 以包为单位，将包下所有的映射文件引入核心配置文件 注意：此方式必须保证mapper接口和mapper映射文件必须在相同的包下 --&gt;</span>
+<span class="nt">&lt;package</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;com.atguigu.mybatis.mapper&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/mappers&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+</code></pre></div>
   </div>
 </section>

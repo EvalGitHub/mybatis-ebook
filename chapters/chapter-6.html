@@ -1,29 +1,97 @@
 <section class="chapter" id="chapter-6" data-chapter="6">
-  <h1>2、创建maven工程</h1>
+  <h1>六、MyBatis的各种查询功能</h1>
   <div class="chapter-content">
-<p>a&gt;打包方式：jar
-b&gt;引入依赖</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;dependencies&gt;</span>
-<span class="cm">&lt;!-- Mybatis核心 --&gt;</span>
-<span class="nt">&lt;dependency&gt;</span>
-<span class="nt">&lt;groupId&gt;</span>org.mybatis<span class="nt">&lt;/groupId&gt;</span>
-<span class="nt">&lt;artifactId&gt;</span>mybatis<span class="nt">&lt;/artifactId&gt;</span>
-<span class="nt">&lt;version&gt;</span>3.5.7<span class="nt">&lt;/version&gt;</span>
-<span class="nt">&lt;/dependency&gt;</span>
-<span class="cm">&lt;!-- junit测试 --&gt;</span>
-<span class="nt">&lt;dependency&gt;</span>
-<span class="nt">&lt;groupId&gt;</span>junit<span class="nt">&lt;/groupId&gt;</span>
-<span class="nt">&lt;artifactId&gt;</span>junit<span class="nt">&lt;/artifactId&gt;</span>
-<span class="nt">&lt;version&gt;</span>4.12<span class="nt">&lt;/version&gt;</span>
-<span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
-<span class="nt">&lt;/dependency&gt;</span>
-<span class="cm">&lt;!-- MySQL驱动 --&gt;</span>
-<span class="nt">&lt;dependency&gt;</span>
-<span class="nt">&lt;groupId&gt;</span>mysql<span class="nt">&lt;/groupId&gt;</span>
-<span class="nt">&lt;artifactId&gt;</span>mysql-connector-java<span class="nt">&lt;/artifactId&gt;</span>
-<span class="nt">&lt;version&gt;</span>5.1.3<span class="nt">&lt;/version&gt;</span>
-<span class="nt">&lt;/dependency&gt;</span>
-<span class="nt">&lt;/dependencies&gt;</span>
+<p>1、查询一个实体类对象
+/*<em>
+* 根据用户id查询用户信息
+* @param id
+* @return
+</em>/
+User getUserById(@Param("id") int id);</p>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--User getUserById(@Param(&quot;id&quot;) int id);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getUserById&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;User&quot;</span><span class="nt">&gt;</span>
 </code></pre></div>
+
+<p>select * from t_user where id = #{id}
+&lt;/select&gt;
+2、查询一个list集合
+/*<em>
+* 查询所有用户信息
+* @return
+</em>/
+List&lt;User&gt; getUserList();</p>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--List&lt;User&gt; getUserList();--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getUserList&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;User&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>select * from t_user
+&lt;/select&gt;
+3、查询单个数据
+更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+<p>/*<em>
+* 查询用户的总记录数
+* @return
+* 在MyBatis中，对于Java中常用的类型都设置了类型别名
+* 例如：java.lang.Integer--&gt;int|integer
+* 例如：int--&gt;_int|_integer
+* 例如：Map--&gt;map,List--&gt;list
+</em>/
+int getCount();</p>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--int getCount();--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getCount&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;_integer&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>select count(id) from t_user
+&lt;/select&gt;
+4、查询一条数据为map集合
+/*<em>
+* 根据用户id查询用户信息为map集合
+* @param id
+* @return
+</em>/
+Map<String, Object> getUserToMap(@Param("id") int id);</p>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--Map&lt;String, Object&gt; getUserToMap(@Param(&quot;id&quot;) int id);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getUserToMap&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;map&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>select * from t_user where id = #{id}</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/select&gt;</span>
+<span class="cm">&lt;!--结果：{password=123456, sex=男, id=1, age=23, username=admin}--&gt;</span>
+</code></pre></div>
+
+<p>5、查询多条数据为map集合
+方式一：
+/*<em>
+* 查询所有用户信息为map集合
+* @return
+* 将表中的数据以map集合的方式查询，一条数据对应一个map；若有多条数据，就会产生多个map集合，此
+时可以将这些map放在一个list集合中获取
+</em>/
+List<Map\<String, Object>> getAllUserToMap();</p>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--Map&lt;String, Object&gt; getAllUserToMap();--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getAllUserToMap&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;map&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>select * from t_user
+&lt;/select&gt;
+方式二：
+更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+<p>/*<em>
+* 查询所有用户信息为map集合
+* @return
+* 将表中的数据以map集合的方式查询，一条数据对应一个map；若有多条数据，就会产生多个map集合，并
+且最终要以一个map的方式返回数据，此时需要通过@MapKey注解设置map集合的键，值是每条数据所对应的
+map集合
+</em>/
+@MapKey("id")
+Map<String, Object> getAllUserToMap();</p>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--Map&lt;String, Object&gt; getAllUserToMap();--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getAllUserToMap&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;map&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>select * from t_user
+&lt;/select&gt;
+结果：
+&lt;!-- { 1={password=123456, sex=男, id=1, age=23, username=admin}, 2={password=123456, sex=男, id=2, age=23, username=张三}, 3={password=123456, sex=男, id=3, age=23, username=张三} } --&gt;</p>
   </div>
 </section>
