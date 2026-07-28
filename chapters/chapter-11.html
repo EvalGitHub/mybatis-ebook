@@ -1,7 +1,18 @@
 <section class="chapter" id="chapter-11" data-chapter="11">
-  <h1>7、加入log4j日志功能</h1>
+  <h1>2、MyBatis中可以面向接口操作数据，要保证两个一致：</h1>
   <div class="chapter-content">
-<p>a&gt;加入依赖
-b&gt;加入log4j的配置文件</p>
+<p>a&gt;mapper接口的全类名和映射文件的命名空间（namespace）保持一致
+b&gt;mapper接口中方法的方法名和映射文件中编写SQL的标签的id属性保持一致</p>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="cp">&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;</span>
+<span class="nt">&lt;mapper</span><span class="w"> </span><span class="na">namespace=</span><span class="s">&quot;com.atguigu.mybatis.mapper.UserMapper&quot;</span><span class="nt">&gt;</span>
+<span class="cm">&lt;!--int insertUser();--&gt;</span>
+<span class="nt">&lt;insert</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;insertUser&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>insert into t_user values(null,'张三','123',23,'女')</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/insert&gt;</span>
+<span class="nt">&lt;/mapper&gt;</span>
+</code></pre></div>
   </div>
 </section>

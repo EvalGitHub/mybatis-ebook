@@ -1,6 +1,19 @@
 <section class="chapter" id="chapter-32" data-chapter="32">
-  <h1>4、choose、when、otherwise</h1>
+  <h1>1、模糊查询</h1>
   <div class="chapter-content">
+<p>/*<em>
+* 测试模糊查询
+* @param mohu
+* @return
+</em>/
+List&lt;User&gt; testMohu(@Param("mohu") String mohu);</p>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--List&lt;User&gt; testMohu(@Param(&quot;mohu&quot;) String mohu);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;testMohu&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;User&quot;</span><span class="nt">&gt;</span>
+<span class="cm">&lt;!--select * from t_user where username like &#39;%${mohu}%&#39;--&gt;</span>
+<span class="cm">&lt;!--select * from t_user where username like concat(&#39;%&#39;,#{mohu},&#39;%&#39;)--&gt;</span>
+</code></pre></div>
 
+<p>select * from t_user where username like "%"#{mohu}"%"
+&lt;/select&gt;</p>
   </div>
 </section>

@@ -1,6 +1,10 @@
 <section class="chapter" id="chapter-23" data-chapter="23">
-  <h1>2、批量删除</h1>
+  <h1>2、多个字面量类型的参数</h1>
   <div class="chapter-content">
-
+<p>若mapper接口中的方法参数为多个时
+此时MyBatis会自动将这些参数放在一个map集合中，以arg0,arg1...为键，以参数为值；以
+param1,param2...为键，以参数为值；因此只需要通过${}和#{}访问map集合的键就可以获取相对应的
+值，注意${}需要手动加单引号
+更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
   </div>
 </section>

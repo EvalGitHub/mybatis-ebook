@@ -1,6 +1,31 @@
 <section class="chapter" id="chapter-7" data-chapter="7">
   <h1>3、创建MyBatis的核心配置文件</h1>
   <div class="chapter-content">
-
+<p>习惯上命名为mybatis-config.xml，这个文件名仅仅只是建议，并非强制要求。将来整合Spring
+之后，这个配置文件可以省略，所以大家操作时可以直接复制、粘贴。
+核心配置文件主要用于配置连接数据库的环境以及MyBatis的全局配置信息
+更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+<p>核心配置文件存放的位置是src/main/resources目录下</p>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="cp">&lt;!DOCTYPE configuration PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;</span>
+<span class="nt">&lt;configuration&gt;</span>
+<span class="cm">&lt;!--设置连接数据库的环境--&gt;</span>
+<span class="nt">&lt;environments</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;development&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;environment</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;development&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;transactionManager</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;JDBC&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;dataSource</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;POOLED&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;driver&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;com.mysql.jdbc.Driver&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;url&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;jdbc:mysql://localhost:3306/MyBatis&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;username&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;root&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;property</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;password&quot;</span><span class="w"> </span><span class="na">value=</span><span class="s">&quot;123456&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/dataSource&gt;</span>
+<span class="nt">&lt;/environment&gt;</span>
+<span class="nt">&lt;/environments&gt;</span>
+<span class="cm">&lt;!--引入映射文件--&gt;</span>
+<span class="nt">&lt;mappers&gt;</span>
+<span class="nt">&lt;mapper</span><span class="w"> </span><span class="na">resource=</span><span class="s">&quot;mappers/UserMapper.xml&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/mappers&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+</code></pre></div>
   </div>
 </section>

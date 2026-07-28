@@ -1,7 +1,28 @@
 <section class="chapter" id="chapter-42" data-chapter="42">
-  <h1>1、分页插件使用步骤</h1>
+  <h1>1、if</h1>
   <div class="chapter-content">
-<p>a&gt;添加依赖
-b&gt;配置分页插件</p>
+<p>更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+<p>if标签可通过test属性的表达式进行判断，若表达式的结果为true，则标签中的内容会执行；反之标签中
+的内容不会执行</p>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--List&lt;Emp&gt; getEmpListByMoreTJ(Emp emp);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByMoreTJ&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>select * from t_emp where 1=1
+&lt;if test="ename != '' and ename != null"&gt;
+and ename = #{ename}</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/if&gt;</span>
+<span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;age != &#39;&#39; and age != null&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>and age = #{age}</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/if&gt;</span>
+<span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;sex != &#39;&#39; and sex != null&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>and sex = #{sex}</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/if&gt;</span>
+<span class="nt">&lt;/select&gt;</span>
+</code></pre></div>
   </div>
 </section>

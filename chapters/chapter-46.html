@@ -1,7 +1,41 @@
 <section class="chapter" id="chapter-46" data-chapter="46">
-  <h1>3、MyBatis下载</h1>
+  <h1>5、foreach</h1>
   <div class="chapter-content">
-<p>MyBatis下载地址：https://github.com/mybatis/mybatis-3
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--int insertMoreEmp(List&lt;Emp&gt; emps);--&gt;</span>
+<span class="nt">&lt;insert</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;insertMoreEmp&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>insert into t_emp values
+&lt;foreach collection="emps" item="emp" separator=","&gt;
+(null,#{emp.ename},#{emp.age},#{emp.sex},#{emp.email},null)</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/foreach&gt;</span>
+<span class="nt">&lt;/insert&gt;</span>
+<span class="cm">&lt;!--int deleteMoreByArray(int[] eids);--&gt;</span>
+<span class="nt">&lt;delete</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;deleteMoreByArray&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>delete from t_emp where
+&lt;foreach collection="eids" item="eid" separator="or"&gt;
+eid = #{eid}
+&lt;/foreach&gt;
 更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/delete&gt;</span>
+<span class="cm">&lt;!--int deleteMoreByArray(int[] eids);--&gt;</span>
+<span class="nt">&lt;delete</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;deleteMoreByArray&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>delete from t_emp where eid in
+&lt;foreach collection="eids" item="eid" separator="," open="(" close=")"&gt;</p>
+<h1 id="eid">{eid}</h1>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/foreach&gt;</span>
+<span class="nt">&lt;/delete&gt;</span>
+</code></pre></div>
+
+<p>属性：
+collection：设置要循环的数组或集合
+item：表示集合或数组中的每一个数据
+separator：设置循环体之间的分隔符
+open：设置foreach标签中的内容的开始符
+close：设置foreach标签中的内容的结束符</p>
   </div>
 </section>

@@ -1,33 +1,21 @@
 <section class="chapter" id="chapter-50" data-chapter="50">
-  <h1>3、创建MyBatis的核心配置文件</h1>
+  <h1>3、二级缓存的相关配置</h1>
   <div class="chapter-content">
-<p>习惯上命名为mybatis-config.xml，这个文件名仅仅只是建议，并非强制要求。将来整合Spring
-之后，这个配置文件可以省略，所以大家操作时可以直接复制、粘贴。
-核心配置文件主要用于配置连接数据库的环境以及MyBatis的全局配置信息
-更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
-<p>核心配置文件存放的位置是src/main/resources目录下</p>
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE configuration
-PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-config.dtd">
-<p><configuration></p>
-<!--设置连接数据库的环境-->
-<p><environments default="development">
-<environment id="development">
-<transactionManager type="JDBC"/>
-<dataSource type="POOLED">
-<property name="driver" value="com.mysql.jdbc.Driver"/>
-<property name="url"
-value="jdbc:mysql://localhost:3306/MyBatis"/>
-<property name="username" value="root"/>
-<property name="password" value="123456"/>
-</dataSource>
-</environment>
-</environments></p>
-<!--引入映射文件-->
-<p><mappers>
-<mapper resource="mappers/UserMapper.xml"/>
-</mappers>
-</configuration></p>
+<p>在mapper配置文件中添加的cache标签可以设置一些属性：
+eviction属性：缓存回收策略
+LRU（Least Recently Used） – 最近最少使用的：移除最长时间不被使用的对象。
+FIFO（First in First out） – 先进先出：按对象进入缓存的顺序来移除它们。
+SOFT – 软引用：移除基于垃圾回收器状态和软引用规则的对象。
+WEAK – 弱引用：更积极地移除基于垃圾收集器状态和弱引用规则的对象。
+默认的是 LRU。
+flushInterval属性：刷新间隔，单位毫秒
+默认情况是不设置，也就是没有刷新间隔，缓存仅仅调用语句时刷新
+size属性：引用数目，正整数
+代表缓存最多可以存储多少个对象，太大容易导致内存溢出
+readOnly属性：只读，true/false
+true：只读缓存；会给所有调用者返回缓存对象的相同实例。因此这些对象不能被修改。这提供了
+很重要的性能优势。
+false：读写缓存；会返回缓存对象的拷贝（通过序列化）。这会慢一些，但是安全，因此默认是
+false。</p>
   </div>
 </section>

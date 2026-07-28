@@ -1,6 +1,17 @@
 <section class="chapter" id="chapter-34" data-chapter="34">
-  <h1>6、SQL片段</h1>
+  <h1>3、动态设置表名</h1>
   <div class="chapter-content">
+<p>/*<em>
+* 动态设置表名，查询所有的用户信息
+* @param tableName
+* @return
+</em>/
+List&lt;User&gt; getAllUser(@Param("tableName") String tableName);</p>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--List&lt;User&gt; getAllUser(@Param(&quot;tableName&quot;) String tableName);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getAllUser&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;User&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
 
+<p>select * from ${tableName}
+&lt;/select&gt;</p>
   </div>
 </section>

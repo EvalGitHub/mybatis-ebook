@@ -463,8 +463,34 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <li><a href="#chapter-7" data-chapter="7">3、创建MyBatis的核心配置文件</a></li>
     <li><a href="#chapter-8" data-chapter="8">4、创建mapper接口</a></li>
     <li><a href="#chapter-9" data-chapter="9">5、创建MyBatis的映射文件</a></li>
-    <li><a href="#chapter-10" data-chapter="10">6、通过junit测试功能</a></li>
-    <li><a href="#chapter-11" data-chapter="11">7、加入log4j日志功能</a></li>
+    <li><a href="#chapter-10" data-chapter="10">1、映射文件的命名规则：</a></li>
+    <li><a href="#chapter-11" data-chapter="11">2、MyBatis中可以面向接口操作数据，要保证两个一致：</a></li>
+    <li><a href="#chapter-12" data-chapter="12">6、通过junit测试功能</a></li>
+    <li><a href="#chapter-13" data-chapter="13">7、加入log4j日志功能</a></li>
+  </ul>
+</li>
+<li class="toc-section">
+  <div class="toc-section-header" onclick="toggleSection(this)" data-section="2">
+    <span class="toc-arrow">&#9656;</span>
+    <span class="toc-section-title">三、核心配置文件详解</span>
+  </div>
+  <ul class="toc-children">
+    <li><a href="#chapter-14" data-chapter="14">三、核心配置文件详解</a></li>
+  </ul>
+</li>
+<li class="toc-section">
+  <div class="toc-section-header" onclick="toggleSection(this)" data-section="3">
+    <span class="toc-arrow">&#9656;</span>
+    <span class="toc-section-title">四、MyBatis的增删改查</span>
+  </div>
+  <ul class="toc-children">
+    <li><a href="#chapter-15" data-chapter="15">1、添加</a></li>
+    <li><a href="#chapter-16" data-chapter="16">2、删除</a></li>
+    <li><a href="#chapter-17" data-chapter="17">3、修改</a></li>
+    <li><a href="#chapter-18" data-chapter="18">4、查询一个实体类对象</a></li>
+    <li><a href="#chapter-19" data-chapter="19">5、查询集合</a></li>
+    <li><a href="#chapter-20" data-chapter="20">1、查询的标签select必须设置属性resultType或resultMap，用于设置实体类和数据库表的映射</a></li>
+    <li><a href="#chapter-21" data-chapter="21">2、当查询的数据为多条时，不能使用实体类作为返回值，只能使用集合，否则会抛出异常</a></li>
   </ul>
 </li>
 <li class="toc-section">
@@ -473,11 +499,11 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <span class="toc-section-title">五、MyBatis获取参数值的两种方式（重点）</span>
   </div>
   <ul class="toc-children">
-    <li><a href="#chapter-12" data-chapter="12">1、单个字面量类型的参数</a></li>
-    <li><a href="#chapter-13" data-chapter="13">2、多个字面量类型的参数</a></li>
-    <li><a href="#chapter-14" data-chapter="14">3、map集合类型的参数</a></li>
-    <li><a href="#chapter-15" data-chapter="15">4、实体类类型的参数</a></li>
-    <li><a href="#chapter-16" data-chapter="16">5、使用@Param标识参数</a></li>
+    <li><a href="#chapter-22" data-chapter="22">1、单个字面量类型的参数</a></li>
+    <li><a href="#chapter-23" data-chapter="23">2、多个字面量类型的参数</a></li>
+    <li><a href="#chapter-24" data-chapter="24">3、map集合类型的参数</a></li>
+    <li><a href="#chapter-25" data-chapter="25">4、实体类类型的参数</a></li>
+    <li><a href="#chapter-26" data-chapter="26">5、使用@Param标识参数</a></li>
   </ul>
 </li>
 <li class="toc-section">
@@ -486,11 +512,11 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <span class="toc-section-title">六、MyBatis的各种查询功能</span>
   </div>
   <ul class="toc-children">
-    <li><a href="#chapter-17" data-chapter="17">1、查询一个实体类对象</a></li>
-    <li><a href="#chapter-18" data-chapter="18">2、查询一个list集合</a></li>
-    <li><a href="#chapter-19" data-chapter="19">3、查询单个数据</a></li>
-    <li><a href="#chapter-20" data-chapter="20">4、查询一条数据为map集合</a></li>
-    <li><a href="#chapter-21" data-chapter="21">5、查询多条数据为map集合</a></li>
+    <li><a href="#chapter-27" data-chapter="27">1、查询一个实体类对象</a></li>
+    <li><a href="#chapter-28" data-chapter="28">2、查询一个list集合</a></li>
+    <li><a href="#chapter-29" data-chapter="29">3、查询单个数据</a></li>
+    <li><a href="#chapter-30" data-chapter="30">4、查询一条数据为map集合</a></li>
+    <li><a href="#chapter-31" data-chapter="31">5、查询多条数据为map集合</a></li>
   </ul>
 </li>
 <li class="toc-section">
@@ -499,10 +525,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <span class="toc-section-title">七、特殊SQL的执行</span>
   </div>
   <ul class="toc-children">
-    <li><a href="#chapter-22" data-chapter="22">1、模糊查询</a></li>
-    <li><a href="#chapter-23" data-chapter="23">2、批量删除</a></li>
-    <li><a href="#chapter-24" data-chapter="24">3、动态设置表名</a></li>
-    <li><a href="#chapter-25" data-chapter="25">4、添加功能获取自增的主键</a></li>
+    <li><a href="#chapter-32" data-chapter="32">1、模糊查询</a></li>
+    <li><a href="#chapter-33" data-chapter="33">2、批量删除</a></li>
+    <li><a href="#chapter-34" data-chapter="34">3、动态设置表名</a></li>
+    <li><a href="#chapter-35" data-chapter="35">4、添加功能获取自增的主键</a></li>
+    <li><a href="#chapter-36" data-chapter="36">1、添加班级信息</a></li>
+    <li><a href="#chapter-37" data-chapter="37">2、获取新添加的班级的id</a></li>
+    <li><a href="#chapter-38" data-chapter="38">3、为班级分配学生，即将某学的班级id修改为新添加的班级的id</a></li>
   </ul>
 </li>
 <li class="toc-section">
@@ -511,9 +540,9 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <span class="toc-section-title">八、自定义映射resultMap</span>
   </div>
   <ul class="toc-children">
-    <li><a href="#chapter-26" data-chapter="26">1、resultMap处理字段和属性的映射关系</a></li>
-    <li><a href="#chapter-27" data-chapter="27">2、多对一映射处理</a></li>
-    <li><a href="#chapter-28" data-chapter="28">3、一对多映射处理</a></li>
+    <li><a href="#chapter-39" data-chapter="39">1、resultMap处理字段和属性的映射关系</a></li>
+    <li><a href="#chapter-40" data-chapter="40">2、多对一映射处理</a></li>
+    <li><a href="#chapter-41" data-chapter="41">3、一对多映射处理</a></li>
   </ul>
 </li>
 <li class="toc-section">
@@ -522,12 +551,12 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <span class="toc-section-title">九、动态SQL</span>
   </div>
   <ul class="toc-children">
-    <li><a href="#chapter-29" data-chapter="29">1、if</a></li>
-    <li><a href="#chapter-30" data-chapter="30">2、where</a></li>
-    <li><a href="#chapter-31" data-chapter="31">3、trim</a></li>
-    <li><a href="#chapter-32" data-chapter="32">4、choose、when、otherwise</a></li>
-    <li><a href="#chapter-33" data-chapter="33">5、foreach</a></li>
-    <li><a href="#chapter-34" data-chapter="34">6、SQL片段</a></li>
+    <li><a href="#chapter-42" data-chapter="42">1、if</a></li>
+    <li><a href="#chapter-43" data-chapter="43">2、where</a></li>
+    <li><a href="#chapter-44" data-chapter="44">3、trim</a></li>
+    <li><a href="#chapter-45" data-chapter="45">4、choose、when、otherwise</a></li>
+    <li><a href="#chapter-46" data-chapter="46">5、foreach</a></li>
+    <li><a href="#chapter-47" data-chapter="47">6、SQL片段</a></li>
   </ul>
 </li>
 <li class="toc-section">
@@ -536,11 +565,11 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <span class="toc-section-title">十、MyBatis的缓存</span>
   </div>
   <ul class="toc-children">
-    <li><a href="#chapter-35" data-chapter="35">1、MyBatis的一级缓存</a></li>
-    <li><a href="#chapter-36" data-chapter="36">2、MyBatis的二级缓存</a></li>
-    <li><a href="#chapter-37" data-chapter="37">3、二级缓存的相关配置</a></li>
-    <li><a href="#chapter-38" data-chapter="38">4、MyBatis缓存查询的顺序</a></li>
-    <li><a href="#chapter-39" data-chapter="39">5、整合第三方缓存EHCache</a></li>
+    <li><a href="#chapter-48" data-chapter="48">1、MyBatis的一级缓存</a></li>
+    <li><a href="#chapter-49" data-chapter="49">2、MyBatis的二级缓存</a></li>
+    <li><a href="#chapter-50" data-chapter="50">3、二级缓存的相关配置</a></li>
+    <li><a href="#chapter-51" data-chapter="51">4、MyBatis缓存查询的顺序</a></li>
+    <li><a href="#chapter-52" data-chapter="52">5、整合第三方缓存EHCache</a></li>
   </ul>
 </li>
 <li class="toc-section">
@@ -549,8 +578,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <span class="toc-section-title">十一、MyBatis的逆向工程</span>
   </div>
   <ul class="toc-children">
-    <li><a href="#chapter-40" data-chapter="40">1、创建逆向工程的步骤</a></li>
-    <li><a href="#chapter-41" data-chapter="41">2、QBC查询</a></li>
+    <li><a href="#chapter-53" data-chapter="53">1、创建逆向工程的步骤</a></li>
+    <li><a href="#chapter-54" data-chapter="54">2、QBC查询</a></li>
   </ul>
 </li>
 <li class="toc-section">
@@ -559,151 +588,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <span class="toc-section-title">十二、分页插件</span>
   </div>
   <ul class="toc-children">
-    <li><a href="#chapter-42" data-chapter="42">1、分页插件使用步骤</a></li>
-    <li><a href="#chapter-43" data-chapter="43">2、分页插件的使用</a></li>
-  </ul>
-</li>
-<li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="12">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">一、MyBatis简介</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-44" data-chapter="44">1、MyBatis历史</a></li>
-    <li><a href="#chapter-45" data-chapter="45">2、MyBatis特性</a></li>
-    <li><a href="#chapter-46" data-chapter="46">3、MyBatis下载</a></li>
-    <li><a href="#chapter-47" data-chapter="47">4、和其它持久化层技术对比</a></li>
-  </ul>
-</li>
-<li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="13">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">二、搭建MyBatis</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-48" data-chapter="48">1、开发环境</a></li>
-    <li><a href="#chapter-49" data-chapter="49">2、创建maven工程</a></li>
-    <li><a href="#chapter-50" data-chapter="50">3、创建MyBatis的核心配置文件</a></li>
-    <li><a href="#chapter-51" data-chapter="51">4、创建mapper接口</a></li>
-    <li><a href="#chapter-52" data-chapter="52">5、创建MyBatis的映射文件</a></li>
-    <li><a href="#chapter-53" data-chapter="53">1、映射文件的命名规则：</a></li>
-    <li><a href="#chapter-54" data-chapter="54">2、MyBatis中可以面向接口操作数据，要保证两个一致：</a></li>
-    <li><a href="#chapter-55" data-chapter="55">6、通过junit测试功能</a></li>
-    <li><a href="#chapter-56" data-chapter="56">7、加入log4j日志功能</a></li>
-  </ul>
-</li>
-<li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="15">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">四、MyBatis的增删改查</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-57" data-chapter="57">1、添加</a></li>
-    <li><a href="#chapter-58" data-chapter="58">2、删除</a></li>
-    <li><a href="#chapter-59" data-chapter="59">3、修改</a></li>
-    <li><a href="#chapter-60" data-chapter="60">4、查询一个实体类对象</a></li>
-    <li><a href="#chapter-61" data-chapter="61">5、查询集合</a></li>
-    <li><a href="#chapter-62" data-chapter="62">1、查询的标签select必须设置属性resultType或resultMap，用于设置实体类和数据库表的映射</a></li>
-    <li><a href="#chapter-63" data-chapter="63">2、当查询的数据为多条时，不能使用实体类作为返回值，只能使用集合，否则会抛出异常</a></li>
-  </ul>
-</li>
-<li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="16">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">五、MyBatis获取参数值的两种方式（重点）</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-64" data-chapter="64">1、单个字面量类型的参数</a></li>
-    <li><a href="#chapter-65" data-chapter="65">2、多个字面量类型的参数</a></li>
-    <li><a href="#chapter-66" data-chapter="66">3、map集合类型的参数</a></li>
-    <li><a href="#chapter-67" data-chapter="67">4、实体类类型的参数</a></li>
-    <li><a href="#chapter-68" data-chapter="68">5、使用@Param标识参数</a></li>
-  </ul>
-</li>
-<li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="17">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">六、MyBatis的各种查询功能</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-69" data-chapter="69">1、查询一个实体类对象</a></li>
-    <li><a href="#chapter-70" data-chapter="70">2、查询一个list集合</a></li>
-    <li><a href="#chapter-71" data-chapter="71">3、查询单个数据</a></li>
-    <li><a href="#chapter-72" data-chapter="72">4、查询一条数据为map集合</a></li>
-    <li><a href="#chapter-73" data-chapter="73">5、查询多条数据为map集合</a></li>
-  </ul>
-</li>
-<li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="18">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">七、特殊SQL的执行</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-74" data-chapter="74">1、模糊查询</a></li>
-    <li><a href="#chapter-75" data-chapter="75">2、批量删除</a></li>
-    <li><a href="#chapter-76" data-chapter="76">3、动态设置表名</a></li>
-    <li><a href="#chapter-77" data-chapter="77">4、添加功能获取自增的主键</a></li>
-    <li><a href="#chapter-78" data-chapter="78">1、添加班级信息</a></li>
-    <li><a href="#chapter-79" data-chapter="79">2、获取新添加的班级的id</a></li>
-    <li><a href="#chapter-80" data-chapter="80">3、为班级分配学生，即将某学的班级id修改为新添加的班级的id</a></li>
-  </ul>
-</li>
-<li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="19">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">八、自定义映射resultMap</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-81" data-chapter="81">1、resultMap处理字段和属性的映射关系</a></li>
-    <li><a href="#chapter-82" data-chapter="82">2、多对一映射处理</a></li>
-    <li><a href="#chapter-83" data-chapter="83">3、一对多映射处理</a></li>
-  </ul>
-</li>
-<li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="20">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">九、动态SQL</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-84" data-chapter="84">1、if</a></li>
-    <li><a href="#chapter-85" data-chapter="85">2、where</a></li>
-    <li><a href="#chapter-86" data-chapter="86">3、trim</a></li>
-    <li><a href="#chapter-87" data-chapter="87">4、choose、when、otherwise</a></li>
-    <li><a href="#chapter-88" data-chapter="88">5、foreach</a></li>
-    <li><a href="#chapter-89" data-chapter="89">6、SQL片段</a></li>
-  </ul>
-</li>
-<li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="21">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">十、MyBatis的缓存</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-90" data-chapter="90">1、MyBatis的一级缓存</a></li>
-    <li><a href="#chapter-91" data-chapter="91">2、MyBatis的二级缓存</a></li>
-    <li><a href="#chapter-92" data-chapter="92">3、二级缓存的相关配置</a></li>
-    <li><a href="#chapter-93" data-chapter="93">4、MyBatis缓存查询的顺序</a></li>
-    <li><a href="#chapter-94" data-chapter="94">5、整合第三方缓存EHCache</a></li>
-  </ul>
-</li>
-<li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="22">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">十一、MyBatis的逆向工程</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-95" data-chapter="95">1、创建逆向工程的步骤</a></li>
-    <li><a href="#chapter-96" data-chapter="96">2、QBC查询</a></li>
-  </ul>
-</li>
-<li class="toc-section">
-  <div class="toc-section-header" onclick="toggleSection(this)" data-section="23">
-    <span class="toc-arrow">&#9656;</span>
-    <span class="toc-section-title">十二、分页插件</span>
-  </div>
-  <ul class="toc-children">
-    <li><a href="#chapter-97" data-chapter="97">1、分页插件使用步骤</a></li>
-    <li><a href="#chapter-98" data-chapter="98">2、分页插件的使用</a></li>
+    <li><a href="#chapter-55" data-chapter="55">1、分页插件使用步骤</a></li>
+    <li><a href="#chapter-56" data-chapter="56">2、分页插件的使用</a></li>
   </ul>
 </li>
     </ul>
