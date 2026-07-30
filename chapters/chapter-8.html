@@ -57,10 +57,8 @@ select<span class="w"> </span>id,user_name,password,age,sex<span class="w"> </sp
 <div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--Emp `getEmpAndDeptByEid`(@Param(&quot;eid&quot;) int eid);--&gt;</span>
 <span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpAndDeptByEid&quot;</span><span class="w"> </span><span class="err">`resultMap`=&quot;empDeptMap&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span>emp.*,dept.*<span class="w"> </span>from<span class="w"> </span>t_emp<span class="w"> </span>emp<span class="w"> </span>left<span class="w"> </span>join<span class="w"> </span>t_dept<span class="w"> </span>dept<span class="w"> </span>on<span class="w"> </span>emp.did<span class="w"> </span>=
-</code></pre></div>
-
-<p>dept.did where emp.eid = #{eid}</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/select&gt;</span>
+dept.did<span class="w"> </span>where<span class="w"> </span>emp.eid<span class="w"> </span>=<span class="w"> </span>#{eid}
+<span class="nt">&lt;/select&gt;</span>
 </code></pre></div>
 
 <ul>
@@ -81,10 +79,8 @@ select<span class="w"> </span>emp.*,dept.*<span class="w"> </span>from<span clas
 <div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--Emp `getEmpAndDeptByEid`(@Param(&quot;eid&quot;) int eid);--&gt;</span>
 <span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpAndDeptByEid&quot;</span><span class="w"> </span><span class="err">`resultMap`=&quot;empDeptMap&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span>emp.*,dept.*<span class="w"> </span>from<span class="w"> </span>t_emp<span class="w"> </span>emp<span class="w"> </span>left<span class="w"> </span>join<span class="w"> </span>t_dept<span class="w"> </span>dept<span class="w"> </span>on<span class="w"> </span>emp.did<span class="w"> </span>=
-</code></pre></div>
-
-<p>dept.did where emp.eid = #{eid}</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/select&gt;</span>
+dept.did<span class="w"> </span>where<span class="w"> </span>emp.eid<span class="w"> </span>=<span class="w"> </span>#{eid}
+<span class="nt">&lt;/select&gt;</span>
 </code></pre></div>
 
 <ul>
@@ -158,10 +154,8 @@ a&gt;collection</p>
 <div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--Dept `getDeptEmpByDid`(@Param(&quot;did&quot;) int did);--&gt;</span>
 <span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getDeptEmpByDid&quot;</span><span class="w"> </span><span class="err">`resultMap`=&quot;deptEmpMap&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span>dept.*,emp.*<span class="w"> </span>from<span class="w"> </span>t_dept<span class="w"> </span>dept<span class="w"> </span>left<span class="w"> </span>join<span class="w"> </span>t_emp<span class="w"> </span>emp<span class="w"> </span>on<span class="w"> </span>dept.did<span class="w"> </span>=
-</code></pre></div>
-
-<p>emp.did where dept.did = #{did}</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/select&gt;</span>
+emp.did<span class="w"> </span>where<span class="w"> </span>dept.did<span class="w"> </span>=<span class="w"> </span>#{did}
+<span class="nt">&lt;/select&gt;</span>
 </code></pre></div>
 
 <ul>
@@ -191,15 +185,13 @@ select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </sp
 </code></pre></div>
 
 <p>2）根据部门id查询部门中的所有员工</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">/**</span>
-<span class="cm">* 根据部门id查询员工信息</span>
-<span class="cm">* @param did</span>
-<span class="cm">* @return</span>
-<span class="cm">*/</span>
-<span class="k">List</span><span class="o">&lt;</span><span class="n">Emp</span><span class="o">&gt;</span><span class="w"> </span><span class="n n-Quoted">`getEmpListByDid`</span><span class="p">(</span><span class="nv">@Param</span><span class="p">(</span><span class="s2">&quot;did&quot;</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">did</span><span class="p">);</span>
-</code></pre></div>
-
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--List&lt;Emp&gt; `getEmpListByDid`(@Param(&quot;did&quot;) int did);--&gt;</span>
+<div class="codehilite"><pre><span></span><code>/**
+*<span class="w"> </span>根据部门id查询员工信息
+*<span class="w"> </span>@param<span class="w"> </span>did
+*<span class="w"> </span>@return
+*/
+List<span class="nt">&lt;Emp&gt;</span><span class="w"> </span>`getEmpListByDid`(@Param(&quot;did&quot;)<span class="w"> </span>int<span class="w"> </span>did);
+<span class="cm">&lt;!--List&lt;Emp&gt; `getEmpListByDid`(@Param(&quot;did&quot;) int did);--&gt;</span>
 <span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByDid&quot;</span><span class="w"> </span><span class="err">`resultType`=&quot;Emp&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_emp<span class="w"> </span>where<span class="w"> </span>did<span class="w"> </span>=<span class="w"> </span>#{did}
 <span class="nt">&lt;/select&gt;</span>

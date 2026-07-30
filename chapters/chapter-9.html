@@ -10,20 +10,14 @@
 <span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByMoreTJ&quot;</span><span class="w"> </span><span class="err">`resultType`=&quot;Emp&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_emp<span class="w"> </span>where<span class="w"> </span>1=1
 <span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;ename != &#39;&#39; and ename != null&quot;</span><span class="nt">&gt;</span>
-</code></pre></div>
-
-<p>and ename = #{ename}</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/if&gt;</span>
+and<span class="w"> </span>ename<span class="w"> </span>=<span class="w"> </span>#{ename}
+<span class="nt">&lt;/if&gt;</span>
 <span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;age != &#39;&#39; and age != null&quot;</span><span class="nt">&gt;</span>
-</code></pre></div>
-
-<p>and age = #{age}</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/if&gt;</span>
+and<span class="w"> </span>age<span class="w"> </span>=<span class="w"> </span>#{age}
+<span class="nt">&lt;/if&gt;</span>
 <span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;sex != &#39;&#39; and sex != null&quot;</span><span class="nt">&gt;</span>
-</code></pre></div>
-
-<p>and sex = #{sex}</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/if&gt;</span>
+and<span class="w"> </span>sex<span class="w"> </span>=<span class="w"> </span>#{sex}
+<span class="nt">&lt;/if&gt;</span>
 <span class="nt">&lt;/select&gt;</span>
 </code></pre></div>
 
@@ -32,20 +26,14 @@ select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </sp
 select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_emp
 <span class="nt">&lt;where&gt;</span>
 <span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;ename != &#39;&#39; and ename != null&quot;</span><span class="nt">&gt;</span>
-</code></pre></div>
-
-<p>ename = #{ename}</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/if&gt;</span>
+ename<span class="w"> </span>=<span class="w"> </span>#{ename}
+<span class="nt">&lt;/if&gt;</span>
 <span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;age != &#39;&#39; and age != null&quot;</span><span class="nt">&gt;</span>
-</code></pre></div>
-
-<p>and age = #{age}</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/if&gt;</span>
+and<span class="w"> </span>age<span class="w"> </span>=<span class="w"> </span>#{age}
+<span class="nt">&lt;/if&gt;</span>
 <span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;sex != &#39;&#39; and sex != null&quot;</span><span class="nt">&gt;</span>
-</code></pre></div>
-
-<p>and sex = #{sex}</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/if&gt;</span>
+and<span class="w"> </span>sex<span class="w"> </span>=<span class="w"> </span>#{sex}
+<span class="nt">&lt;/if&gt;</span>
 <span class="nt">&lt;/where&gt;</span>
 <span class="nt">&lt;/select&gt;</span>
 </code></pre></div>
@@ -66,26 +54,21 @@ and去掉
 select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_emp
 <span class="nt">&lt;trim</span><span class="w"> </span><span class="na">prefix=</span><span class="s">&quot;where&quot;</span><span class="w"> </span><span class="err">`suffixOverrides`=&quot;and&quot;</span><span class="nt">&gt;</span>
 <span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;ename != &#39;&#39; and ename != null&quot;</span><span class="nt">&gt;</span>
-</code></pre></div>
-
-<p>ename = #{ename} and</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/if&gt;</span>
+ename<span class="w"> </span>=<span class="w"> </span>#{ename}<span class="w"> </span>and
+<span class="nt">&lt;/if&gt;</span>
 <span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;age != &#39;&#39; and age != null&quot;</span><span class="nt">&gt;</span>
-</code></pre></div>
-
-<p>age = #{age} and</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/if&gt;</span>
+age<span class="w"> </span>=<span class="w"> </span>#{age}<span class="w"> </span>and
+<span class="nt">&lt;/if&gt;</span>
 <span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;sex != &#39;&#39; and sex != null&quot;</span><span class="nt">&gt;</span>
-</code></pre></div>
 
-<p>sex = #{sex}</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/if&gt;</span>
+sex<span class="w"> </span>=<span class="w"> </span>#{sex}
+<span class="nt">&lt;/if&gt;</span>
 <span class="nt">&lt;/trim&gt;</span>
 <span class="nt">&lt;/select&gt;</span>
+trim用于去掉或添加标签中的内容
 </code></pre></div>
 
-<p>trim用于去掉或添加标签中的内容
-常用属性：
+<p>常用属性：
 prefix：在trim标签中的内容的前面添加某些内容
 <code>prefixOverrides</code>：在trim标签中的内容的前面去掉某些内容
 suffix：在trim标签中的内容的后面添加某些内容
@@ -98,25 +81,17 @@ select<span class="w"> </span><span class="nt">&lt;include</span><span class="w"
 <span class="nt">&lt;where&gt;</span>
 <span class="nt">&lt;choose&gt;</span>
 <span class="nt">&lt;when</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;ename != &#39;&#39; and ename != null&quot;</span><span class="nt">&gt;</span>
-</code></pre></div>
-
-<p>ename = #{ename}</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/when&gt;</span>
+ename<span class="w"> </span>=<span class="w"> </span>#{ename}
+<span class="nt">&lt;/when&gt;</span>
 <span class="nt">&lt;when</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;age != &#39;&#39; and age != null&quot;</span><span class="nt">&gt;</span>
-</code></pre></div>
-
-<p>age = #{age}</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/when&gt;</span>
+age<span class="w"> </span>=<span class="w"> </span>#{age}
+<span class="nt">&lt;/when&gt;</span>
 <span class="nt">&lt;when</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;sex != &#39;&#39; and sex != null&quot;</span><span class="nt">&gt;</span>
-</code></pre></div>
-
-<p>sex = #{sex}</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/when&gt;</span>
+sex<span class="w"> </span>=<span class="w"> </span>#{sex}
+<span class="nt">&lt;/when&gt;</span>
 <span class="nt">&lt;when</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;email != &#39;&#39; and email != null&quot;</span><span class="nt">&gt;</span>
-</code></pre></div>
-
-<p>email = #{email}</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/when&gt;</span>
+email<span class="w"> </span>=<span class="w"> </span>#{email}
+<span class="nt">&lt;/when&gt;</span>
 <span class="nt">&lt;/choose&gt;</span>
 <span class="nt">&lt;/where&gt;</span>
 <span class="nt">&lt;/select&gt;</span>
@@ -136,20 +111,16 @@ insert<span class="w"> </span>into<span class="w"> </span>t_emp<span class="w"> 
 <span class="nt">&lt;delete</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;deleteMoreByArray&quot;</span><span class="nt">&gt;</span>
 delete<span class="w"> </span>from<span class="w"> </span>t_emp<span class="w"> </span>where
 <span class="nt">&lt;foreach</span><span class="w"> </span><span class="na">collection=</span><span class="s">&quot;eids&quot;</span><span class="w"> </span><span class="na">item=</span><span class="s">&quot;eid&quot;</span><span class="w"> </span><span class="na">separator=</span><span class="s">&quot;or&quot;</span><span class="nt">&gt;</span>
-</code></pre></div>
-
-<p>eid = #{eid}</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/foreach&gt;</span>
+eid<span class="w"> </span>=<span class="w"> </span>#{eid}
+<span class="nt">&lt;/foreach&gt;</span>
 
 <span class="nt">&lt;/delete&gt;</span>
 <span class="cm">&lt;!--int `deleteMoreByArray`(int[] eids);--&gt;</span>
 <span class="nt">&lt;delete</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;deleteMoreByArray&quot;</span><span class="nt">&gt;</span>
 delete<span class="w"> </span>from<span class="w"> </span>t_emp<span class="w"> </span>where<span class="w"> </span>eid<span class="w"> </span>in
 <span class="nt">&lt;foreach</span><span class="w"> </span><span class="na">collection=</span><span class="s">&quot;eids&quot;</span><span class="w"> </span><span class="na">item=</span><span class="s">&quot;eid&quot;</span><span class="w"> </span><span class="na">separator=</span><span class="s">&quot;,&quot;</span><span class="w"> </span><span class="na">open=</span><span class="s">&quot;(&quot;</span><span class="w"> </span><span class="na">close=</span><span class="s">&quot;)&quot;</span><span class="nt">&gt;</span>
-</code></pre></div>
-
-<h1 id="eid">{eid}</h1>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/foreach&gt;</span>
+#{eid}
+<span class="nt">&lt;/foreach&gt;</span>
 <span class="nt">&lt;/delete&gt;</span>
 </code></pre></div>
 
@@ -162,10 +133,8 @@ close：设置foreach标签中的内容的结束符</p>
 <p>6、<code>SQL</code>片段
 sql片段，可以记录一段公共sql片段，在使用的地方通过include标签进行引入</p>
 <div class="codehilite"><pre><span></span><code><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;empColumns&quot;</span><span class="nt">&gt;</span>
-</code></pre></div>
-
-<p>eid,ename,age,sex,did</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/sql&gt;</span>
+eid,ename,age,sex,did
+<span class="nt">&lt;/sql&gt;</span>
 select<span class="w"> </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">refid=</span><span class="s">&quot;empColumns&quot;</span><span class="nt">&gt;&lt;/include&gt;</span><span class="w"> </span>from<span class="w"> </span>t_emp
 </code></pre></div>
   </div>
