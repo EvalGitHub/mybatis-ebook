@@ -57,19 +57,15 @@ SqlSession关闭之后，一级缓存中的数据会写入二级缓存</p>
 </ul>
 <div class="codehilite"><pre><span></span><code><span class="cm">&lt;!-- Mybatis EHCache整合包 --&gt;</span>
 <span class="nt">&lt;dependency&gt;</span>
-</code></pre></div>
-
-<p>&lt;<code>groupId</code>&gt;org.mybatis.caches&lt;/<code>groupId</code>&gt;
-&lt;<code>artifactId</code>&gt;mybatis-ehcache&lt;/<code>artifactId</code>&gt;</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;version&gt;</span>1.2.1<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;groupId&gt;</span>org.mybatis.caches<span class="nt">&lt;/groupId&gt;</span>
+<span class="nt">&lt;artifactId&gt;</span>mybatis-ehcache<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;version&gt;</span>1.2.1<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 <span class="cm">&lt;!-- slf4j日志门面的一个具体实现 --&gt;</span>
 <span class="nt">&lt;dependency&gt;</span>
-</code></pre></div>
-
-<p>&lt;<code>groupId</code>&gt;ch.qos.logback&lt;/<code>groupId</code>&gt;
-&lt;<code>artifactId</code>&gt;logback-classic&lt;/<code>artifactId</code>&gt;</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;version&gt;</span>1.2.3<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;groupId&gt;</span>ch.qos.logback<span class="nt">&lt;/groupId&gt;</span>
+<span class="nt">&lt;artifactId&gt;</span>logback-classic<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;version&gt;</span>1.2.3<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </code></pre></div>
 
@@ -89,12 +85,10 @@ logback-classic 支持SLF4J门面接口的一个具体实现</p>
 <div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;</span>
 <span class="nt">&lt;ehcache</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><span class="w"> </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">&quot;../config/ehcache.xsd&quot;</span><span class="nt">&gt;</span>
 <span class="cm">&lt;!-- 磁盘保存路径 --&gt;</span>
-</code></pre></div>
-
-<p>&lt;<code>diskStore</code> path="D:\atguigu\ehcache"/&gt;
-&lt;<code>defaultCache</code> <code>maxElementsInMemory</code>="1000" <code>maxElementsOnDisk</code>="10000000" eternal="false" <code>overflowToDisk</code>="true" <code>timeToIdleSeconds</code>="120" <code>timeToLiveSeconds</code>="120" <code>diskExpiryThreadIntervalSeconds</code>="120" <code>memoryStoreEvictionPolicy</code>="LRU"&gt;
-&lt;/<code>defaultCache</code>&gt;</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/ehcache&gt;</span>
+<span class="nt">&lt;diskStore</span><span class="w"> </span><span class="na">path=</span><span class="s">&quot;D:\atguigu\ehcache&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;defaultCache</span><span class="w"> </span><span class="na">maxElementsInMemory=</span><span class="s">&quot;1000&quot;</span><span class="w"> </span><span class="na">maxElementsOnDisk=</span><span class="s">&quot;10000000&quot;</span><span class="w"> </span><span class="na">eternal=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="na">overflowToDisk=</span><span class="s">&quot;true&quot;</span><span class="w"> </span><span class="na">timeToIdleSeconds=</span><span class="s">&quot;120&quot;</span><span class="w"> </span><span class="na">timeToLiveSeconds=</span><span class="s">&quot;120&quot;</span><span class="w"> </span><span class="na">diskExpiryThreadIntervalSeconds=</span><span class="s">&quot;120&quot;</span><span class="w"> </span><span class="na">memoryStoreEvictionPolicy=</span><span class="s">&quot;LRU&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/defaultCache&gt;</span>
+<span class="nt">&lt;/ehcache&gt;</span>
 </code></pre></div>
 
 <ul>
@@ -115,13 +109,13 @@ logback-classic 支持SLF4J门面接口的一个具体实现</p>
 <span class="nt">&lt;encoder&gt;</span>
 <span class="cm">&lt;!-- 日志输出的格式 --&gt;</span>
 <span class="cm">&lt;!-- 按照顺序分别是：时间、日志级别、线程名称、打印日志的类、日志主体内容、换行 - -&gt;</span>
-<span class="cm">&lt;pattern&gt;[%d{`HH`:mm:ss.`SSS`}] [%-5level] [%thread] [%logger] [%msg]%n&lt;/pattern&gt;</span>
+<span class="cm">&lt;pattern&gt;[%d{HH:mm:ss.SSS}] [%-5level] [%thread] [%logger] [%msg]%n&lt;/pattern&gt;</span>
 <span class="cm">&lt;/encoder&gt;</span>
 <span class="cm">&lt;/appender&gt;</span>
-<span class="cm">&lt;!-- 设置全局日志级别。日志级别按顺序分别是：`DEBUG`、`INFO`、`WARN`、`ERROR` --&gt;</span>
+<span class="cm">&lt;!-- 设置全局日志级别。日志级别按顺序分别是：DEBUG、INFO、WARN、ERROR --&gt;</span>
 <span class="cm">&lt;!-- 指定任何一个日志级别都只打印当前级别和后面级别的日志。 --&gt;</span>
 <span class="nt">&lt;root</span><span class="w"> </span><span class="na">level=</span><span class="s">&quot;DEBUG&quot;</span><span class="nt">&gt;</span>
-<span class="cm">&lt;!-- 指定打印日志的appender，这里通过“`STDOUT`”引用了前面配置的appender --&gt;</span>
+<span class="cm">&lt;!-- 指定打印日志的appender，这里通过“STDOUT”引用了前面配置的appender --&gt;</span>
 <span class="nt">&lt;appender-ref</span><span class="w"> </span><span class="na">ref=</span><span class="s">&quot;STDOUT&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="nt">&lt;/root&gt;</span>
 <span class="cm">&lt;!-- 根据特殊需求指定局部日志级别 --&gt;</span>

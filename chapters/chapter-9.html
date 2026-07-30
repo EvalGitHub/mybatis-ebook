@@ -1,13 +1,13 @@
 <section class="chapter" id="chapter-9" data-chapter="9">
-  <h1>九、动态`SQL`</h1>
+  <h1>九、动态SQL</h1>
   <div class="chapter-content">
 <p>Mybatis框架的动态<code>SQL</code>技术是一种根据特定条件动态拼装<code>SQL</code>语句的功能，它存在的意义是为了解决
 拼接<code>SQL</code>语句字符串时的痛点问题。</p>
 <p>1、if</p>
 <p>if标签可通过test属性的表达式进行判断，若表达式的结果为true，则标签中的内容会执行；反之标签中
 的内容不会执行</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--List&lt;Emp&gt; `getEmpListByMoreTJ`(Emp emp);--&gt;</span>
-<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByMoreTJ&quot;</span><span class="w"> </span><span class="err">`resultType`=&quot;Emp&quot;</span><span class="nt">&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--List&lt;Emp&gt; getEmpListByMoreTJ(Emp emp);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByMoreTJ&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_emp<span class="w"> </span>where<span class="w"> </span>1=1
 <span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;ename != &#39;&#39; and ename != null&quot;</span><span class="nt">&gt;</span>
 and<span class="w"> </span>ename<span class="w"> </span>=<span class="w"> </span>#{ename}
@@ -22,7 +22,7 @@ and<span class="w"> </span>sex<span class="w"> </span>=<span class="w"> </span>#
 </code></pre></div>
 
 <p>2、where</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByMoreTJ2&quot;</span><span class="w"> </span><span class="err">`resultType`=&quot;Emp&quot;</span><span class="nt">&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByMoreTJ2&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_emp
 <span class="nt">&lt;where&gt;</span>
 <span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;ename != &#39;&#39; and ename != null&quot;</span><span class="nt">&gt;</span>
@@ -50,9 +50,9 @@ and去掉
 </li>
 </ul>
 <p>3、trim</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByMoreTJ&quot;</span><span class="w"> </span><span class="err">`resultType`=&quot;Emp&quot;</span><span class="nt">&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByMoreTJ&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_emp
-<span class="nt">&lt;trim</span><span class="w"> </span><span class="na">prefix=</span><span class="s">&quot;where&quot;</span><span class="w"> </span><span class="err">`suffixOverrides`=&quot;and&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;trim</span><span class="w"> </span><span class="na">prefix=</span><span class="s">&quot;where&quot;</span><span class="w"> </span><span class="na">suffixOverrides=</span><span class="s">&quot;and&quot;</span><span class="nt">&gt;</span>
 <span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;ename != &#39;&#39; and ename != null&quot;</span><span class="nt">&gt;</span>
 ename<span class="w"> </span>=<span class="w"> </span>#{ename}<span class="w"> </span>and
 <span class="nt">&lt;/if&gt;</span>
@@ -75,8 +75,8 @@ suffix：在trim标签中的内容的后面添加某些内容
 <code>suffixOverrides</code>：在trim标签中的内容的后面去掉某些内容</p>
 <p>4、choose、when、otherwise
 choose、when、otherwise相当于if...else if..else</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--List&lt;Emp&gt; `getEmpListByChoose`(Emp emp);--&gt;</span>
-<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByChoose&quot;</span><span class="w"> </span><span class="err">`resultType`=&quot;Emp&quot;</span><span class="nt">&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--List&lt;Emp&gt; getEmpListByChoose(Emp emp);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByChoose&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">refid=</span><span class="s">&quot;empColumns&quot;</span><span class="nt">&gt;&lt;/include&gt;</span><span class="w"> </span>from<span class="w"> </span>t_emp
 <span class="nt">&lt;where&gt;</span>
 <span class="nt">&lt;choose&gt;</span>
@@ -98,7 +98,7 @@ email<span class="w"> </span>=<span class="w"> </span>#{email}
 </code></pre></div>
 
 <p>5、foreach</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--int `insertMoreEmp`(List&lt;Emp&gt; emps);--&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--int insertMoreEmp(List&lt;Emp&gt; emps);--&gt;</span>
 <span class="nt">&lt;insert</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;insertMoreEmp&quot;</span><span class="nt">&gt;</span>
 insert<span class="w"> </span>into<span class="w"> </span>t_emp<span class="w"> </span>values
 <span class="nt">&lt;foreach</span><span class="w"> </span><span class="na">collection=</span><span class="s">&quot;emps&quot;</span><span class="w"> </span><span class="na">item=</span><span class="s">&quot;emp&quot;</span><span class="w"> </span><span class="na">separator=</span><span class="s">&quot;,&quot;</span><span class="nt">&gt;</span>
@@ -107,7 +107,7 @@ insert<span class="w"> </span>into<span class="w"> </span>t_emp<span class="w"> 
 <p>(null,#{emp.ename},#{emp.age},#{emp.sex},#{emp.email},null)</p>
 <div class="codehilite"><pre><span></span><code><span class="nt">&lt;/foreach&gt;</span>
 <span class="nt">&lt;/insert&gt;</span>
-<span class="cm">&lt;!--int `deleteMoreByArray`(int[] eids);--&gt;</span>
+<span class="cm">&lt;!--int deleteMoreByArray(int[] eids);--&gt;</span>
 <span class="nt">&lt;delete</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;deleteMoreByArray&quot;</span><span class="nt">&gt;</span>
 delete<span class="w"> </span>from<span class="w"> </span>t_emp<span class="w"> </span>where
 <span class="nt">&lt;foreach</span><span class="w"> </span><span class="na">collection=</span><span class="s">&quot;eids&quot;</span><span class="w"> </span><span class="na">item=</span><span class="s">&quot;eid&quot;</span><span class="w"> </span><span class="na">separator=</span><span class="s">&quot;or&quot;</span><span class="nt">&gt;</span>
@@ -115,7 +115,7 @@ eid<span class="w"> </span>=<span class="w"> </span>#{eid}
 <span class="nt">&lt;/foreach&gt;</span>
 
 <span class="nt">&lt;/delete&gt;</span>
-<span class="cm">&lt;!--int `deleteMoreByArray`(int[] eids);--&gt;</span>
+<span class="cm">&lt;!--int deleteMoreByArray(int[] eids);--&gt;</span>
 <span class="nt">&lt;delete</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;deleteMoreByArray&quot;</span><span class="nt">&gt;</span>
 delete<span class="w"> </span>from<span class="w"> </span>t_emp<span class="w"> </span>where<span class="w"> </span>eid<span class="w"> </span>in
 <span class="nt">&lt;foreach</span><span class="w"> </span><span class="na">collection=</span><span class="s">&quot;eids&quot;</span><span class="w"> </span><span class="na">item=</span><span class="s">&quot;eid&quot;</span><span class="w"> </span><span class="na">separator=</span><span class="s">&quot;,&quot;</span><span class="w"> </span><span class="na">open=</span><span class="s">&quot;(&quot;</span><span class="w"> </span><span class="na">close=</span><span class="s">&quot;)&quot;</span><span class="nt">&gt;</span>

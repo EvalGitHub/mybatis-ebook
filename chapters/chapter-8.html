@@ -1,22 +1,18 @@
 <section class="chapter" id="chapter-8" data-chapter="8">
-  <h1>八、自定义映射`resultMap`</h1>
+  <h1>八、自定义映射resultMap</h1>
   <div class="chapter-content">
 <p>1、<code>resultMap</code>处理字段和属性的映射关系
 若字段名和实体类中的属性名不一致，则可以通过<code>resultMap</code>设置自定义映射</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!-- `resultMap`：设置自定义映射 属性： id：表示自定义映射的唯一标识 type：查询的数据要映射的实体类的类型 子标签： id：设置主键的映射关系 result：设置普通字段的映射关系 association：设置多对一的映射关系 collection：设置一对多的映射关系 属性： property：设置映射关系中实体类中的属性名 column：设置映射关系中表中的字段名 --&gt;</span>
-</code></pre></div>
-
-<p>&lt;<code>resultMap</code> id="userMap" type="User"&gt;</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;id</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;id&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;id&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!-- resultMap：设置自定义映射 属性： id：表示自定义映射的唯一标识 type：查询的数据要映射的实体类的类型 子标签： id：设置主键的映射关系 result：设置普通字段的映射关系 association：设置多对一的映射关系 collection：设置一对多的映射关系 属性： property：设置映射关系中实体类中的属性名 column：设置映射关系中表中的字段名 --&gt;</span>
+<span class="nt">&lt;resultMap</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;userMap&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;User&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;id</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;id&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;id&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;userName&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;user_name&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;password&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;password&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;age&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;age&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;sex&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;sex&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
-</code></pre></div>
-
-<p>&lt;/<code>resultMap</code>&gt;</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--List&lt;User&gt; `testMohu`(@Param(&quot;mohu&quot;) String mohu);--&gt;</span>
-<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;testMohu&quot;</span><span class="w"> </span><span class="err">`resultMap`=&quot;userMap&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/resultMap&gt;</span>
+<span class="cm">&lt;!--List&lt;User&gt; testMohu(@Param(&quot;mohu&quot;) String mohu);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;testMohu&quot;</span><span class="w"> </span><span class="na">resultMap=</span><span class="s">&quot;userMap&quot;</span><span class="nt">&gt;</span>
 <span class="cm">&lt;!--select * from t_user where username like &#39;%${mohu}%&#39;--&gt;</span>
 select<span class="w"> </span>id,user_name,password,age,sex<span class="w"> </span>from<span class="w"> </span>t_user<span class="w"> </span>where<span class="w"> </span>user_name<span class="w"> </span>like
 </code></pre></div>
@@ -44,40 +40,36 @@ select<span class="w"> </span>id,user_name,password,age,sex<span class="w"> </sp
 <ul>
 <li>a&gt; 级联方式处理映射关系</li>
 </ul>
-<p>&lt;<code>resultMap</code> id="empDeptMap" type="Emp"&gt;</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;id</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;eid&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;eid&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;resultMap</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;empDeptMap&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;id</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;eid&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;eid&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;ename&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;ename&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;age&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;age&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;sex&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;sex&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;did&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;dept.did&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;dname&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;dept.dname&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
-</code></pre></div>
-
-<p>&lt;/<code>resultMap</code>&gt;</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--Emp `getEmpAndDeptByEid`(@Param(&quot;eid&quot;) int eid);--&gt;</span>
-<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpAndDeptByEid&quot;</span><span class="w"> </span><span class="err">`resultMap`=&quot;empDeptMap&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/resultMap&gt;</span>
+<span class="cm">&lt;!--Emp getEmpAndDeptByEid(@Param(&quot;eid&quot;) int eid);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpAndDeptByEid&quot;</span><span class="w"> </span><span class="na">resultMap=</span><span class="s">&quot;empDeptMap&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span>emp.*,dept.*<span class="w"> </span>from<span class="w"> </span>t_emp<span class="w"> </span>emp<span class="w"> </span>left<span class="w"> </span>join<span class="w"> </span>t_dept<span class="w"> </span>dept<span class="w"> </span>on<span class="w"> </span>emp.did<span class="w"> </span>=
 dept.did<span class="w"> </span>where<span class="w"> </span>emp.eid<span class="w"> </span>=<span class="w"> </span>#{eid}
 <span class="nt">&lt;/select&gt;</span>
 </code></pre></div>
 
 <ul>
-<li>b&gt; 使用association处理映射关系
-&lt;<code>resultMap</code> id="empDeptMap" type="Emp"&gt;</li>
+<li>b&gt; 使用association处理映射关系</li>
 </ul>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;id</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;eid&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;eid&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;resultMap</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;empDeptMap&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;id</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;eid&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;eid&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;ename&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;ename&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;age&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;age&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;sex&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;sex&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
-<span class="nt">&lt;association</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;dept&quot;</span><span class="w"> </span><span class="err">`javaType`=&quot;Dept&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;association</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;dept&quot;</span><span class="w"> </span><span class="na">javaType=</span><span class="s">&quot;Dept&quot;</span><span class="nt">&gt;</span>
 <span class="nt">&lt;id</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;did&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;did&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;dname&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;dname&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
 <span class="nt">&lt;/association&gt;</span>
-</code></pre></div>
-
-<p>&lt;/<code>resultMap</code>&gt;</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--Emp `getEmpAndDeptByEid`(@Param(&quot;eid&quot;) int eid);--&gt;</span>
-<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpAndDeptByEid&quot;</span><span class="w"> </span><span class="err">`resultMap`=&quot;empDeptMap&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/resultMap&gt;</span>
+<span class="cm">&lt;!--Emp getEmpAndDeptByEid(@Param(&quot;eid&quot;) int eid);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpAndDeptByEid&quot;</span><span class="w"> </span><span class="na">resultMap=</span><span class="s">&quot;empDeptMap&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span>emp.*,dept.*<span class="w"> </span>from<span class="w"> </span>t_emp<span class="w"> </span>emp<span class="w"> </span>left<span class="w"> </span>join<span class="w"> </span>t_dept<span class="w"> </span>dept<span class="w"> </span>on<span class="w"> </span>emp.did<span class="w"> </span>=
 dept.did<span class="w"> </span>where<span class="w"> </span>emp.eid<span class="w"> </span>=<span class="w"> </span>#{eid}
 <span class="nt">&lt;/select&gt;</span>
@@ -94,21 +86,19 @@ dept.did<span class="w"> </span>where<span class="w"> </span>emp.eid<span class=
 <span class="o">*/</span>
 </code></pre></div>
 
-<p>Emp <code>getEmpByStep</code>(@Param("eid") int eid);
-&lt;<code>resultMap</code> id="empDeptStepMap" type="Emp"&gt;</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;id</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;eid&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;eid&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
+<p>Emp <code>getEmpByStep</code>(@Param("eid") int eid);</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;resultMap</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;empDeptStepMap&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;id</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;eid&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;eid&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;ename&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;ename&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;age&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;age&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;sex&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;sex&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
-<span class="cm">&lt;!-- select：设置分步查询，查询某个属性的值的sql的标识（namespace.`sqlId`） column：将sql以及查询结果中的某个字段设置为分步查询的条件 --&gt;</span>
+<span class="cm">&lt;!-- select：设置分步查询，查询某个属性的值的sql的标识（namespace.sqlId） column：将sql以及查询结果中的某个字段设置为分步查询的条件 --&gt;</span>
 
 <span class="nt">&lt;association</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;dept&quot;</span><span class="w"> </span><span class="na">select=</span><span class="s">&quot;com.atguigu.MyBatis.mapper.DeptMapper.getEmpDeptByStep&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;did&quot;</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/association&gt;</span>
-</code></pre></div>
-
-<p>&lt;/<code>resultMap</code>&gt;</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--Emp `getEmpByStep`(@Param(&quot;eid&quot;) int eid);--&gt;</span>
-<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpByStep&quot;</span><span class="w"> </span><span class="err">`resultMap`=&quot;empDeptStepMap&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/resultMap&gt;</span>
+<span class="cm">&lt;!--Emp getEmpByStep(@Param(&quot;eid&quot;) int eid);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpByStep&quot;</span><span class="w"> </span><span class="na">resultMap=</span><span class="s">&quot;empDeptStepMap&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_emp<span class="w"> </span>where<span class="w"> </span>eid<span class="w"> </span>=<span class="w"> </span>#{eid}
 <span class="nt">&lt;/select&gt;</span>
 </code></pre></div>
@@ -122,8 +112,8 @@ select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </sp
 </code></pre></div>
 
 <p>Dept <code>getEmpDeptByStep</code>(@Param("did") int did);</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--Dept `getEmpDeptByStep`(@Param(&quot;did&quot;) int did);--&gt;</span>
-<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpDeptByStep&quot;</span><span class="w"> </span><span class="err">`resultType`=&quot;Dept&quot;</span><span class="nt">&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--Dept getEmpDeptByStep(@Param(&quot;did&quot;) int did);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpDeptByStep&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;Dept&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_dept<span class="w"> </span>where<span class="w"> </span>did<span class="w"> </span>=<span class="w"> </span>#{did}
 <span class="nt">&lt;/select&gt;</span>
 </code></pre></div>
@@ -137,9 +127,9 @@ a&gt;collection</p>
 <span class="o">*/</span>
 </code></pre></div>
 
-<p>Dept <code>getDeptEmpByDid</code>(@Param("did") int did);
-&lt;<code>resultMap</code> id="deptEmpMap" type="Dept"&gt;</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;id</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;did&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;did&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
+<p>Dept <code>getDeptEmpByDid</code>(@Param("did") int did);</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;resultMap</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;deptEmpMap&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;Dept&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;id</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;did&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;did&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;dname&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;dname&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
 <span class="cm">&lt;!-- ofType：设置collection标签所处理的集合属性中存储数据的类型 --&gt;</span>
 <span class="nt">&lt;collection</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;emps&quot;</span><span class="w"> </span><span class="na">ofType=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
@@ -148,11 +138,9 @@ a&gt;collection</p>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;age&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;age&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;sex&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;sex&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
 <span class="nt">&lt;/collection&gt;</span>
-</code></pre></div>
-
-<p>&lt;/<code>resultMap</code>&gt;</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--Dept `getDeptEmpByDid`(@Param(&quot;did&quot;) int did);--&gt;</span>
-<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getDeptEmpByDid&quot;</span><span class="w"> </span><span class="err">`resultMap`=&quot;deptEmpMap&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/resultMap&gt;</span>
+<span class="cm">&lt;!--Dept getDeptEmpByDid(@Param(&quot;did&quot;) int did);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getDeptEmpByDid&quot;</span><span class="w"> </span><span class="na">resultMap=</span><span class="s">&quot;deptEmpMap&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span>dept.*,emp.*<span class="w"> </span>from<span class="w"> </span>t_dept<span class="w"> </span>dept<span class="w"> </span>left<span class="w"> </span>join<span class="w"> </span>t_emp<span class="w"> </span>emp<span class="w"> </span>on<span class="w"> </span>dept.did<span class="w"> </span>=
 emp.did<span class="w"> </span>where<span class="w"> </span>dept.did<span class="w"> </span>=<span class="w"> </span>#{did}
 <span class="nt">&lt;/select&gt;</span>
@@ -169,17 +157,15 @@ emp.did<span class="w"> </span>where<span class="w"> </span>dept.did<span class=
 <span class="o">*/</span>
 </code></pre></div>
 
-<p>Dept <code>getDeptByStep</code>(@Param("did") int did);
-&lt;<code>resultMap</code> id="deptEmpStep" type="Dept"&gt;</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;id</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;did&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;did&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
+<p>Dept <code>getDeptByStep</code>(@Param("did") int did);</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;resultMap</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;deptEmpStep&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;Dept&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;id</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;did&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;did&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;dname&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;dname&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
-<span class="nt">&lt;collection</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;emps&quot;</span><span class="w"> </span><span class="err">`fetchType`=&quot;eager&quot;</span><span class="w"> </span><span class="na">select=</span><span class="s">&quot;com.atguigu.MyBatis.mapper.EmpMapper.getEmpListByDid&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;did&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;collection</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;emps&quot;</span><span class="w"> </span><span class="na">fetchType=</span><span class="s">&quot;eager&quot;</span><span class="w"> </span><span class="na">select=</span><span class="s">&quot;com.atguigu.MyBatis.mapper.EmpMapper.getEmpListByDid&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;did&quot;</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/collection&gt;</span>
-</code></pre></div>
-
-<p>&lt;/<code>resultMap</code>&gt;</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--Dept `getDeptByStep`(@Param(&quot;did&quot;) int did);--&gt;</span>
-<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getDeptByStep&quot;</span><span class="w"> </span><span class="err">`resultMap`=&quot;deptEmpStep&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/resultMap&gt;</span>
+<span class="cm">&lt;!--Dept getDeptByStep(@Param(&quot;did&quot;) int did);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getDeptByStep&quot;</span><span class="w"> </span><span class="na">resultMap=</span><span class="s">&quot;deptEmpStep&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_dept<span class="w"> </span>where<span class="w"> </span>did<span class="w"> </span>=<span class="w"> </span>#{did}
 <span class="nt">&lt;/select&gt;</span>
 </code></pre></div>
@@ -190,9 +176,9 @@ select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </sp
 *<span class="w"> </span>@param<span class="w"> </span>did
 *<span class="w"> </span>@return
 */
-List<span class="nt">&lt;Emp&gt;</span><span class="w"> </span>`getEmpListByDid`(@Param(&quot;did&quot;)<span class="w"> </span>int<span class="w"> </span>did);
-<span class="cm">&lt;!--List&lt;Emp&gt; `getEmpListByDid`(@Param(&quot;did&quot;) int did);--&gt;</span>
-<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByDid&quot;</span><span class="w"> </span><span class="err">`resultType`=&quot;Emp&quot;</span><span class="nt">&gt;</span>
+List<span class="nt">&lt;Emp&gt;</span><span class="w"> </span>getEmpListByDid(@Param(&quot;did&quot;)<span class="w"> </span>int<span class="w"> </span>did);
+<span class="cm">&lt;!--List&lt;Emp&gt; getEmpListByDid(@Param(&quot;did&quot;) int did);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByDid&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_emp<span class="w"> </span>where<span class="w"> </span>did<span class="w"> </span>=<span class="w"> </span>#{did}
 <span class="nt">&lt;/select&gt;</span>
 </code></pre></div>
