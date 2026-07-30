@@ -2,45 +2,45 @@
   <h1>四、MyBatis的增删改查</h1>
   <div class="chapter-content">
 <p>1、添加</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--int insertUser();--&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--int `insertUser`();--&gt;</span>
 <span class="nt">&lt;insert</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;insertUser&quot;</span><span class="nt">&gt;</span>
 insert<span class="w"> </span>into<span class="w"> </span>t_user<span class="w"> </span>values(null,&#39;admin&#39;,&#39;123456&#39;,23,&#39;男&#39;)
 <span class="nt">&lt;/insert&gt;</span>
 </code></pre></div>
 
 <p>2、删除</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--int deleteUser();--&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--int `deleteUser`();--&gt;</span>
 <span class="nt">&lt;delete</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;deleteUser&quot;</span><span class="nt">&gt;</span>
 delete<span class="w"> </span>from<span class="w"> </span>t_user<span class="w"> </span>where<span class="w"> </span>id<span class="w"> </span>=<span class="w"> </span>7
 <span class="nt">&lt;/delete&gt;</span>
 </code></pre></div>
 
 <p>3、修改</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--int updateUser();--&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--int `updateUser`();--&gt;</span>
 <span class="nt">&lt;update</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;updateUser&quot;</span><span class="nt">&gt;</span>
 update<span class="w"> </span>t_user<span class="w"> </span>set<span class="w"> </span>username=&#39;ybc&#39;,password=&#39;123&#39;<span class="w"> </span>where<span class="w"> </span>id<span class="w"> </span>=<span class="w"> </span>6
 <span class="nt">&lt;/update&gt;</span>
 </code></pre></div>
 
 <p>4、查询一个实体类对象</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--User getUserById();--&gt;</span>
-<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getUserById&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;com.atguigu.mybatis.bean.User&quot;</span><span class="nt">&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--User `getUserById`();--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getUserById&quot;</span><span class="w"> </span><span class="err">`resultType`=&quot;com.atguigu.mybatis.bean.User&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_user<span class="w"> </span>where<span class="w"> </span>id<span class="w"> </span>=<span class="w"> </span>2
 <span class="nt">&lt;/select&gt;</span>
 </code></pre></div>
 
 <p>5、查询集合</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--List&lt;User&gt; getUserList();--&gt;</span>
-<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getUserList&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;com.atguigu.mybatis.bean.User&quot;</span><span class="nt">&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--List&lt;User&gt; `getUserList`();--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getUserList&quot;</span><span class="w"> </span><span class="err">`resultType`=&quot;com.atguigu.mybatis.bean.User&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_user
 <span class="nt">&lt;/select&gt;</span>
 </code></pre></div>
 
 <p>注意：</p>
-<p>1、查询的标签select必须设置属性resultType或resultMap，用于设置实体类和数据库表的映射
+<p>1、查询的标签select必须设置属性<code>resultType</code>或<code>resultMap</code>，用于设置实体类和数据库表的映射
 关系
-resultType：自动映射，用于属性名和表中字段名一致的情况
-resultMap：自定义映射，用于一对多或多对一或字段名和属性名不一致的情况</p>
+<code>resultType</code>：自动映射，用于属性名和表中字段名一致的情况
+<code>resultMap</code>：自定义映射，用于一对多或多对一或字段名和属性名不一致的情况</p>
 <p>2、当查询的数据为多条时，不能使用实体类作为返回值，只能使用集合，否则会抛出异常
 TooManyResultsException；但是若查询的数据只有一条，可以使用实体类或集合作为返回值</p>
   </div>

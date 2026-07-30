@@ -1,52 +1,66 @@
 <section class="chapter" id="chapter-12" data-chapter="12">
   <h1>十二、分页插件</h1>
   <div class="chapter-content">
-<p>1、分页插件使用步骤
-a&gt;添加依赖</p>
+<p>1、分页插件使用步骤</p>
+<ul>
+<li>a&gt; 添加依赖</li>
+</ul>
 <div class="codehilite"><pre><span></span><code><span class="cm">&lt;!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper --&gt;</span>
 <span class="nt">&lt;dependency&gt;</span>
-<span class="nt">&lt;groupId&gt;</span>com.github.pagehelper<span class="nt">&lt;/groupId&gt;</span>
-<span class="nt">&lt;artifactId&gt;</span>pagehelper<span class="nt">&lt;/artifactId&gt;</span>
-<span class="nt">&lt;version&gt;</span>5.2.0<span class="nt">&lt;/version&gt;</span>
+</code></pre></div>
+
+<p>&lt;<code>groupId</code>&gt;com.github.pagehelper&lt;/<code>groupId</code>&gt;
+&lt;<code>artifactId</code>&gt;pagehelper&lt;/<code>artifactId</code>&gt;</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;version&gt;</span>5.2.0<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </code></pre></div>
 
-<p>b&gt;配置分页插件
-在MyBatis的核心配置文件中配置插件</p>
+<ul>
+<li>b&gt; 配置分页插件
+在MyBatis的核心配置文件中配置插件</li>
+</ul>
 <div class="codehilite"><pre><span></span><code><span class="nt">&lt;plugins&gt;</span>
 <span class="cm">&lt;!--设置分页插件--&gt;</span>
 <span class="nt">&lt;plugin</span><span class="w"> </span><span class="na">interceptor=</span><span class="s">&quot;com.github.pagehelper.PageInterceptor&quot;</span><span class="nt">&gt;&lt;/plugin&gt;</span>
 <span class="nt">&lt;/plugins&gt;</span>
 </code></pre></div>
 
-<p>2、分页插件的使用
-a&gt;在查询功能之前使用PageHelper.startPage(int pageNum, int pageSize)开启分页功能
-pageNum：当前页的页码
-pageSize：每页显示的条数
-b&gt;在查询获取list集合之后，使用PageInfo&lt;T&gt; pageInfo = new PageInfo&lt;&gt;(List&lt;T&gt; list, int
-navigatePages)获取分页相关数据
+<p>2、分页插件的使用</p>
+<ul>
+<li>
+<p>a&gt; 在查询功能之前使用PageHelper.<code>startPage</code>(int <code>pageNum</code>, int <code>pageSize</code>)开启分页功能
+<code>pageNum</code>：当前页的页码
+<code>pageSize</code>：每页显示的条数</p>
+</li>
+<li>
+<p>b&gt; 在查询获取list集合之后，使用PageInfo&lt;T&gt; <code>pageInfo</code> = new PageInfo&lt;&gt;(List&lt;T&gt; list, int
+<code>navigatePages</code>)获取分页相关数据
 list：分页之后的数据
-navigatePages：导航分页的页码数
-c&gt;分页相关数据
+<code>navigatePages</code>：导航分页的页码数</p>
+</li>
+<li>
+<p>c&gt; 分页相关数据
 PageInfo{
-pageNum=8, pageSize=4, size=2, startRow=29, endRow=30, total=30, pages=8,
-list=Page{count=true, pageNum=8, pageSize=4, startRow=28, endRow=32, total=30,
-pages=8, reasonable=false, pageSizeZero=false},
-prePage=7, nextPage=0, isFirstPage=false, isLastPage=true, hasPreviousPage=true,
-hasNextPage=false, navigatePages=5, navigateFirstPage4, navigateLastPage8,
-navigatepageNums=[4, 5, 6, 7, 8]
+<code>pageNum</code>=8, <code>pageSize</code>=4, size=2, <code>startRow</code>=29, <code>endRow</code>=30, total=30, pages=8,
+list=Page{count=true, <code>pageNum</code>=8, <code>pageSize</code>=4, <code>startRow</code>=28, <code>endRow</code>=32, total=30,
+pages=8, reasonable=false, <code>pageSizeZero</code>=false},
+<code>prePage</code>=7, <code>nextPage</code>=0, isFirstPage=false, isLastPage=true, <code>hasPreviousPage</code>=true,
+<code>hasNextPage</code>=false, <code>navigatePages</code>=5, navigateFirstPage4, navigateLastPage8,
+<code>navigatepageNums</code>=[4, 5, 6, 7, 8]
 }
 常用数据：
-pageNum：当前页的页码
-pageSize：每页显示的条数
+<code>pageNum</code>：当前页的页码
+<code>pageSize</code>：每页显示的条数
 size：当前页显示的真实条数
 total：总记录数
 pages：总页数
-prePage：上一页的页码
-nextPage：下一页的页码</p>
+<code>prePage</code>：上一页的页码
+<code>nextPage</code>：下一页的页码</p>
+</li>
+</ul>
 <p>isFirstPage/isLastPage：是否为第一页/最后一页
-hasPreviousPage/hasNextPage：是否存在上一页/下一页
-navigatePages：导航分页的页码数
-navigatepageNums：导航分页的页码，[1,2,3,4,5]</p>
+<code>hasPreviousPage</code>/<code>hasNextPage</code>：是否存在上一页/下一页
+<code>navigatePages</code>：导航分页的页码数
+<code>navigatepageNums</code>：导航分页的页码，[1,2,3,4,5]</p>
   </div>
 </section>

@@ -1,13 +1,13 @@
 <section class="chapter" id="chapter-9" data-chapter="9">
-  <h1>九、动态SQL</h1>
+  <h1>九、动态`SQL`</h1>
   <div class="chapter-content">
-<p>Mybatis框架的动态SQL技术是一种根据特定条件动态拼装SQL语句的功能，它存在的意义是为了解决
-拼接SQL语句字符串时的痛点问题。</p>
+<p>Mybatis框架的动态<code>SQL</code>技术是一种根据特定条件动态拼装<code>SQL</code>语句的功能，它存在的意义是为了解决
+拼接<code>SQL</code>语句字符串时的痛点问题。</p>
 <p>1、if</p>
 <p>if标签可通过test属性的表达式进行判断，若表达式的结果为true，则标签中的内容会执行；反之标签中
 的内容不会执行</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--List&lt;Emp&gt; getEmpListByMoreTJ(Emp emp);--&gt;</span>
-<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByMoreTJ&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--List&lt;Emp&gt; `getEmpListByMoreTJ`(Emp emp);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByMoreTJ&quot;</span><span class="w"> </span><span class="err">`resultType`=&quot;Emp&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_emp<span class="w"> </span>where<span class="w"> </span>1=1
 <span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;ename != &#39;&#39; and ename != null&quot;</span><span class="nt">&gt;</span>
 </code></pre></div>
@@ -28,7 +28,7 @@ select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </sp
 </code></pre></div>
 
 <p>2、where</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByMoreTJ2&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByMoreTJ2&quot;</span><span class="w"> </span><span class="err">`resultType`=&quot;Emp&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_emp
 <span class="nt">&lt;where&gt;</span>
 <span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;ename != &#39;&#39; and ename != null&quot;</span><span class="nt">&gt;</span>
@@ -50,15 +50,21 @@ select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </sp
 <span class="nt">&lt;/select&gt;</span>
 </code></pre></div>
 
-<p>where和if一般结合使用：
-a&gt;若where标签中的if条件都不满足，则where标签没有任何功能，即不会添加where关键字
-b&gt;若where标签中的if条件满足，则where标签会自动添加where关键字，并将条件最前方多余的
+<p>where和if一般结合使用：</p>
+<ul>
+<li>
+<p>a&gt; 若where标签中的if条件都不满足，则where标签没有任何功能，即不会添加where关键字</p>
+</li>
+<li>
+<p>b&gt; 若where标签中的if条件满足，则where标签会自动添加where关键字，并将条件最前方多余的
 and去掉
 注意：where标签不能去掉条件最后多余的and</p>
+</li>
+</ul>
 <p>3、trim</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByMoreTJ&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByMoreTJ&quot;</span><span class="w"> </span><span class="err">`resultType`=&quot;Emp&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_emp
-<span class="nt">&lt;trim</span><span class="w"> </span><span class="na">prefix=</span><span class="s">&quot;where&quot;</span><span class="w"> </span><span class="na">suffixOverrides=</span><span class="s">&quot;and&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;trim</span><span class="w"> </span><span class="na">prefix=</span><span class="s">&quot;where&quot;</span><span class="w"> </span><span class="err">`suffixOverrides`=&quot;and&quot;</span><span class="nt">&gt;</span>
 <span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;ename != &#39;&#39; and ename != null&quot;</span><span class="nt">&gt;</span>
 </code></pre></div>
 
@@ -81,13 +87,13 @@ select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </sp
 <p>trim用于去掉或添加标签中的内容
 常用属性：
 prefix：在trim标签中的内容的前面添加某些内容
-prefixOverrides：在trim标签中的内容的前面去掉某些内容
+<code>prefixOverrides</code>：在trim标签中的内容的前面去掉某些内容
 suffix：在trim标签中的内容的后面添加某些内容
-suffixOverrides：在trim标签中的内容的后面去掉某些内容</p>
+<code>suffixOverrides</code>：在trim标签中的内容的后面去掉某些内容</p>
 <p>4、choose、when、otherwise
 choose、when、otherwise相当于if...else if..else</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--List&lt;Emp&gt; getEmpListByChoose(Emp emp);--&gt;</span>
-<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByChoose&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--List&lt;Emp&gt; `getEmpListByChoose`(Emp emp);--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByChoose&quot;</span><span class="w"> </span><span class="err">`resultType`=&quot;Emp&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">refid=</span><span class="s">&quot;empColumns&quot;</span><span class="nt">&gt;&lt;/include&gt;</span><span class="w"> </span>from<span class="w"> </span>t_emp
 <span class="nt">&lt;where&gt;</span>
 <span class="nt">&lt;choose&gt;</span>
@@ -117,7 +123,7 @@ select<span class="w"> </span><span class="nt">&lt;include</span><span class="w"
 </code></pre></div>
 
 <p>5、foreach</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--int insertMoreEmp(List&lt;Emp&gt; emps);--&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--int `insertMoreEmp`(List&lt;Emp&gt; emps);--&gt;</span>
 <span class="nt">&lt;insert</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;insertMoreEmp&quot;</span><span class="nt">&gt;</span>
 insert<span class="w"> </span>into<span class="w"> </span>t_emp<span class="w"> </span>values
 <span class="nt">&lt;foreach</span><span class="w"> </span><span class="na">collection=</span><span class="s">&quot;emps&quot;</span><span class="w"> </span><span class="na">item=</span><span class="s">&quot;emp&quot;</span><span class="w"> </span><span class="na">separator=</span><span class="s">&quot;,&quot;</span><span class="nt">&gt;</span>
@@ -126,7 +132,7 @@ insert<span class="w"> </span>into<span class="w"> </span>t_emp<span class="w"> 
 <p>(null,#{emp.ename},#{emp.age},#{emp.sex},#{emp.email},null)</p>
 <div class="codehilite"><pre><span></span><code><span class="nt">&lt;/foreach&gt;</span>
 <span class="nt">&lt;/insert&gt;</span>
-<span class="cm">&lt;!--int deleteMoreByArray(int[] eids);--&gt;</span>
+<span class="cm">&lt;!--int `deleteMoreByArray`(int[] eids);--&gt;</span>
 <span class="nt">&lt;delete</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;deleteMoreByArray&quot;</span><span class="nt">&gt;</span>
 delete<span class="w"> </span>from<span class="w"> </span>t_emp<span class="w"> </span>where
 <span class="nt">&lt;foreach</span><span class="w"> </span><span class="na">collection=</span><span class="s">&quot;eids&quot;</span><span class="w"> </span><span class="na">item=</span><span class="s">&quot;eid&quot;</span><span class="w"> </span><span class="na">separator=</span><span class="s">&quot;or&quot;</span><span class="nt">&gt;</span>
@@ -136,7 +142,7 @@ delete<span class="w"> </span>from<span class="w"> </span>t_emp<span class="w"> 
 <div class="codehilite"><pre><span></span><code><span class="nt">&lt;/foreach&gt;</span>
 
 <span class="nt">&lt;/delete&gt;</span>
-<span class="cm">&lt;!--int deleteMoreByArray(int[] eids);--&gt;</span>
+<span class="cm">&lt;!--int `deleteMoreByArray`(int[] eids);--&gt;</span>
 <span class="nt">&lt;delete</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;deleteMoreByArray&quot;</span><span class="nt">&gt;</span>
 delete<span class="w"> </span>from<span class="w"> </span>t_emp<span class="w"> </span>where<span class="w"> </span>eid<span class="w"> </span>in
 <span class="nt">&lt;foreach</span><span class="w"> </span><span class="na">collection=</span><span class="s">&quot;eids&quot;</span><span class="w"> </span><span class="na">item=</span><span class="s">&quot;eid&quot;</span><span class="w"> </span><span class="na">separator=</span><span class="s">&quot;,&quot;</span><span class="w"> </span><span class="na">open=</span><span class="s">&quot;(&quot;</span><span class="w"> </span><span class="na">close=</span><span class="s">&quot;)&quot;</span><span class="nt">&gt;</span>
@@ -153,7 +159,7 @@ item：表示集合或数组中的每一个数据
 separator：设置循环体之间的分隔符
 open：设置foreach标签中的内容的开始符
 close：设置foreach标签中的内容的结束符</p>
-<p>6、SQL片段
+<p>6、<code>SQL</code>片段
 sql片段，可以记录一段公共sql片段，在使用的地方通过include标签进行引入</p>
 <div class="codehilite"><pre><span></span><code><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;empColumns&quot;</span><span class="nt">&gt;</span>
 </code></pre></div>
