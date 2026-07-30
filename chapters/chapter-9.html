@@ -102,10 +102,8 @@ email<span class="w"> </span>=<span class="w"> </span>#{email}
 <span class="nt">&lt;insert</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;insertMoreEmp&quot;</span><span class="nt">&gt;</span>
 insert<span class="w"> </span>into<span class="w"> </span>t_emp<span class="w"> </span>values
 <span class="nt">&lt;foreach</span><span class="w"> </span><span class="na">collection=</span><span class="s">&quot;emps&quot;</span><span class="w"> </span><span class="na">item=</span><span class="s">&quot;emp&quot;</span><span class="w"> </span><span class="na">separator=</span><span class="s">&quot;,&quot;</span><span class="nt">&gt;</span>
-</code></pre></div>
-
-<p>(null,#{emp.ename},#{emp.age},#{emp.sex},#{emp.email},null)</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/foreach&gt;</span>
+(null,#{emp.ename},#{emp.age},#{emp.sex},#{emp.email},null)
+<span class="nt">&lt;/foreach&gt;</span>
 <span class="nt">&lt;/insert&gt;</span>
 <span class="cm">&lt;!--int deleteMoreByArray(int[] eids);--&gt;</span>
 <span class="nt">&lt;delete</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;deleteMoreByArray&quot;</span><span class="nt">&gt;</span>

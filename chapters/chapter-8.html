@@ -15,10 +15,8 @@
 <span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;testMohu&quot;</span><span class="w"> </span><span class="na">resultMap=</span><span class="s">&quot;userMap&quot;</span><span class="nt">&gt;</span>
 <span class="cm">&lt;!--select * from t_user where username like &#39;%${mohu}%&#39;--&gt;</span>
 select<span class="w"> </span>id,user_name,password,age,sex<span class="w"> </span>from<span class="w"> </span>t_user<span class="w"> </span>where<span class="w"> </span>user_name<span class="w"> </span>like
-</code></pre></div>
-
-<p>concat('%',#{mohu},'%')</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/select&gt;</span>
+concat(&#39;%&#39;,#{mohu},&#39;%&#39;)
+<span class="nt">&lt;/select&gt;</span>
 </code></pre></div>
 
 <p>若字段名和实体类中的属性名不一致，但是字段名符合数据库的规则（使用_），实体类中的属性
