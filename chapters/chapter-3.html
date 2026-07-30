@@ -27,8 +27,11 @@ actory?,plugins?,environments?,databaseIdProvider?,mappers?</p>
 <span class="nt">&lt;environments</span><span class="w"> </span><span class="na">default=</span><span class="s">&quot;mysql_test&quot;</span><span class="nt">&gt;</span>
 <span class="cm">&lt;!-- environment：设置具体的连接数据库的环境信息 属性： id：设置环境的唯一标识，可通过environments标签中的default设置某一个环境的id， 表示默认使用的环境 --&gt;</span>
 <span class="nt">&lt;environment</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;mysql_test&quot;</span><span class="nt">&gt;</span>
-<span class="cm">&lt;!-- transactionManager：设置事务管理方式 属性： 更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)  type：设置事务管理方式，type=&quot;JDBC|MANAGED&quot; type=&quot;JDBC&quot;：设置当前环境的事务管理都必须手动处理 type=&quot;MANAGED&quot;：设置事务被管理，例如spring中的AOP --&gt;</span>
-<span class="nt">&lt;transactionManager</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;JDBC&quot;</span><span class="nt">/&gt;</span>
+<span class="err">&lt;</span>!--<span class="w"> </span>transactionManager：设置事务管理方式<span class="w"> </span>属性：<span class="w"> </span>
+</code></pre></div>
+
+<p>type：设置事务管理方式，type="JDBC|MANAGED" type="JDBC"：设置当前环境的事务管理都必须手动处理 type="MANAGED"：设置事务被管理，例如spring中的AOP --&gt;</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;transactionManager</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;JDBC&quot;</span><span class="nt">/&gt;</span>
 <span class="cm">&lt;!-- dataSource：设置数据源 属性： type：设置数据源的类型，type=&quot;POOLED|UNPOOLED|JNDI&quot; type=&quot;POOLED&quot;：使用数据库连接池，即会将创建的连接进行缓存，下次使用可以从 缓存中直接获取，不需要重新创建 type=&quot;UNPOOLED&quot;：不使用数据库连接池，即每次使用连接都需要重新创建 type=&quot;JNDI&quot;：调用上下文中的数据源 --&gt;</span>
 <span class="nt">&lt;dataSource</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;POOLED&quot;</span><span class="nt">&gt;</span>
 <span class="cm">&lt;!--设置驱动类的全类名--&gt;</span>

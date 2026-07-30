@@ -4,12 +4,13 @@
 <p>正向工程：先创建Java实体类，由框架负责根据实体类生成数据库表。Hibernate是支持正向工程
 的。
 逆向工程：先创建数据库表，由框架负责根据数据库表，反向生成如下资源：
-Java实体类
-Mapper接口
-Mapper映射文件</p>
+Java实体类</p>
+<div class="codehilite"><pre><span></span><code>Mapper接口
+Mapper映射文件
+</code></pre></div>
+
 <p>1、创建逆向工程的步骤
-a&gt;添加依赖和插件
-更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+a&gt;添加依赖和插件</p>
 <div class="codehilite"><pre><span></span><code><span class="cm">&lt;!-- 依赖MyBatis核心包 --&gt;</span>
 <span class="nt">&lt;dependencies&gt;</span>
 <span class="nt">&lt;dependency&gt;</span>
@@ -57,8 +58,11 @@ a&gt;添加依赖和插件
 c&gt;创建逆向工程的配置文件
 文件名必须是：generatorConfig.xml</p>
 <div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-<span class="cp">&lt;!DOCTYPE generatorConfiguration 更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)  PUBLIC &quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&quot;&gt;</span>
-<span class="nt">&lt;generatorConfiguration&gt;</span>
+<span class="err">&lt;</span>!DOCTYPE<span class="w"> </span>generatorConfiguration<span class="w"> </span>
+</code></pre></div>
+
+<p>PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd"&gt;</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;generatorConfiguration&gt;</span>
 <span class="cm">&lt;!-- targetRuntime: 执行生成的逆向工程的版本 MyBatis3Simple: 生成基本的CRUD（清新简洁版） MyBatis3: 生成带条件的CRUD（奢华尊享版） --&gt;</span>
 <span class="nt">&lt;context</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;DB2Tables&quot;</span><span class="w"> </span><span class="na">targetRuntime=</span><span class="s">&quot;MyBatis3Simple&quot;</span><span class="nt">&gt;</span>
 <span class="cm">&lt;!-- 数据库的连接信息 --&gt;</span>
@@ -87,23 +91,30 @@ c&gt;创建逆向工程的配置文件
 </code></pre></div>
 
 <p>d&gt;执行MBG插件的generate目标
-效果：
-更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
-<p>2、QBC查询
-@Test
-public void testMBG() throws IOException {
-InputStream is = Resources.getResourceAsStream("mybatis-config.xml");
+效果：</p>
+<p>2、QBC查询</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">@Test</span>
+<span class="k">public</span><span class="w"> </span><span class="n">void</span><span class="w"> </span><span class="n">testMBG</span><span class="p">()</span><span class="w"> </span><span class="n">throws</span><span class="w"> </span><span class="n">IOException</span><span class="w"> </span><span class="err">{</span>
+</code></pre></div>
+
+<p>InputStream is = Resources.getResourceAsStream("mybatis-config.xml");
 SqlSession sqlSession = new
 SqlSessionFactoryBuilder().build(is).openSession(true);
 EmpMapper mapper = sqlSession.getMapper(EmpMapper.class);
-EmpExample empExample = new EmpExample();
-//创建条件对象，通过andXXX方法为SQL添加查询添加，每个条件之间是and关系
-empExample.createCriteria().andEnameLike("a").andAgeGreaterThan(20).andDidIsNot
-Null();
-//将之前添加的条件通过or拼接其他条件
-empExample.or().andSexEqualTo("男");
-List&lt;Emp&gt; list = mapper.selectByExample(empExample);
-for (Emp emp : list) {
+EmpExample empExample = new EmpExample();</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">//创建条件对象，通过andXXX方法为SQL添加查询添加，每个条件之间是and关系</span>
+</code></pre></div>
+
+<p>empExample.createCriteria().andEnameLike("a").andAgeGreaterThan(20).andDidIsNot
+Null();</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">//将之前添加的条件通过or拼接其他条件</span>
+</code></pre></div>
+
+<p>empExample.or().andSexEqualTo("男");</p>
+<div class="codehilite"><pre><span></span><code>List&lt;Emp&gt; list = mapper.selectByExample(empExample);
+</code></pre></div>
+
+<p>for (Emp emp : list) {
 System.out.println(emp);
 }
 }</p>

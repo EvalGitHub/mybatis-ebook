@@ -1,97 +1,110 @@
 <section class="chapter" id="chapter-6" data-chapter="6">
   <h1>六、MyBatis的各种查询功能</h1>
   <div class="chapter-content">
-<p>1、查询一个实体类对象
-/*<em>
-* 根据用户id查询用户信息
-* @param id
-* @return
-</em>/
-User getUserById(@Param("id") int id);</p>
+<p>1、查询一个实体类对象</p>
+<div class="codehilite"><pre><span></span><code><span class="o">/**</span>
+<span class="o">*</span><span class="w"> </span>根据用户<span class="n">id查询用户信息</span>
+<span class="o">*</span><span class="w"> </span><span class="p">@</span><span class="n">param</span><span class="w"> </span><span class="n">id</span>
+<span class="o">*</span><span class="w"> </span><span class="p">@</span><span class="k">return</span>
+<span class="o">*/</span>
+</code></pre></div>
+
+<p>User getUserById(@Param("id") int id);</p>
 <div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--User getUserById(@Param(&quot;id&quot;) int id);--&gt;</span>
 <span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getUserById&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;User&quot;</span><span class="nt">&gt;</span>
+select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_user<span class="w"> </span>where<span class="w"> </span>id<span class="w"> </span>=<span class="w"> </span>#{id}
+<span class="nt">&lt;/select&gt;</span>
 </code></pre></div>
 
-<p>select * from t_user where id = #{id}
-&lt;/select&gt;</p>
-<p>2、查询一个list集合
-/*<em>
-* 查询所有用户信息
-* @return
-</em>/
-List&lt;User&gt; getUserList();</p>
+<p>2、查询一个list集合</p>
+<div class="codehilite"><pre><span></span><code><span class="o">/**</span>
+<span class="o">*</span><span class="w"> </span>查询所有用户信息
+<span class="o">*</span><span class="w"> </span><span class="p">@</span><span class="k">return</span>
+<span class="o">*/</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="w"> </span><span class="n">getUserList</span><span class="p">();</span>
+</code></pre></div>
+
 <div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--List&lt;User&gt; getUserList();--&gt;</span>
 <span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getUserList&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;User&quot;</span><span class="nt">&gt;</span>
+select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_user
+<span class="nt">&lt;/select&gt;</span>
 </code></pre></div>
 
-<p>select * from t_user
-&lt;/select&gt;</p>
-<p>3、查询单个数据
-更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
-<p>/*<em>
-* 查询用户的总记录数
-* @return
-* 在MyBatis中，对于Java中常用的类型都设置了类型别名
-* 例如：java.lang.Integer--&gt;int|integer
-* 例如：int--&gt;_int|_integer
-* 例如：Map--&gt;map,List--&gt;list
-</em>/
-int getCount();</p>
+<p>3、查询单个数据</p>
+<div class="codehilite"><pre><span></span><code><span class="o">/**</span>
+<span class="o">*</span><span class="w"> </span>查询用户的总记录数
+<span class="o">*</span><span class="w"> </span><span class="p">@</span><span class="k">return</span>
+<span class="o">*</span><span class="w"> </span>在<span class="n">MyBatis中</span>，对于<span class="n">Java中常用的类型都设置了类型别名</span>
+<span class="o">*</span><span class="w"> </span>例如：<span class="n">java</span><span class="p">.</span><span class="n">lang</span><span class="p">.</span><span class="n">Integer</span><span class="o">--&gt;</span><span class="nb">int</span><span class="o">|</span><span class="n">integer</span>
+<span class="o">*</span><span class="w"> </span>例如：<span class="nb">int</span><span class="o">--&gt;</span><span class="n">_int</span><span class="o">|</span><span class="n">_integer</span>
+<span class="o">*</span><span class="w"> </span>例如：<span class="n">Map</span><span class="o">--&gt;</span><span class="n">map</span><span class="p">,</span><span class="n">List</span><span class="o">--&gt;</span><span class="nb">list</span>
+<span class="o">*/</span>
+<span class="nb">int</span><span class="w"> </span><span class="n">getCount</span><span class="p">();</span>
+</code></pre></div>
+
 <div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--int getCount();--&gt;</span>
 <span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getCount&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;_integer&quot;</span><span class="nt">&gt;</span>
+select<span class="w"> </span>count(id)<span class="w"> </span>from<span class="w"> </span>t_user
+<span class="nt">&lt;/select&gt;</span>
 </code></pre></div>
 
-<p>select count(id) from t_user
-&lt;/select&gt;</p>
-<p>4、查询一条数据为map集合
-/*<em>
-* 根据用户id查询用户信息为map集合
-* @param id
-* @return
-</em>/
-Map<String, Object> getUserToMap(@Param("id") int id);</p>
+<p>4、查询一条数据为map集合</p>
+<div class="codehilite"><pre><span></span><code><span class="o">/**</span>
+<span class="o">*</span><span class="w"> </span>根据用户<span class="n">id查询用户信息为map集合</span>
+<span class="o">*</span><span class="w"> </span><span class="p">@</span><span class="n">param</span><span class="w"> </span><span class="n">id</span>
+<span class="o">*</span><span class="w"> </span><span class="p">@</span><span class="k">return</span>
+<span class="o">*/</span>
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">getUserToMap</span><span class="p">(@</span><span class="n">Param</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">)</span><span class="w"> </span><span class="nb">int</span><span class="w"> </span><span class="n">id</span><span class="p">);</span>
+</code></pre></div>
+
 <div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--Map&lt;String, Object&gt; getUserToMap(@Param(&quot;id&quot;) int id);--&gt;</span>
 <span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getUserToMap&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;map&quot;</span><span class="nt">&gt;</span>
-</code></pre></div>
-
-<p>select * from t_user where id = #{id}</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/select&gt;</span>
+select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_user<span class="w"> </span>where<span class="w"> </span>id<span class="w"> </span>=<span class="w"> </span>#{id}
+<span class="nt">&lt;/select&gt;</span>
 <span class="cm">&lt;!--结果：{password=123456, sex=男, id=1, age=23, username=admin}--&gt;</span>
 </code></pre></div>
 
-<p>5、查询多条数据为map集合
-方式一：
-/*<em>
-* 查询所有用户信息为map集合
-* @return
-* 将表中的数据以map集合的方式查询，一条数据对应一个map；若有多条数据，就会产生多个map集合，此
-时可以将这些map放在一个list集合中获取
-</em>/
-List<Map\<String, Object>> getAllUserToMap();</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--Map&lt;String, Object&gt; getAllUserToMap();--&gt;</span>
-<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getAllUserToMap&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;map&quot;</span><span class="nt">&gt;</span>
+<p>5、查询多条数据为map集合</p>
+<h3 id="_1">方式一：</h3>
+<div class="codehilite"><pre><span></span><code><span class="o">/**</span>
+<span class="o">*</span><span class="w"> </span>查询所有用户信息为<span class="n">map集合</span>
+<span class="o">*</span><span class="w"> </span><span class="p">@</span><span class="k">return</span>
+<span class="o">*</span><span class="w"> </span>将表中的数据以<span class="n">map集合的方式查询</span>，一条数据对应一个<span class="n">map</span>；若有多条数据，就会产生多个<span class="n">map集合</span>，此
 </code></pre></div>
 
-<p>select * from t_user
-&lt;/select&gt;
-方式二：
-更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
-<p>/*<em>
-* 查询所有用户信息为map集合
-* @return
-* 将表中的数据以map集合的方式查询，一条数据对应一个map；若有多条数据，就会产生多个map集合，并
-且最终要以一个map的方式返回数据，此时需要通过@MapKey注解设置map集合的键，值是每条数据所对应的
-map集合
-</em>/
-@MapKey("id")
-Map<String, Object> getAllUserToMap();</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--Map&lt;String, Object&gt; getAllUserToMap();--&gt;</span>
-<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getAllUserToMap&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;map&quot;</span><span class="nt">&gt;</span>
+<p>时可以将这些map放在一个list集合中获取</p>
+<div class="codehilite"><pre><span></span><code>*/
+List&lt;Map&lt;String, Object&gt;&gt; getAllUserToMap();
 </code></pre></div>
 
-<p>select * from t_user
-&lt;/select&gt;
-结果：
-&lt;!-- { 1={password=123456, sex=男, id=1, age=23, username=admin}, 2={password=123456, sex=男, id=2, age=23, username=张三}, 3={password=123456, sex=男, id=3, age=23, username=张三} } --&gt;</p>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--Map&lt;String, Object&gt; getAllUserToMap();--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getAllUserToMap&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;map&quot;</span><span class="nt">&gt;</span>
+select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_user
+<span class="nt">&lt;/select&gt;</span>
+</code></pre></div>
+
+<h3 id="_2">方式二：</h3>
+<div class="codehilite"><pre><span></span><code><span class="o">/**</span>
+<span class="o">*</span><span class="w"> </span>查询所有用户信息为<span class="n">map集合</span>
+<span class="o">*</span><span class="w"> </span><span class="p">@</span><span class="k">return</span>
+<span class="o">*</span><span class="w"> </span>将表中的数据以<span class="n">map集合的方式查询</span>，一条数据对应一个<span class="n">map</span>；若有多条数据，就会产生多个<span class="n">map集合</span>，并
+</code></pre></div>
+
+<p>且最终要以一个map的方式返回数据，此时需要通过@MapKey注解设置map集合的键，值是每条数据所对应的
+map集合</p>
+<div class="codehilite"><pre><span></span><code><span class="o">*/</span>
+<span class="nv">@MapKey</span><span class="p">(</span><span class="ss">&quot;id&quot;</span><span class="p">)</span>
+<span class="k">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="k">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">getAllUserToMap</span><span class="p">();</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--Map&lt;String, Object&gt; getAllUserToMap();--&gt;</span>
+<span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getAllUserToMap&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;map&quot;</span><span class="nt">&gt;</span>
+select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_user
+<span class="nt">&lt;/select&gt;</span>
+</code></pre></div>
+
+<p>结果：</p>
+<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!-- { 1={password=123456, sex=男, id=1, age=23, username=admin}, 2={password=123456, sex=男, id=2, age=23, username=张三}, 3={password=123456, sex=男, id=3, age=23, username=张三} } --&gt;</span>
+</code></pre></div>
   </div>
 </section>

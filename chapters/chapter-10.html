@@ -14,8 +14,7 @@
 缓存；此后若再次执行相同的查询语句，结果就会从缓存中获取
 二级缓存开启的条件：
 a&gt;在核心配置文件中，设置全局配置属性cacheEnabled="true"，默认为true，不需要设置
-b&gt;在映射文件中设置标签&lt;cache /&gt;
-更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+b&gt;在映射文件中设置标签&lt;cache /&gt;</p>
 <p>c&gt;二级缓存必须在SqlSession关闭或提交之后有效
 d&gt;查询的数据所转换的实体类类型必须实现序列化的接口
 使二级缓存失效的情况：
@@ -43,8 +42,7 @@ false。</p>
 如果一级缓存也没有命中，则查询数据库
 SqlSession关闭之后，一级缓存中的数据会写入二级缓存</p>
 <p>5、整合第三方缓存EHCache
-a&gt;添加依赖
-更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+a&gt;添加依赖</p>
 <div class="codehilite"><pre><span></span><code><span class="cm">&lt;!-- Mybatis EHCache整合包 --&gt;</span>
 <span class="nt">&lt;dependency&gt;</span>
 <span class="nt">&lt;groupId&gt;</span>org.mybatis.caches<span class="nt">&lt;/groupId&gt;</span>
@@ -75,12 +73,13 @@ c&gt;创建EHCache的配置文件ehcache.xml</p>
 <span class="nt">&lt;/ehcache&gt;</span>
 </code></pre></div>
 
-<p>d&gt;设置二级缓存的类型
-&lt;cache type="org.mybatis.caches.ehcache.EhcacheCache"/&gt;
-e&gt;加入logback日志
+<p>d&gt;设置二级缓存的类型</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;cache</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;org.mybatis.caches.ehcache.EhcacheCache&quot;</span><span class="nt">/&gt;</span>
+</code></pre></div>
+
+<p>e&gt;加入logback日志
 存在SLF4J时，作为简易日志的log4j将失效，此时我们需要借助SLF4J的具体实现logback来打印日志。
-创建logback的配置文件logback.xml
-更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+创建logback的配置文件logback.xml</p>
 <div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
 <span class="nt">&lt;configuration</span><span class="w"> </span><span class="na">debug=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
 <span class="cm">&lt;!-- 指定日志输出的位置 --&gt;</span>
@@ -102,8 +101,7 @@ e&gt;加入logback日志
 <span class="nt">&lt;/configuration&gt;</span>
 </code></pre></div>
 
-<p>f&gt;EHCache配置文件说明
-更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+<p>f&gt;EHCache配置文件说明</p>
 <p>是
 否
 属性名 作用

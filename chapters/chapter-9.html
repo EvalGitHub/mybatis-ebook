@@ -3,17 +3,16 @@
   <div class="chapter-content">
 <p>Mybatis框架的动态SQL技术是一种根据特定条件动态拼装SQL语句的功能，它存在的意义是为了解决
 拼接SQL语句字符串时的痛点问题。</p>
-<p>1、if
-更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
+<p>1、if</p>
 <p>if标签可通过test属性的表达式进行判断，若表达式的结果为true，则标签中的内容会执行；反之标签中
 的内容不会执行</p>
 <div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--List&lt;Emp&gt; getEmpListByMoreTJ(Emp emp);--&gt;</span>
 <span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByMoreTJ&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
+select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_emp<span class="w"> </span>where<span class="w"> </span>1=1
+<span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;ename != &#39;&#39; and ename != null&quot;</span><span class="nt">&gt;</span>
 </code></pre></div>
 
-<p>select * from t_emp where 1=1
-&lt;if test="ename != '' and ename != null"&gt;
-and ename = #{ename}</p>
+<p>and ename = #{ename}</p>
 <div class="codehilite"><pre><span></span><code><span class="nt">&lt;/if&gt;</span>
 <span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;age != &#39;&#39; and age != null&quot;</span><span class="nt">&gt;</span>
 </code></pre></div>
@@ -28,10 +27,10 @@ and ename = #{ename}</p>
 <span class="nt">&lt;/select&gt;</span>
 </code></pre></div>
 
-<p>2、where
-&lt;select id="getEmpListByMoreTJ2" resultType="Emp"&gt;
-select * from t_emp</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;where&gt;</span>
+<p>2、where</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByMoreTJ2&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
+select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_emp
+<span class="nt">&lt;where&gt;</span>
 <span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;ename != &#39;&#39; and ename != null&quot;</span><span class="nt">&gt;</span>
 </code></pre></div>
 
@@ -56,10 +55,10 @@ a&gt;若where标签中的if条件都不满足，则where标签没有任何功能
 b&gt;若where标签中的if条件满足，则where标签会自动添加where关键字，并将条件最前方多余的
 and去掉
 注意：where标签不能去掉条件最后多余的and</p>
-<p>3、trim
-&lt;select id="getEmpListByMoreTJ" resultType="Emp"&gt;
-select * from t_emp</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;trim</span><span class="w"> </span><span class="na">prefix=</span><span class="s">&quot;where&quot;</span><span class="w"> </span><span class="na">suffixOverrides=</span><span class="s">&quot;and&quot;</span><span class="nt">&gt;</span>
+<p>3、trim</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByMoreTJ&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
+select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_emp
+<span class="nt">&lt;trim</span><span class="w"> </span><span class="na">prefix=</span><span class="s">&quot;where&quot;</span><span class="w"> </span><span class="na">suffixOverrides=</span><span class="s">&quot;and&quot;</span><span class="nt">&gt;</span>
 <span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;ename != &#39;&#39; and ename != null&quot;</span><span class="nt">&gt;</span>
 </code></pre></div>
 
@@ -73,7 +72,6 @@ select * from t_emp</p>
 <span class="nt">&lt;if</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;sex != &#39;&#39; and sex != null&quot;</span><span class="nt">&gt;</span>
 </code></pre></div>
 
-<p>更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
 <p>sex = #{sex}</p>
 <div class="codehilite"><pre><span></span><code><span class="nt">&lt;/if&gt;</span>
 <span class="nt">&lt;/trim&gt;</span>
@@ -90,10 +88,8 @@ suffixOverrides：在trim标签中的内容的后面去掉某些内容</p>
 choose、when、otherwise相当于if...else if..else</p>
 <div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--List&lt;Emp&gt; getEmpListByChoose(Emp emp);--&gt;</span>
 <span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpListByChoose&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
-</code></pre></div>
-
-<p>select &lt;include refid="empColumns"&gt;&lt;/include&gt; from t_emp</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;where&gt;</span>
+select<span class="w"> </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">refid=</span><span class="s">&quot;empColumns&quot;</span><span class="nt">&gt;&lt;/include&gt;</span><span class="w"> </span>from<span class="w"> </span>t_emp
+<span class="nt">&lt;where&gt;</span>
 <span class="nt">&lt;choose&gt;</span>
 <span class="nt">&lt;when</span><span class="w"> </span><span class="na">test=</span><span class="s">&quot;ename != &#39;&#39; and ename != null&quot;</span><span class="nt">&gt;</span>
 </code></pre></div>
@@ -123,29 +119,29 @@ choose、when、otherwise相当于if...else if..else</p>
 <p>5、foreach</p>
 <div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--int insertMoreEmp(List&lt;Emp&gt; emps);--&gt;</span>
 <span class="nt">&lt;insert</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;insertMoreEmp&quot;</span><span class="nt">&gt;</span>
+insert<span class="w"> </span>into<span class="w"> </span>t_emp<span class="w"> </span>values
+<span class="nt">&lt;foreach</span><span class="w"> </span><span class="na">collection=</span><span class="s">&quot;emps&quot;</span><span class="w"> </span><span class="na">item=</span><span class="s">&quot;emp&quot;</span><span class="w"> </span><span class="na">separator=</span><span class="s">&quot;,&quot;</span><span class="nt">&gt;</span>
 </code></pre></div>
 
-<p>insert into t_emp values
-&lt;foreach collection="emps" item="emp" separator=","&gt;
-(null,#{emp.ename},#{emp.age},#{emp.sex},#{emp.email},null)</p>
+<p>(null,#{emp.ename},#{emp.age},#{emp.sex},#{emp.email},null)</p>
 <div class="codehilite"><pre><span></span><code><span class="nt">&lt;/foreach&gt;</span>
 <span class="nt">&lt;/insert&gt;</span>
 <span class="cm">&lt;!--int deleteMoreByArray(int[] eids);--&gt;</span>
 <span class="nt">&lt;delete</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;deleteMoreByArray&quot;</span><span class="nt">&gt;</span>
+delete<span class="w"> </span>from<span class="w"> </span>t_emp<span class="w"> </span>where
+<span class="nt">&lt;foreach</span><span class="w"> </span><span class="na">collection=</span><span class="s">&quot;eids&quot;</span><span class="w"> </span><span class="na">item=</span><span class="s">&quot;eid&quot;</span><span class="w"> </span><span class="na">separator=</span><span class="s">&quot;or&quot;</span><span class="nt">&gt;</span>
 </code></pre></div>
 
-<p>delete from t_emp where
-&lt;foreach collection="eids" item="eid" separator="or"&gt;
-eid = #{eid}
-&lt;/foreach&gt;
-更多Java –大数据 – 前端 – UI/UE - Android - 人工智能资料下载，可访问百度：尚硅谷官网(www.atguigu.com)</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/delete&gt;</span>
+<p>eid = #{eid}</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/foreach&gt;</span>
+
+<span class="nt">&lt;/delete&gt;</span>
 <span class="cm">&lt;!--int deleteMoreByArray(int[] eids);--&gt;</span>
 <span class="nt">&lt;delete</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;deleteMoreByArray&quot;</span><span class="nt">&gt;</span>
+delete<span class="w"> </span>from<span class="w"> </span>t_emp<span class="w"> </span>where<span class="w"> </span>eid<span class="w"> </span>in
+<span class="nt">&lt;foreach</span><span class="w"> </span><span class="na">collection=</span><span class="s">&quot;eids&quot;</span><span class="w"> </span><span class="na">item=</span><span class="s">&quot;eid&quot;</span><span class="w"> </span><span class="na">separator=</span><span class="s">&quot;,&quot;</span><span class="w"> </span><span class="na">open=</span><span class="s">&quot;(&quot;</span><span class="w"> </span><span class="na">close=</span><span class="s">&quot;)&quot;</span><span class="nt">&gt;</span>
 </code></pre></div>
 
-<p>delete from t_emp where eid in
-&lt;foreach collection="eids" item="eid" separator="," open="(" close=")"&gt;</p>
 <h1 id="eid">{eid}</h1>
 <div class="codehilite"><pre><span></span><code><span class="nt">&lt;/foreach&gt;</span>
 <span class="nt">&lt;/delete&gt;</span>
@@ -158,10 +154,13 @@ separator：设置循环体之间的分隔符
 open：设置foreach标签中的内容的开始符
 close：设置foreach标签中的内容的结束符</p>
 <p>6、SQL片段
-sql片段，可以记录一段公共sql片段，在使用的地方通过include标签进行引入
-&lt;sql id="empColumns"&gt;
-eid,ename,age,sex,did
-&lt;/sql&gt;
-select &lt;include refid="empColumns"&gt;&lt;/include&gt; from t_emp</p>
+sql片段，可以记录一段公共sql片段，在使用的地方通过include标签进行引入</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;sql</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;empColumns&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+
+<p>eid,ename,age,sex,did</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">&lt;/sql&gt;</span>
+select<span class="w"> </span><span class="nt">&lt;include</span><span class="w"> </span><span class="na">refid=</span><span class="s">&quot;empColumns&quot;</span><span class="nt">&gt;&lt;/include&gt;</span><span class="w"> </span>from<span class="w"> </span>t_emp
+</code></pre></div>
   </div>
 </section>
