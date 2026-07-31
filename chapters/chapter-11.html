@@ -66,11 +66,8 @@ Mapper映射文件
 </li>
 </ul>
 <div class="codehilite"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-<span class="err">&lt;</span>!DOCTYPE<span class="w"> </span>generatorConfiguration<span class="w"> </span>
-</code></pre></div>
-
-<p><code>PUBLIC</code> "-//mybatis.org//<code>DTD</code> MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd"&gt;</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;generatorConfiguration&gt;</span>
+<span class="cp">&lt;!DOCTYPE generatorConfiguration  PUBLIC &quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&quot;&gt;</span>
+<span class="nt">&lt;generatorConfiguration&gt;</span>
 <span class="cm">&lt;!-- targetRuntime: 执行生成的逆向工程的版本 MyBatis3Simple: 生成基本的CRUD（清新简洁版） MyBatis3: 生成带条件的CRUD（奢华尊享版） --&gt;</span>
 <span class="nt">&lt;context</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;DB2Tables&quot;</span><span class="w"> </span><span class="na">targetRuntime=</span><span class="s">&quot;MyBatis3Simple&quot;</span><span class="nt">&gt;</span>
 <span class="cm">&lt;!-- 数据库的连接信息 --&gt;</span>
@@ -105,28 +102,21 @@ Mapper映射文件
 <p>2、<code>QBC</code>查询</p>
 <div class="codehilite"><pre><span></span><code><span class="nv">@Test</span>
 <span class="k">public</span><span class="w"> </span><span class="n">void</span><span class="w"> </span><span class="n">testMBG</span><span class="p">()</span><span class="w"> </span><span class="n">throws</span><span class="w"> </span><span class="n">IOException</span><span class="w"> </span><span class="err">{</span>
+<span class="n">InputStream</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Resources</span><span class="p">.</span><span class="n">getResourceAsStream</span><span class="p">(</span><span class="ss">&quot;mybatis-config.xml&quot;</span><span class="p">);</span>
+<span class="n">SqlSession</span><span class="w"> </span><span class="n">sqlSession</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span>
+<span class="n">SqlSessionFactoryBuilder</span><span class="p">().</span><span class="n">build</span><span class="p">(</span><span class="k">is</span><span class="p">).</span><span class="n">openSession</span><span class="p">(</span><span class="k">true</span><span class="p">);</span>
+<span class="n">EmpMapper</span><span class="w"> </span><span class="n">mapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqlSession</span><span class="p">.</span><span class="n">getMapper</span><span class="p">(</span><span class="n">EmpMapper</span><span class="p">.</span><span class="k">class</span><span class="p">);</span>
+<span class="n">EmpExample</span><span class="w"> </span><span class="n">empExample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">EmpExample</span><span class="p">();</span>
+<span class="o">//</span><span class="n">创建条件对象</span><span class="err">，</span><span class="n">通过andXXX方法为SQL添加查询添加</span><span class="err">，</span><span class="n">每个条件之间是and关系</span>
+<span class="n">empExample</span><span class="p">.</span><span class="n">createCriteria</span><span class="p">().</span><span class="n">andEnameLike</span><span class="p">(</span><span class="ss">&quot;a&quot;</span><span class="p">).</span><span class="n">andAgeGreaterThan</span><span class="p">(</span><span class="mi">20</span><span class="p">).</span><span class="n">andDidIsNot</span>
+<span class="k">Null</span><span class="p">();</span>
+<span class="o">//</span><span class="n">将之前添加的条件通过or拼接其他条件</span>
+<span class="n">empExample</span><span class="p">.</span><span class="ow">or</span><span class="p">().</span><span class="n">andSexEqualTo</span><span class="p">(</span><span class="ss">&quot;男&quot;</span><span class="p">);</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">Emp</span><span class="o">&gt;</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mapper</span><span class="p">.</span><span class="n">selectByExample</span><span class="p">(</span><span class="n">empExample</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Emp</span><span class="w"> </span><span class="n">emp</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">list</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="k">System</span><span class="p">.</span><span class="k">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">emp</span><span class="p">);</span>
+<span class="err">}</span>
+<span class="err">}</span>
 </code></pre></div>
-
-<p>InputStream is = Resources.<code>getResourceAsStream</code>("mybatis-config.xml");
-SqlSession <code>sqlSession</code> = new
-SqlSessionFactoryBuilder().build(is).<code>openSession</code>(true);
-EmpMapper mapper = <code>sqlSession</code>.<code>getMapper</code>(EmpMapper.class);
-EmpExample <code>empExample</code> = new EmpExample();</p>
-<div class="codehilite"><pre><span></span><code><span class="c1">//创建条件对象，通过andXXX方法为SQL添加查询添加，每个条件之间是and关系</span>
-</code></pre></div>
-
-<p><code>empExample</code>.<code>createCriteria</code>().<code>andEnameLike</code>("a").<code>andAgeGreaterThan</code>(20).<code>andDidIsNot</code>
-Null();</p>
-<div class="codehilite"><pre><span></span><code><span class="c1">//将之前添加的条件通过or拼接其他条件</span>
-</code></pre></div>
-
-<p><code>empExample</code>.or().<code>andSexEqualTo</code>("男");</p>
-<div class="codehilite"><pre><span></span><code>List&lt;Emp&gt; list = mapper.selectByExample(empExample);
-</code></pre></div>
-
-<p>for (Emp emp : list) {
-System.out.println(emp);
-}
-}</p>
   </div>
 </section>

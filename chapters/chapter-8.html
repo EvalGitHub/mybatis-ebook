@@ -77,15 +77,13 @@ dept.did<span class="w"> </span>where<span class="w"> </span>emp.eid<span class=
 <li>c&gt; 分步查询
 1）查询员工信息</li>
 </ul>
-<div class="codehilite"><pre><span></span><code><span class="o">/**</span>
-<span class="o">*</span><span class="w"> </span>通过分步查询查询员工信息
-<span class="o">*</span><span class="w"> </span><span class="p">@</span><span class="n">param</span><span class="w"> </span><span class="n">eid</span>
-<span class="o">*</span><span class="w"> </span><span class="p">@</span><span class="k">return</span>
-<span class="o">*/</span>
-</code></pre></div>
-
-<p>Emp <code>getEmpByStep</code>(@Param("eid") int eid);</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;resultMap</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;empDeptStepMap&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
+<div class="codehilite"><pre><span></span><code>/**
+*<span class="w"> </span>通过分步查询查询员工信息
+*<span class="w"> </span>@param<span class="w"> </span>eid
+*<span class="w"> </span>@return
+*/
+Emp<span class="w"> </span>getEmpByStep(@Param(&quot;eid&quot;)<span class="w"> </span>int<span class="w"> </span>eid);
+<span class="nt">&lt;resultMap</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;empDeptStepMap&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;Emp&quot;</span><span class="nt">&gt;</span>
 <span class="nt">&lt;id</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;eid&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;eid&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;ename&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;ename&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;age&quot;</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;age&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
@@ -102,15 +100,13 @@ select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </sp
 </code></pre></div>
 
 <p>2）根据员工所对应的部门id查询部门信息</p>
-<div class="codehilite"><pre><span></span><code><span class="o">/**</span>
-<span class="o">*</span><span class="w"> </span>分步查询的第二步：根据员工所对应的<span class="n">did查询部门信息</span>
-<span class="o">*</span><span class="w"> </span><span class="p">@</span><span class="n">param</span><span class="w"> </span><span class="n">did</span>
-<span class="o">*</span><span class="w"> </span><span class="p">@</span><span class="k">return</span>
-<span class="o">*/</span>
-</code></pre></div>
-
-<p>Dept <code>getEmpDeptByStep</code>(@Param("did") int did);</p>
-<div class="codehilite"><pre><span></span><code><span class="cm">&lt;!--Dept getEmpDeptByStep(@Param(&quot;did&quot;) int did);--&gt;</span>
+<div class="codehilite"><pre><span></span><code>/**
+*<span class="w"> </span>分步查询的第二步：根据员工所对应的did查询部门信息
+*<span class="w"> </span>@param<span class="w"> </span>did
+*<span class="w"> </span>@return
+*/
+Dept<span class="w"> </span>getEmpDeptByStep(@Param(&quot;did&quot;)<span class="w"> </span>int<span class="w"> </span>did);
+<span class="cm">&lt;!--Dept getEmpDeptByStep(@Param(&quot;did&quot;) int did);--&gt;</span>
 <span class="nt">&lt;select</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;getEmpDeptByStep&quot;</span><span class="w"> </span><span class="na">resultType=</span><span class="s">&quot;Dept&quot;</span><span class="nt">&gt;</span>
 select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </span>t_dept<span class="w"> </span>where<span class="w"> </span>did<span class="w"> </span>=<span class="w"> </span>#{did}
 <span class="nt">&lt;/select&gt;</span>
@@ -118,15 +114,13 @@ select<span class="w"> </span>*<span class="w"> </span>from<span class="w"> </sp
 
 <p>3、一对多映射处理
 a&gt;collection</p>
-<div class="codehilite"><pre><span></span><code><span class="o">/**</span>
-<span class="o">*</span><span class="w"> </span>根据部门<span class="n">id查新部门以及部门中的员工信息</span>
-<span class="o">*</span><span class="w"> </span><span class="p">@</span><span class="n">param</span><span class="w"> </span><span class="n">did</span>
-<span class="o">*</span><span class="w"> </span><span class="p">@</span><span class="k">return</span>
-<span class="o">*/</span>
-</code></pre></div>
-
-<p>Dept <code>getDeptEmpByDid</code>(@Param("did") int did);</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;resultMap</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;deptEmpMap&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;Dept&quot;</span><span class="nt">&gt;</span>
+<div class="codehilite"><pre><span></span><code>/**
+*<span class="w"> </span>根据部门id查新部门以及部门中的员工信息
+*<span class="w"> </span>@param<span class="w"> </span>did
+*<span class="w"> </span>@return
+*/
+Dept<span class="w"> </span>getDeptEmpByDid(@Param(&quot;did&quot;)<span class="w"> </span>int<span class="w"> </span>did);
+<span class="nt">&lt;resultMap</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;deptEmpMap&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;Dept&quot;</span><span class="nt">&gt;</span>
 <span class="nt">&lt;id</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;did&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;did&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;dname&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;dname&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
 <span class="cm">&lt;!-- ofType：设置collection标签所处理的集合属性中存储数据的类型 --&gt;</span>
@@ -148,15 +142,13 @@ emp.did<span class="w"> </span>where<span class="w"> </span>dept.did<span class=
 <li>b&gt; 分步查询</li>
 </ul>
 <p>1）查询部门信息</p>
-<div class="codehilite"><pre><span></span><code><span class="o">/**</span>
-<span class="o">*</span><span class="w"> </span>分步查询部门和部门中的员工
-<span class="o">*</span><span class="w"> </span><span class="p">@</span><span class="n">param</span><span class="w"> </span><span class="n">did</span>
-<span class="o">*</span><span class="w"> </span><span class="p">@</span><span class="k">return</span>
-<span class="o">*/</span>
-</code></pre></div>
-
-<p>Dept <code>getDeptByStep</code>(@Param("did") int did);</p>
-<div class="codehilite"><pre><span></span><code><span class="nt">&lt;resultMap</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;deptEmpStep&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;Dept&quot;</span><span class="nt">&gt;</span>
+<div class="codehilite"><pre><span></span><code>/**
+*<span class="w"> </span>分步查询部门和部门中的员工
+*<span class="w"> </span>@param<span class="w"> </span>did
+*<span class="w"> </span>@return
+*/
+Dept<span class="w"> </span>getDeptByStep(@Param(&quot;did&quot;)<span class="w"> </span>int<span class="w"> </span>did);
+<span class="nt">&lt;resultMap</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;deptEmpStep&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;Dept&quot;</span><span class="nt">&gt;</span>
 <span class="nt">&lt;id</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;did&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;did&quot;</span><span class="nt">&gt;&lt;/id&gt;</span>
 <span class="nt">&lt;result</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;dname&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;dname&quot;</span><span class="nt">&gt;&lt;/result&gt;</span>
 <span class="nt">&lt;collection</span><span class="w"> </span><span class="na">property=</span><span class="s">&quot;emps&quot;</span><span class="w"> </span><span class="na">fetchType=</span><span class="s">&quot;eager&quot;</span><span class="w"> </span><span class="na">select=</span><span class="s">&quot;com.atguigu.MyBatis.mapper.EmpMapper.getEmpListByDid&quot;</span><span class="w"> </span><span class="na">column=</span><span class="s">&quot;did&quot;</span><span class="nt">&gt;</span>
